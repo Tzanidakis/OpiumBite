@@ -5,21 +5,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const biteButton = document.getElementById('bite-button');
     const mainContent = document.getElementById('main-content');
     
-    // Check if user came from within the same site (internal navigation)
-    const isInternalNavigation = document.referrer && 
-        (document.referrer.includes(window.location.hostname) || 
-         sessionStorage.getItem('hasSeenLoadingAnimation'));
+    // Check if user has already seen the animation in this session
+    const hasSeenAnimation = sessionStorage.getItem('hasSeenLoadingAnimation');
     
-    if (isInternalNavigation) {
-        // Skip animation - show main content immediately for internal navigation
+    if (hasSeenAnimation) {
+        // Skip animation - show main content immediately
         loadingScreen.style.display = 'none';
         mainContent.style.visibility = 'visible';
         return; // Exit early, don't set up animation
     }
-    
-    // External visit or direct visit - show animation
-    // Clear any previous session flag since this is a new external visit
-    sessionStorage.removeItem('hasSeenLoadingAnimation');
     
     // Initially hide main content
     mainContent.style.visibility = 'hidden';
@@ -135,7 +129,7 @@ function startTypewriterEffect(element, text) {
         if (currentIndex < text.length) {
             element.textContent += text[currentIndex];
             currentIndex++;
-            setTimeout(typeNextCharacter, 150); // 150ms delay between characters
+            setTimeout(typeNextCharacter, 80); // 80ms delay between characters (faster)
         } else {
             // Typing complete
             element.classList.remove('typing');
@@ -144,7 +138,7 @@ function startTypewriterEffect(element, text) {
     }
     
     // Start typing after a brief delay
-    setTimeout(typeNextCharacter, 300);
+    setTimeout(typeNextCharacter, 200);
 }
 
 // Enhanced scroll header functionality (keeps existing functionality)

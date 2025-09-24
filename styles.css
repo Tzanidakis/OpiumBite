@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: "Playfair Display", Arial, sans-serif;
     background-color: black;
     color: #c0c0c0;
     scroll-behavior: smooth;
@@ -96,7 +96,7 @@ nav a.active {
 
 nav a.active::after {
     width: 100%;
-    background-color: gold;
+    background-color: rgb(180, 154, 7);
     height: 3px;
 }
 
@@ -132,11 +132,15 @@ main {
 }
 
 .hero {
-    background: url('media/girl.png') center/contain no-repeat;
+    background: black;
     text-align: center;
     padding: 180px 20px;
     position: relative;
     min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero::before {
@@ -146,7 +150,25 @@ main {
     left: 0;
     right: 0;
     bottom: 0;
+    background: 
+        url('media/girl.png') left center/28% auto no-repeat,
+        url('media/man.png') center center/40% auto no-repeat,
+        url('media/girl2.png') right center/28% auto no-repeat;
     background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(90deg, transparent 28%, black 28%, black 28.5%, transparent 28.5%, transparent 71.5%, black 71.5%, black 72%, transparent 72%);
+    z-index: 2;
+    pointer-events: none;
 }
 
 .hero h1 {
@@ -156,6 +178,7 @@ main {
     color: #c0c0c0;
     text-shadow: 0 0 10px rgba(192, 192, 192, 0.7);
     position: relative;
+    z-index: 3;
 }
 
 .hero button {
@@ -167,6 +190,7 @@ main {
     cursor: pointer;
     font-weight: bold;
     position: relative;
+    z-index: 3;
     transition: all 0.3s ease;
 }
 
@@ -445,7 +469,7 @@ main {
 #loading-logo {
     opacity: 0;
     transform: translateY(20px);
-    transition: all 3s ease-out;
+    transition: all 3s cubic-bezier(0.25, 0.1, 0.25, 1);
     margin-bottom: 40px;
 }
 
@@ -535,14 +559,16 @@ main {
 @keyframes logoGlow {
     0%, 100% {
         filter: drop-shadow(0 0 20px rgba(192, 192, 192, 0.5));
+        transform: scale(1);
     }
     50% {
-        filter: drop-shadow(0 0 30px rgba(192, 192, 192, 0.8));
+        filter: drop-shadow(0 0 35px rgba(192, 192, 192, 0.9));
+        transform: scale(1.02);
     }
 }
 
 #loading-logo.fade-in img {
-    animation: logoGlow 3s ease-in-out infinite;
+    animation: logoGlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* Ensure main content is hidden initially */
