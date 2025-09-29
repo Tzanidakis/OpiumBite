@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return; // Exit early, don't set up animation
     }
     
+    // Disable scrolling during loading animation
+    document.body.style.overflow = 'hidden';
+    
     // Initially hide main content
     mainContent.style.visibility = 'hidden';
     
@@ -60,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show main content after slide animation starts
             setTimeout(() => {
                 mainContent.style.visibility = 'visible';
+                // Re-enable scrolling when main content is shown
+                document.body.style.overflow = 'auto';
                 
                 // Remove loading screen completely after animation
                 setTimeout(() => {
