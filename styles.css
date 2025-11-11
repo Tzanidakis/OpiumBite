@@ -11,7 +11,7 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px 20px;
+    
     position: fixed;
     width: 100%;
     top: 0;
@@ -28,7 +28,7 @@ header.shrink .logo img {
 }
 
 header.shrink .nav-links a {
-    font-size: 14px;
+    font-size: 10px;
 }
 
 .logo {
@@ -57,6 +57,7 @@ nav {
     display: flex;
     gap: 20px;
     align-items: center;
+    justify-content: center;
     transition: all 0.3s ease;
 }
 
@@ -217,6 +218,107 @@ main {
 
 .hero button:hover::before {
     left: 100%;
+}
+
+/* Hero Carousel - Mobile Only */
+.hero-carousel {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 20px;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 4;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+    background-color: #ffffff;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .hero::before,
+    .hero::after {
+        display: none;
+    }
+    
+    .hero-carousel {
+        display: block;
+    }
+    
+    .hero h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+    
+    .hero button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+    
+    /* Navigation font size adjustments for mobile */
+    nav a {
+        font-size: 14px;
+        padding: 6px 0;
+    }
+    
+    header.shrink .nav-links a {
+        font-size: 12px;
+    }
 }
 
 .categories {
@@ -1055,6 +1157,10 @@ main {
     .luxury-hero {
         padding: 80px 5%;
         min-height: auto;
+        background: 
+            linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+            url('media/sphynx.png') center center / cover no-repeat;
+        animation: none;
     }
 
     .measurement-section {
@@ -1078,5 +1184,9 @@ main {
     .measurement-image img {
         max-width: 300px;
         max-height: 375px;
+    }
+    
+    .measurement-image {
+        display: none;
     }
 }
