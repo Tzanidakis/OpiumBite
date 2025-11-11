@@ -242,6 +242,58 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // Hero Carousel functionality (Mobile Only)
+        const heroCarousel = document.querySelector('.hero-carousel');
+        if (heroCarousel) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            let currentSlide = 0;
+            let slideInterval;
+            
+            function showSlide(index) {
+                // Hide all slides
+                slides.forEach(slide => slide.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+                
+                // Show current slide
+                slides[index].classList.add('active');
+                indicators[index].classList.add('active');
+                
+                currentSlide = index;
+            }
+            
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+            
+            function startAutoSlide() {
+                slideInterval = setInterval(nextSlide, 4000); // Change slide every 4 seconds
+            }
+            
+            function stopAutoSlide() {
+                clearInterval(slideInterval);
+            }
+            
+            // Indicator click handlers
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    showSlide(index);
+                    stopAutoSlide();
+                    startAutoSlide(); // Restart auto-slide
+                });
+            });
+            
+            // Start with first slide and auto-slide
+            showSlide(0);
+            startAutoSlide();
+            
+            // Pause auto-slide on hover
+            heroCarousel.addEventListener('mouseenter', stopAutoSlide);
+            heroCarousel.addEventListener('mouseleave', startAutoSlide);
+        }
+
         // Carousel functionality
         const carousel = document.getElementById('carousel');
         const items = document.querySelectorAll('.carousel-item');
