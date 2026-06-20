@@ -391,6 +391,7 @@ main {
 
     nav {
         width: auto;
+        order: 3;
     }
 
     main {
