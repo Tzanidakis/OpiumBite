@@ -349,12 +349,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             updateCarousel(false);
-            
-            // Auto-advance carousel
-            setInterval(() => {
-                currentIndex++;
-                updateCarousel();
-            }, 5000);
         }
     }, 2000); // Wait 2 seconds for loading animation to potentially complete
 });
