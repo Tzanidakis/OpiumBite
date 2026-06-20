@@ -17,6 +17,7 @@ header {
     top: 0;
     z-index: 100;
     transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 header.shrink {
@@ -340,7 +341,7 @@ main {
 }
 
 /* Mobile Styles */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     /* Header mobile layout */
     header {
         flex-direction: row;
@@ -434,11 +435,13 @@ main {
     }
     
     .dropdown-content {
+        display: block !important;
         position: relative;
         box-shadow: none;
         background-color: transparent;
         margin-top: 0;
         min-width: 100%;
+        padding-bottom: 10px;
     }
 
     nav a {
@@ -1289,7 +1292,7 @@ main {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .luxury-hero {
         padding: 80px 5%;
         min-height: auto;
@@ -1421,7 +1424,7 @@ footer {
     font-weight: bold;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .footer-content {
         flex-direction: column;
         align-items: center;

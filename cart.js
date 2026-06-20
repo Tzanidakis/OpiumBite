@@ -157,6 +157,14 @@ document.addEventListener('DOMContentLoaded', () => {
         hamburgerMenu.addEventListener('click', () => {
             navLinks.classList.toggle('active');
         });
+
+        // Close menu when clicking a link
+        const navAnchorLinks = navLinks.querySelectorAll('a');
+        navAnchorLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
     }
 
     // Initial render
