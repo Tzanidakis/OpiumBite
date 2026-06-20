@@ -327,6 +327,17 @@ main {
 .indicator.active {
     background-color: #ffffff;
 }
+.hamburger {
+    display: none;
+    cursor: pointer;
+    color: #c0c0c0;
+    font-size: 25px;
+    transition: all 0.3s ease;
+}
+
+.hamburger:hover {
+    color: #fff;
+}
 
 /* Mobile Styles */
 @media (max-width: 768px) {
@@ -349,14 +360,44 @@ main {
         font-size: 16px;
     }
     
-    /* Navigation font size adjustments for mobile */
+    /* Navigation layout for mobile */
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: rgba(10, 10, 10, 0.98);
+        padding: 20px 0;
+        text-align: center;
+        border-bottom: 1px solid #333;
+    }
+    
+    .nav-links.active {
+        display: flex;
+    }
+    
+    .dropdown-content {
+        position: relative;
+        box-shadow: none;
+        background-color: transparent;
+        margin-top: 0;
+        min-width: 100%;
+    }
+
     nav a {
-        font-size: 14px;
-        padding: 6px 0;
+        font-size: 18px;
+        padding: 15px 0;
+        width: 100%;
     }
     
     header.shrink .nav-links a {
-        font-size: 12px;
+        font-size: 18px;
+    }
+
+    .hamburger {
+        display: block !important;
     }
 }
 
@@ -380,7 +421,8 @@ main {
 }
 
 .grillz-item {
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     cursor: pointer;
     transition: all 0.4s ease;
     text-decoration: none;
