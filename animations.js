@@ -1,7 +1,6 @@
 // Loading screen animations
 document.addEventListener('DOMContentLoaded', function() {
     const loadingScreen = document.getElementById('loading-screen');
-    const loadingLogo = document.getElementById('loading-logo');
     const biteButton = document.getElementById('bite-button');
     const mainContent = document.getElementById('main-content');
     
@@ -21,27 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initially hide main content
     mainContent.style.visibility = 'hidden';
     
-    // Create floating blobs
-    createFloatingBlobs();
-    
     // Start the loading sequence
     setTimeout(() => {
-        // Show floating blobs
-        showFloatingBlobs();
-        
-        // Fade in the logo
-        loadingLogo.classList.add('fade-in');
-        
-        // Show the "BITE ME" button and start typewriter after logo appears
+        biteButton.classList.add('fade-in');
         setTimeout(() => {
-            biteButton.classList.add('fade-in');
-            // Start typewriter effect after button fades in
-            setTimeout(() => {
-                startTypewriterEffect(biteButton, '[make them bite your dust]');
-            }, 1000); // Wait for fade-in to complete
-        }, 2000); // 2 seconds after logo starts fading in (increased delay)
-        
-    }, 500); // Half second delay before starting
+            startTypewriterEffect(biteButton, '[make them bite your dust]');
+        }, 700);
+    }, 500);
     
     // Handle click on "BITE ME" button
     biteButton.addEventListener('click', function() {

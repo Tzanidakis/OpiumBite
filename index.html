@@ -19,10 +19,12 @@
 <body>
     <!-- Loading Screen -->
     <div id="loading-screen">
-        <div id="loading-logo">
-            <img src="media/logo.png" alt="Logo">
+        <video id="opening-video" autoplay muted loop playsinline preload="auto" aria-label="Opium Bite opening video">
+            <source src="media/openingvideo.MOV" type="video/mp4">
+        </video>
+        <div class="opening-caption">
+            <button id="bite-button" aria-label="Enter the Opium Bite website"></button>
         </div>
-        <button id="bite-button"></button>
     </div>
 
     <!-- Main Content -->
@@ -92,7 +94,7 @@
             </div>
             
             <div class="hero-content">
-                <h1>CUSTOM GRILLZ, HANDCRAFTED FOR THE BOLD</h1>
+                <h1>WHERE YOUR VISION BECOMES JEWELRY</h1>
                 <button>DESIGN YOUR GRILLZ</button>
             </div>
         </section>

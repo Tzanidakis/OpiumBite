@@ -986,6 +986,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
@@ -993,22 +994,33 @@ main {
     transform: translateY(-100%);
 }
 
-#loading-logo {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 3s cubic-bezier(0.25, 0.1, 0.25, 1);
-    margin-bottom: 40px;
+#opening-video {
+    position: relative;
+    display: block;
+    width: min(90vw, 900px);
+    height: auto;
+    max-height: 65vh;
+    object-fit: contain;
+    background-color: #000;
+    z-index: 2;
 }
 
-#loading-logo.fade-in {
-    opacity: 1;
-    transform: translateY(0);
+#loading-screen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.12), rgba(0,0,0,0.38));
+    pointer-events: none;
 }
 
-#loading-logo img {
-    height: 300px;
-    width: auto;
-    filter: drop-shadow(0 0 20px rgba(192, 192, 192, 0.5));
+.opening-caption {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 #bite-button {
@@ -1029,6 +1041,7 @@ main {
     font-family: Arial, sans-serif;
     min-width: 120px;
     text-align: center;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
 }
 
 #bite-button.fade-in {
