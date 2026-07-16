@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grillz Collections | Opium Bite</title>
+    <link rel="icon" type="image/x-icon" href="media/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .grillz-page { padding-top: 150px; min-height: 70vh; }
+        .grillz-page .categories { padding-top: 50px; }
+        .grillz-page-intro { max-width: 700px; margin: -25px auto 45px; color: #c0c0c0; text-align: center; line-height: 1.7; }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <span class="material-symbols-outlined hamburger" id="hamburger-menu">menu</span>
+        <div class="logo" id="logo"><a href="index.html"><img src="media/logo.png" alt="Opium Bite logo"></a></div>
+        <nav>
+            <div class="nav-links">
+                <a href="index.html#home">HOME</a>
+                <div class="dropdown">
+                    <a href="index.html#collections">COLLECTIONS</a>
+                    <div class="dropdown-content">
+                        <div class="submenu">
+                            <a class="submenu-trigger" href="grillz.html">Grillz <span aria-hidden="true">›</span></a>
+                            <div class="submenu-content">
+                                <a href="classic.html">Classic</a>
+                                <a href="iced-out.html">Iced Out</a>
+                                <a href="capital-custom.html">Opium</a>
+                            </div>
+                        </div>
+                        <a href="bracelets.html">Bracelets</a>
+                        <div class="submenu">
+                            <a class="submenu-trigger" href="earrings.html">Earrings <span aria-hidden="true">›</span></a>
+                            <div class="submenu-content">
+                                <a href="earrings.html#classics">Classics</a>
+                                <a href="earrings.html#opium">Opium</a>
+                            </div>
+                        </div>
+                        <a href="necklaces.html">Necklaces</a>
+                        <a href="rings.html">Rings</a>
+                    </div>
+                </div>
+                <a href="contact.html">CONTACT</a>
+                <a href="about.html">ABOUT</a>
+            </div>
+            <div class="icons">
+                <span class="material-symbols-outlined">search</span>
+                <span class="material-symbols-outlined">account_circle</span>
+            </div>
+        </nav>
+    </header>
+
+    <main class="grillz-page">
+        <section class="categories">
+            <h2>GRILLZ COLLECTIONS</h2>
+            <p class="grillz-page-intro">Explore our Classic, Iced Out, and Opium grillz. Select a category to view its pieces.</p>
+            <div class="grillz-grid">
+                <a href="classic.html" class="grillz-item">
+                    <img src="media/ggz.png" alt="Classic Grillz">
+                    <h3>CLASSIC</h3>
+                </a>
+                <a href="iced-out.html" class="grillz-item">
+                    <img src="media/dbbs.png" alt="Iced Out Grillz">
+                    <h3>ICED OUT</h3>
+                </a>
+                <a href="capital-custom.html" class="grillz-item">
+                    <img src="media/uggz.png" alt="Opium Grillz">
+                    <h3>OPIUM</h3>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-bottom"><p>&copy; 2026 Opium Bite. All rights reserved.</p></div>
+    </footer>
+    <script>
+        const menu = document.getElementById('hamburger-menu');
+        const links = document.querySelector('.nav-links');
+        menu.addEventListener('click', () => links.classList.toggle('active'));
+    </script>
+</body>
+</html>
