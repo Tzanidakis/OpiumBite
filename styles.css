@@ -199,6 +199,34 @@ main {
     margin-top: 180px; /* Adjust based on your header's initial height */
 }
 
+/* About page */
+.about-main { margin-top: 180px; }
+.about-hero { max-width: 900px; margin: 0 auto; padding: 120px 24px 90px; text-align: center; }
+.about-hero h1 { margin: 12px 0 24px; color: #fff; font-size: clamp(42px, 7vw, 82px); line-height: 1; }
+.about-hero > p:last-child { max-width: 680px; margin: auto; font-size: 19px; line-height: 1.8; }
+.about-eyebrow { color: rgb(194, 178, 128); letter-spacing: 0.22em; font-size: 13px; font-weight: 700; }
+.about-story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); max-width: 1200px; margin: 0 auto; padding: 40px 24px 110px; gap: 70px; align-items: center; }
+.about-story-image img { display: block; width: 100%; max-height: 650px; object-fit: cover; }
+.about-story-copy h2 { color: #fff; font-size: clamp(32px, 4vw, 52px); line-height: 1.1; }
+.about-story-copy p { line-height: 1.8; }
+.about-cta { display: inline-block; margin-top: 22px; padding: 14px 24px; border: 1px solid rgb(194, 178, 128); color: #fff; text-decoration: none; letter-spacing: 0.08em; }
+.about-grillz { max-width: 900px; margin: 0 auto 100px; padding: 60px 50px; border: 1px solid #292929; background: #080808; text-align: center; }
+.about-grillz h2 { margin: 12px 0 24px; color: #fff; font-size: clamp(32px, 4vw, 52px); }
+.about-grillz > p:last-child { margin: 0; font-size: 18px; line-height: 1.9; }
+.about-values { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 1200px; margin: 0 auto 110px; padding: 0 24px; gap: 24px; }
+.about-values article { padding: 36px 28px; border: 1px solid #292929; background: #080808; text-align: center; }
+.about-values .material-symbols-outlined { color: rgb(194, 178, 128); font-size: 34px; }
+.about-values h3 { color: #fff; font-size: 21px; }
+.about-values p { line-height: 1.7; }
+
+@media (max-width: 760px) {
+    .about-main { margin-top: 80px; }
+    .about-hero { padding: 80px 20px 60px; }
+    .about-story { grid-template-columns: 1fr; gap: 36px; padding: 20px 20px 75px; }
+    .about-grillz { margin: 0 20px 75px; padding: 42px 24px; }
+    .about-values { grid-template-columns: 1fr; margin-bottom: 75px; padding: 0 20px; }
+}
+
 .hero {
     background: black;
     text-align: center;
@@ -357,6 +385,9 @@ main {
 }
 .hamburger {
     display: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
     cursor: pointer;
     color: #c0c0c0;
     font-size: 25px;
@@ -371,6 +402,7 @@ main {
 @media (max-width: 1024px) {
     /* Header mobile layout */
     header {
+        height: 80px;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
@@ -378,6 +410,7 @@ main {
     }
     
     header.shrink {
+        height: 60px;
         padding: 10px 20px;
     }
 
@@ -385,6 +418,11 @@ main {
         display: block !important;
         position: static;
         order: 1;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: left;
+        z-index: 103;
     }
 
     .logo {
@@ -409,11 +447,8 @@ main {
         order: 3;
         display: flex;
         gap: 15px;
-    }
-
-    /* Hide account circle icon */
-    .icons span.material-symbols-outlined:nth-child(2) {
-        display: none;
+        width: 30px;
+        justify-content: flex-end;
     }
 
     nav {
@@ -446,20 +481,53 @@ main {
     
     /* Navigation layout for mobile */
     .nav-links {
-        display: none;
+        display: flex;
         flex-direction: column;
-        position: absolute;
-        top: 100%;
+        align-items: stretch;
+        justify-content: flex-start;
+        position: fixed;
+        top: 80px;
         left: 0;
-        width: 100%;
+        width: min(82vw, 340px);
+        height: calc(100dvh - 80px);
         background-color: rgba(10, 10, 10, 0.98);
-        padding: 20px 0;
-        text-align: center;
-        border-bottom: 1px solid #333;
+        padding: 24px 20px 40px;
+        text-align: left;
+        border-right: 1px solid #333;
+        box-sizing: border-box;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        visibility: hidden;
+        pointer-events: none;
+        transition: transform 0.3s ease, visibility 0.3s ease;
+        z-index: 102;
     }
     
     .nav-links.active {
-        display: flex;
+        transform: translateX(0);
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    header.shrink .nav-links {
+        top: 60px;
+        height: calc(100dvh - 60px);
+    }
+
+    body.menu-open {
+        overflow: hidden;
+    }
+
+    body.menu-open::after {
+        content: '';
+        position: fixed;
+        inset: 80px 0 0;
+        background: rgba(0, 0, 0, 0.55);
+        z-index: 99;
+    }
+
+    body.menu-open:has(header.shrink)::after {
+        top: 60px;
     }
     
     .dropdown-content {
@@ -487,8 +555,9 @@ main {
 
     nav a {
         font-size: 18px;
-        padding: 15px 0;
+        padding: 12px 8px;
         width: 100%;
+        box-sizing: border-box;
     }
     
     header.shrink .nav-links a {

@@ -30,15 +30,15 @@
     <!-- Main Content -->
     <div id="main-content">
     <header id="main-header">
-        <span class="material-symbols-outlined hamburger" id="hamburger-menu">menu</span>
+        <button class="material-symbols-outlined hamburger" id="hamburger-menu" type="button" aria-label="Open navigation menu" aria-controls="primary-navigation" aria-expanded="false">menu</button>
         <div class="logo" id="logo">
-            <img src="media/logo.png" alt="Logo">
+            <a href="index.html#home" aria-label="Opium Bite home"><img src="media/logo.png" alt="Opium Bite logo"></a>
         </div>
-        <nav>
-            <div class="nav-links">
-                <a href="#home" id="home-link">HOME</a>
+        <nav aria-label="Primary navigation">
+            <div class="nav-links" id="primary-navigation">
+                <a href="index.html#home" id="home-link">HOME</a>
                 <div class="dropdown">
-                    <a href="#collections" id="collections-link">COLLECTIONS</a>
+                    <a href="index.html#collections" id="collections-link">COLLECTIONS</a>
                     <div class="dropdown-content">
                         <div class="submenu">
                             <a class="submenu-trigger" href="grillz.html">Grillz <span aria-hidden="true">›</span></a>
@@ -56,17 +56,15 @@
                                 <a href="earrings.html#opium">Opium</a>
                             </div>
                         </div>
-                        <a href="necklaces.html">Necklaces</a>
+                        <a href="necklaces.html">Pentals</a>
                         <a href="rings.html">Rings</a>
                     </div>
                 </div>
                 <a href="contact.html" id="contact-link">CONTACT</a>
-                <a href="about.html" id="about-link">ABOUT</a>
+                <a href="about.html" id="about-link">ABOUT US</a>
             </div>
-            <div class="icons">
+            <div class="icons" aria-hidden="true">
                 <span class="material-symbols-outlined">search</span>
-                <span class="material-symbols-outlined">account_circle</span>
-                
             </div>
         </nav>
     </header>
@@ -103,7 +101,7 @@
             <h2>OUR COLLECTIONS</h2>
             <div class="grillz-grid">
                 <a href="grillz.html" class="grillz-item">
-                    <img src="media/ggz.png" alt="Grillz collection">
+                    <img src="media/grillz.png" alt="Grillz collection">
                     <h3>GRILLZ</h3>
                 </a>
                 <a href="bracelets.html" class="grillz-item">
@@ -115,8 +113,8 @@
                     <h3>EARRINGS</h3>
                 </a>
                 <a href="necklaces.html" class="grillz-item">
-                    <img src="media/necklace.png" alt="Necklaces">
-                    <h3>NECKLACES</h3>
+                    <img src="media/necklace.png" alt="Pentals">
+                    <h3>PENTALS</h3>
                 </a>
                 <a href="rings.html" class="grillz-item">
                     <img src="media/ring.png" alt="Rings">
@@ -173,7 +171,7 @@
             <div class="measurement-section">
                 <!-- Top Row: Title -->
                 <div class="measurement-title-row">
-                    <h2>Measurement Centers</h2>
+                    <h2>Partner Locations</h2>
                 </div>
 
                 <!-- Middle Row: Cards and Image -->
@@ -313,7 +311,7 @@
         </section>
 
     </main>
-    </div> 
+    </div>
 
     <footer>
         <div class="footer-content">
@@ -321,12 +319,11 @@
                 <h3>About Us</h3>
                 <p>We craft premium custom grillz and jewelry for those who demand excellence. Each piece is handmade with precision and care.</p>
                 <div class="social-links">
-                    <a href="#"><span class="material-symbols-outlined">facebook</span></a>
-                    <a href="#"><span class="material-symbols-outlined">photo_camera</span></a>
-                    <a href="#"><span class="material-symbols-outlined">smart_display</span></a>
+                    <a href="#" aria-label="Facebook"><span class="material-symbols-outlined">facebook</span></a>
+                    <a href="https://www.instagram.com/opium.bite/" aria-label="Instagram"><span class="material-symbols-outlined">photo_camera</span></a>
+                    <a href="#" aria-label="YouTube"><span class="material-symbols-outlined">smart_display</span></a>
                 </div>
             </div>
-            
             <div class="footer-column">
                 <h3>Quick Links</h3>
                 <a href="index.html">Home</a>
@@ -334,24 +331,21 @@
                 <a href="contact.html">Contact Us</a>
                 <a href="about.html">About Us</a>
             </div>
-            
             <div class="footer-column">
                 <h3>Contact Info</h3>
                 <p><span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 10px;">location_on</span> Heraklion</p>
                 <p><span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 10px;">call</span> +30 6985071700</p>
                 <p><span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 10px;">mail</span> opiumbite@gmail.com</p>
             </div>
-            
             <div class="footer-column">
                 <h3>Newsletter</h3>
                 <p>Subscribe to get updates on new products and special offers.</p>
                 <div class="newsletter-form">
-                    <input type="email" placeholder="Your email address">
-                    <button>Subscribe</button>
+                    <input type="email" placeholder="Your email address" aria-label="Email address">
+                    <button type="button">Subscribe</button>
                 </div>
             </div>
         </div>
-        
         <div class="footer-bottom">
             <p>&copy; 2026 Opium Bite. All rights reserved.</p>
         </div>

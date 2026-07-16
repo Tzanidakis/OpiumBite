@@ -1,5 +1,47 @@
 // Loading screen animations
 document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('hamburger-menu');
+    const navigation = document.getElementById('primary-navigation');
+
+    if (hamburger && navigation) {
+        function setMenuOpen(isOpen) {
+            navigation.classList.toggle('active', isOpen);
+            document.body.classList.toggle('menu-open', isOpen);
+            hamburger.setAttribute('aria-expanded', String(isOpen));
+            hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+            hamburger.textContent = isOpen ? 'close' : 'menu';
+        }
+
+        hamburger.addEventListener('click', function() {
+            setMenuOpen(!navigation.classList.contains('active'));
+        });
+
+        navigation.addEventListener('click', function(event) {
+            if (event.target.closest('a')) {
+                setMenuOpen(false);
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('#main-header')) {
+                setMenuOpen(false);
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                setMenuOpen(false);
+                hamburger.focus();
+            }
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 1024) {
+                setMenuOpen(false);
+            }
+        });
+    }
+
     const loadingScreen = document.getElementById('loading-screen');
     const biteButton = document.getElementById('bite-button');
     const mainContent = document.getElementById('main-content');
