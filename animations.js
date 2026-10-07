@@ -46,32 +46,39 @@ document.addEventListener('DOMContentLoaded', function() {
     const biteButton = document.getElementById('bite-button');
     const mainContent = document.getElementById('main-content');
     const openingVideo = document.getElementById('opening-video');
-    const introStorageKey = 'hasSeenOpeningVideo';
-    let hasSeenOpeningVideo = false;
+    const introSessionKey = 'opiumBiteIntroShownV2';
+    let introAlreadyShown = false;
 
     try {
-        hasSeenOpeningVideo = localStorage.getItem(introStorageKey) === 'true';
+        introAlreadyShown = sessionStorage.getItem(introSessionKey) === 'true';
     } catch (error) {
-        // Continue showing the intro if persistent storage is unavailable.
+        // If session storage is unavailable, showing the intro is the safe fallback.
     }
 
-    if (hasSeenOpeningVideo) {
+    if (introAlreadyShown) {
         loadingScreen.style.display = 'none';
         mainContent.style.visibility = 'visible';
+        document.body.style.overflow = 'auto';
         return;
     }
 
-    // Remember the first visit immediately, including if the page is refreshed mid-intro.
+    // Mark this tab's visit immediately so returning to Home does not replay the intro.
     try {
-        localStorage.setItem(introStorageKey, 'true');
+        sessionStorage.setItem(introSessionKey, 'true');
     } catch (error) {
-        // The intro still works when storage is blocked by the browser.
+        // The opening sequence still works when storage is blocked.
     }
 
-    // Explicitly start playback on the visitor's first load.
+    // Show the opening sequence on the first homepage load in this tab.
+    loadingScreen.style.display = 'flex';
+    loadingScreen.classList.remove('slide-up');
+    mainContent.style.visibility = 'hidden';
+
+    // Explicitly start playback for the initial visit.
     // The video is muted and inline, which keeps this compatible with autoplay rules.
     if (openingVideo) {
         openingVideo.muted = true;
+        openingVideo.currentTime = 0;
         openingVideo.play().catch(() => {
             // Some browsers wait until the page becomes visible before allowing playback.
             document.addEventListener('visibilitychange', function playWhenVisible() {
@@ -85,9 +92,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Disable scrolling during loading animation
     document.body.style.overflow = 'hidden';
-    
-    // Initially hide main content
-    mainContent.style.visibility = 'hidden';
     
     // Start the loading sequence
     setTimeout(() => {
