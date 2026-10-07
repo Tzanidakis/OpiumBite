@@ -45,15 +45,42 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadingScreen = document.getElementById('loading-screen');
     const biteButton = document.getElementById('bite-button');
     const mainContent = document.getElementById('main-content');
-    
-    // Check if user has already seen the animation in this session
-    const hasSeenAnimation = sessionStorage.getItem('hasSeenLoadingAnimation');
-    
-    if (hasSeenAnimation) {
-        // Skip animation - show main content immediately
+    const openingVideo = document.getElementById('opening-video');
+    const introStorageKey = 'hasSeenOpeningVideo';
+    let hasSeenOpeningVideo = false;
+
+    try {
+        hasSeenOpeningVideo = localStorage.getItem(introStorageKey) === 'true';
+    } catch (error) {
+        // Continue showing the intro if persistent storage is unavailable.
+    }
+
+    if (hasSeenOpeningVideo) {
         loadingScreen.style.display = 'none';
         mainContent.style.visibility = 'visible';
-        return; // Exit early, don't set up animation
+        return;
+    }
+
+    // Remember the first visit immediately, including if the page is refreshed mid-intro.
+    try {
+        localStorage.setItem(introStorageKey, 'true');
+    } catch (error) {
+        // The intro still works when storage is blocked by the browser.
+    }
+
+    // Explicitly start playback on the visitor's first load.
+    // The video is muted and inline, which keeps this compatible with autoplay rules.
+    if (openingVideo) {
+        openingVideo.muted = true;
+        openingVideo.play().catch(() => {
+            // Some browsers wait until the page becomes visible before allowing playback.
+            document.addEventListener('visibilitychange', function playWhenVisible() {
+                if (!document.hidden) {
+                    openingVideo.play().catch(() => {});
+                    document.removeEventListener('visibilitychange', playWhenVisible);
+                }
+            });
+        });
     }
     
     // Disable scrolling during loading animation
@@ -76,9 +103,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!biteButton.classList.contains('typing-complete')) {
             return;
         }
-        
-        // Mark that user has seen the animation
-        sessionStorage.setItem('hasSeenLoadingAnimation', 'true');
         
         // Add click effect
         biteButton.classList.add('clicked');
@@ -115,8 +139,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Optional: Auto-hide loading screen after 10 seconds if user doesn't click
     setTimeout(() => {
         if (!loadingScreen.classList.contains('slide-up')) {
-            // Mark that user has seen the animation
-            sessionStorage.setItem('hasSeenLoadingAnimation', 'true');
             biteButton.click();
         }
     }, 20000); // 20 seconds timeout
