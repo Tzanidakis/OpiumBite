@@ -614,6 +614,17 @@ main {
         font-size: 18px;
     }
 
+    body .grillz-item:hover {
+        transform: none;
+    }
+
+    body .grillz-item img {
+        height: auto;
+        max-height: none;
+        object-fit: contain;
+        background: #080808;
+    }
+
 }
 
 .categories {

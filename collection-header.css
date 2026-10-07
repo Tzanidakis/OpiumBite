@@ -240,4 +240,25 @@ body.collection-page {
     .collection-page main {
         margin-top: 80px !important;
     }
+
+    .collection-page .product-item {
+        width: min(100%, 360px);
+    }
+
+    .collection-page .product-image {
+        height: auto;
+        overflow: visible;
+        background: #080808;
+    }
+
+    .collection-page .product-image img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .collection-page .product-item:hover .product-image img {
+        transform: none;
+    }
 }
