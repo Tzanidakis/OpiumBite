@@ -55,15 +55,20 @@
 }
 
 .collection-page #main-header.shrink {
-    padding: 5px 20px;
+    padding: 8px 20px;
 }
 
 .collection-page #main-header.shrink .logo img {
-    height: 80px;
+    height: 90px;
 }
 
 .collection-page #main-header.shrink .nav-links a {
-    font-size: 10px;
+    font-size: 14px;
+}
+
+.collection-page #main-header .dropdown-content {
+    top: 100%;
+    margin-top: 0;
 }
 
 body.collection-page {
@@ -213,6 +218,7 @@ body.collection-page {
     .collection-page #primary-navigation .submenu-content {
         display: block !important;
         position: relative;
+        top: auto;
         left: 0;
         min-width: 100%;
         margin-top: 0;

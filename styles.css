@@ -21,15 +21,15 @@ header {
 }
 
 header.shrink {
-    padding: 5px 20px;
+    padding: 8px 20px;
 }
 
 header.shrink .logo img {
-    height: 80px;
+    height: 90px;
 }
 
 header.shrink .nav-links a {
-    font-size: 10px;
+    font-size: 14px;
 }
 
 .logo {
@@ -113,12 +113,13 @@ nav a.active::after {
 .dropdown-content {
     display: none;
     position: absolute;
+    top: 100%;
     background-color: #0a0a0a;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
     z-index: 101;
     border-radius: 4px;
-    margin-top: 5px;
+    margin-top: 0;
 }
 
 .dropdown-content a {
@@ -166,7 +167,8 @@ nav a.active::after {
     display: block;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown:hover > .dropdown-content,
+.dropdown:focus-within > .dropdown-content {
     display: block;
 }
 
@@ -580,6 +582,7 @@ main {
     .dropdown-content {
         display: block !important;
         position: relative;
+        top: auto;
         box-shadow: none;
         background-color: transparent;
         margin-top: 0;
