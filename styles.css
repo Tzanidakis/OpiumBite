@@ -1107,6 +1107,66 @@ main {
     transform: translateY(-100%);
 }
 
+.opening-fog {
+    position: absolute;
+    inset: -30%;
+    z-index: 5;
+    pointer-events: none;
+    background-repeat: repeat;
+    mix-blend-mode: screen;
+    will-change: transform, opacity;
+}
+
+.opening-fog-back {
+    opacity: 0.3;
+    filter: blur(34px);
+    background-image:
+        radial-gradient(ellipse at 15% 45%, rgba(210, 210, 210, 0.34) 0 8%, transparent 31%),
+        radial-gradient(ellipse at 52% 35%, rgba(150, 150, 150, 0.27) 0 10%, transparent 34%),
+        radial-gradient(ellipse at 82% 62%, rgba(225, 225, 225, 0.3) 0 9%, transparent 32%);
+    background-size: 55% 48%, 68% 58%, 52% 46%;
+    animation: opening-fog-drift-back 16s ease-in-out infinite alternate;
+}
+
+.opening-fog-front {
+    opacity: 0.22;
+    filter: blur(22px);
+    background-image:
+        radial-gradient(ellipse at 25% 70%, rgba(235, 235, 235, 0.28) 0 7%, transparent 27%),
+        radial-gradient(ellipse at 68% 48%, rgba(185, 185, 185, 0.3) 0 8%, transparent 29%),
+        radial-gradient(ellipse at 92% 25%, rgba(230, 230, 230, 0.22) 0 6%, transparent 25%);
+    background-size: 46% 38%, 58% 45%, 42% 36%;
+    animation: opening-fog-drift-front 11s ease-in-out infinite alternate;
+}
+
+@keyframes opening-fog-drift-back {
+    0% {
+        transform: translate3d(-8%, 2%, 0) scale(1.05);
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 0.34;
+    }
+    100% {
+        transform: translate3d(9%, -3%, 0) scale(1.16);
+        opacity: 0.26;
+    }
+}
+
+@keyframes opening-fog-drift-front {
+    0% {
+        transform: translate3d(9%, -2%, 0) scale(1.1);
+        opacity: 0.14;
+    }
+    55% {
+        opacity: 0.28;
+    }
+    100% {
+        transform: translate3d(-11%, 4%, 0) scale(1.2);
+        opacity: 0.2;
+    }
+}
+
 #opening-video {
     position: relative;
     display: block;
@@ -1115,7 +1175,9 @@ main {
     max-height: 65vh;
     object-fit: contain;
     background-color: #000;
-    z-index: 2;
+    z-index: 4;
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 42%, rgba(0, 0, 0, 0.85) 56%, transparent 78%);
+    mask-image: radial-gradient(ellipse at center, #000 42%, rgba(0, 0, 0, 0.85) 56%, transparent 78%);
 }
 
 #loading-screen::after {
@@ -1129,11 +1191,17 @@ main {
 
 .opening-caption {
     position: relative;
-    z-index: 2;
+    z-index: 6;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .opening-fog {
+        animation: none;
+    }
 }
 
 #bite-button {
