@@ -47,7 +47,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainContent = document.getElementById('main-content');
     const openingVideo = document.getElementById('opening-video');
     const introSessionKey = 'opiumBiteIntroShownV2';
+    let openingCaption = '[make them bite your dust]';
     let introAlreadyShown = false;
+
+    try {
+        if (localStorage.getItem('opiumBiteLanguage') === 'el') {
+            openingCaption = '[κάν’ τους να φάνε τη σκόνη σου]';
+        }
+    } catch (error) {
+        // Keep the English opening caption when preferences are unavailable.
+    }
 
     try {
         introAlreadyShown = sessionStorage.getItem(introSessionKey) === 'true';
@@ -97,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         biteButton.classList.add('fade-in');
         setTimeout(() => {
-            startTypewriterEffect(biteButton, '[make them bite your dust]');
+            startTypewriterEffect(biteButton, openingCaption);
         }, 700);
     }, 500);
     
