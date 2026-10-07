@@ -398,18 +398,49 @@ main {
     color: #fff;
 }
 
-/* Collection pages use the standard header without a mobile menu button. */
-.collection-page .hamburger {
-    display: none !important;
+/* The menu control is phone-only, regardless of icon-library defaults. */
+@media (min-width: 769px) {
+    .hamburger,
+    .collection-page .hamburger {
+        display: none !important;
+    }
 }
 
-/* Mobile Styles */
-@media (max-width: 1024px) {
-    /* Header mobile layout */
+/* Keep the desktop navigation aligned on tablets and smaller laptops. */
+@media (min-width: 769px) and (max-width: 1024px) {
+    header {
+        height: auto;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 0 20px;
+    }
+
+    .logo {
+        position: static;
+        margin: 0;
+        transform: none;
+    }
+
+    .logo img {
+        height: 100px;
+        margin-bottom: 4px;
+    }
+
+    nav {
+        width: 100%;
+    }
+
+    .icons {
+        right: 20px;
+    }
+}
+
+/* Phone layout */
+@media (max-width: 768px) {
     header {
         height: 80px;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         padding: 15px 20px;
     }
@@ -419,46 +450,55 @@ main {
         padding: 10px 20px;
     }
 
-    .hamburger {
-        display: block !important;
-        position: static;
-        order: 1;
+    .hamburger,
+    .collection-page .hamburger {
+        display: flex !important;
+        position: absolute;
+        top: 50%;
+        left: 20px;
         width: 30px;
         height: 30px;
-        line-height: 30px;
-        text-align: left;
+        align-items: center;
+        justify-content: flex-start;
+        transform: translateY(-50%);
+        line-height: 1;
         z-index: 103;
     }
 
     .logo {
-        margin: 0;
         position: absolute;
+        top: 50%;
         left: 50%;
-        transform: translateX(-50%);
-        order: 2;
+        margin: 0;
+        transform: translate(-50%, -50%);
+    }
+
+    .logo:hover {
+        transform: translate(-50%, -50%) scale(1.05);
     }
 
     .logo img {
+        display: block;
         height: 50px;
-        margin-bottom: 0;
+        margin: 0;
     }
-    
+
     header.shrink .logo img {
         height: 40px;
     }
 
-    .icons {
-        position: static;
-        order: 3;
-        display: flex;
-        gap: 15px;
+    nav {
         width: 30px;
+        margin-left: auto;
         justify-content: flex-end;
     }
 
-    nav {
-        width: auto;
-        order: 3;
+    .icons {
+        position: static;
+        display: flex;
+        width: 30px;
+        align-items: center;
+        justify-content: flex-end;
     }
 
     main {
@@ -569,9 +609,6 @@ main {
         font-size: 18px;
     }
 
-    .hamburger {
-        display: block !important;
-    }
 }
 
 .categories {

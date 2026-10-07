@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     window.addEventListener('resize', function () {
-        if (window.innerWidth > 1024) setMenuOpen(false);
+        if (window.innerWidth > 768) setMenuOpen(false);
     });
 
     window.addEventListener('scroll', function () {
