@@ -367,7 +367,29 @@
             font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="collection-header.css">
+    <link rel="stylesheet" href="collection-header.css?v=2">
+    <style>
+        /* Critical fallback: never show the phone menu control on wider screens. */
+        @media (min-width: 769px) {
+            body.collection-page #hamburger-menu {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body.collection-page #hamburger-menu {
+                display: flex !important;
+                position: absolute;
+                top: 50%;
+                left: 20px;
+                width: 30px;
+                height: 30px;
+                align-items: center;
+                justify-content: flex-start;
+                transform: translateY(-50%);
+            }
+        }
+    </style>
 </head>
 <body class="collection-page">
     <header id="main-header">
