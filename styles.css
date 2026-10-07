@@ -398,6 +398,11 @@ main {
     color: #fff;
 }
 
+/* Collection pages use the standard header without a mobile menu button. */
+.collection-page .hamburger {
+    display: none !important;
+}
+
 /* Mobile Styles */
 @media (max-width: 1024px) {
     /* Header mobile layout */
