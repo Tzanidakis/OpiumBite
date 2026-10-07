@@ -42,6 +42,7 @@ header.shrink .nav-links a {
 }
 
 .logo img {
+    display: block;
     height: 130px;
     margin-bottom: 10px;
     transition: height 0.3s ease;
@@ -70,6 +71,7 @@ nav a {
     transition: all 0.3s ease;
     position: relative;
     padding: 5px 0;
+    line-height: 22px;
 }
 
 nav a:hover {

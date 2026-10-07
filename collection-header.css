@@ -1,5 +1,81 @@
 .collection-page #main-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    background: #000;
     box-sizing: border-box;
+    z-index: 100;
+}
+
+.collection-page #main-header .logo {
+    position: static;
+    margin: 0;
+    cursor: pointer;
+    transform: none;
+}
+
+.collection-page #main-header .logo:hover {
+    transform: scale(1.05);
+}
+
+.collection-page #main-header .logo img {
+    display: block;
+    height: 130px;
+    margin: 0 0 10px;
+}
+
+.collection-page #main-header nav {
+    display: flex;
+    position: relative;
+    width: 100%;
+    justify-content: center;
+}
+
+.collection-page #main-header .nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.collection-page #main-header nav a {
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.collection-page #main-header .icons {
+    position: absolute;
+    right: 40px;
+    bottom: 0;
+}
+
+.collection-page #main-header.shrink {
+    padding: 5px 20px;
+}
+
+.collection-page #main-header.shrink .logo img {
+    height: 80px;
+}
+
+.collection-page #main-header.shrink .nav-links a {
+    font-size: 10px;
+}
+
+body.collection-page {
+    padding-top: 0 !important;
+}
+
+.collection-page main {
+    margin-top: 180px !important;
+}
+
+.collection-page main.grillz-page {
+    padding-top: 0 !important;
 }
 
 .collection-page #hamburger-menu {
@@ -15,6 +91,21 @@
 @media (min-width: 769px) {
     .collection-page #hamburger-menu {
         display: none !important;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .collection-page #main-header {
+        padding: 0 20px;
+    }
+
+    .collection-page #main-header .logo img {
+        height: 100px;
+        margin-bottom: 4px;
+    }
+
+    .collection-page #main-header .icons {
+        right: 20px;
     }
 }
 
@@ -138,5 +229,9 @@
 
     .collection-page #primary-navigation .submenu-content a {
         padding-left: 32px;
+    }
+
+    .collection-page main {
+        margin-top: 80px !important;
     }
 }
