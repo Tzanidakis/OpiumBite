@@ -12,9 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     <!-- Link to external CSS file -->
-    <link rel="stylesheet" href="styles.css?v=13">
+    <link rel="stylesheet" href="styles.css?v=14">
     <!-- Link to animations JavaScript file -->
-    <script src="animations.js?v=7" defer></script>
+    <script src="animations.js?v=8" defer></script>
     <link rel="stylesheet" href="translation.css?v=1">
     <script src="translation.js?v=1" defer></script>
 </head>
@@ -76,30 +76,48 @@
     </header>
 
     <main>
-        <section class="hero" id="home">
-            <!-- Mobile Carousel -->
-            <div class="hero-carousel">
-                <div class="carousel-container">
-                    <div class="carousel-slide active">
-                        <img src="media/girl.png" alt="Luxury Grillz Model">
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="media/man.png" alt="Luxury Grillz Model">
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="media/girl2.png" alt="Luxury Grillz Model">
+        <section class="hero-film" id="home" aria-label="How Opium Bite jewelry is made">
+            <div class="hero-film__stage">
+                <video class="hero-film__video hero-film__video--one" muted playsinline preload="metadata" aria-label="Digital measurement process">
+                    <source src="media/v1.mp4" type="video/mp4">
+                </video>
+                <video class="hero-film__video hero-film__video--two" muted playsinline preload="metadata" aria-label="Digital design process">
+                    <source src="media/v2.mp4" type="video/mp4">
+                </video>
+                <video class="hero-film__video hero-film__video--three" muted playsinline preload="metadata" aria-label="Industrial wax printing process">
+                    <source src="media/v3.mp4" type="video/mp4">
+                </video>
+                <video class="hero-film__video hero-film__video--four" muted playsinline preload="metadata" aria-label="Casting and finishing process">
+                    <source src="media/v4.mp4" type="video/mp4">
+                </video>
+
+                <div class="hero-film__veil" aria-hidden="true"></div>
+                <div class="hero-film__grain" aria-hidden="true"></div>
+
+                <div class="hero-film__ui">
+                    <div class="hero-film__copy-stack">
+                        <div class="hero-film__copy hero-film__copy--one">
+                            <h1>Digital<br>measurements.</h1>
+                            <p>Every piece starts with a precise digital scan. We map the mouth, the bite and every contour at micron-level accuracy, turning anatomy into measurements the design can trust.</p>
+                        </div>
+                        <div class="hero-film__copy hero-film__copy--two">
+                            <h2>Digital<br>genesis.</h2>
+                            <p>Every piece begins as nothing but geometry. We sculpt it tooth by tooth, curve by curve, until the weight and the bite are exactly right.</p>
+                        </div>
+                        <div class="hero-film__copy hero-film__copy--three">
+                            <h2>Industrial<br>wax printing.</h2>
+                            <p><strong>The wax.</strong> The file becomes matter. A wax model is printed at micron precision, carrying the exact negative space of the piece that will replace it.</p>
+                        </div>
+                        <div class="hero-film__copy hero-film__copy--four-fire">
+                            <h2>Specialized<br>casting.</h2>
+                            <p><strong>The fire.</strong> Silver or gold is melted and forced into the mold under pressure. No bubbles, no shortcuts—only the shape we designed.</p>
+                        </div>
+                        <div class="hero-film__copy hero-film__copy--four-hand">
+                            <h2>Finishing.</h2>
+                            <p><strong>The hand.</strong> Filed, buffed, polished and set by hand. It only leaves the atelier when it looks inevitable.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="carousel-indicators">
-                    <span class="indicator active" data-slide="0"></span>
-                    <span class="indicator" data-slide="1"></span>
-                    <span class="indicator" data-slide="2"></span>
-                </div>
-            </div>
-            
-            <div class="hero-content">
-                <h1>WHERE YOUR VISION BECOMES JEWELRY</h1>
-                <button>DESIGN YOUR GRILLZ</button>
             </div>
         </section>
 

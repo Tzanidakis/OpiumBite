@@ -157,6 +157,119 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 20000); // 20 seconds timeout
 });
 
+// Scroll-controlled homepage film. Kept separate from the opening-screen flow so
+// it initializes whether the intro is shown or skipped for a returning visitor.
+document.addEventListener('DOMContentLoaded', function() {
+    const film = document.querySelector('.hero-film');
+    if (!film) return;
+
+    const videos = Array.from(film.querySelectorAll('.hero-film__video'));
+    const copies = {
+        one: film.querySelector('.hero-film__copy--one'),
+        two: film.querySelector('.hero-film__copy--two'),
+        three: film.querySelector('.hero-film__copy--three'),
+        fire: film.querySelector('.hero-film__copy--four-fire'),
+        hand: film.querySelector('.hero-film__copy--four-hand')
+    };
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const state = videos.map(() => ({ target: 0, current: 0, ready: false }));
+    let ticking = false;
+
+    const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+    const mix = (start, end, amount) => start + (end - start) * amount;
+    const ease = value => value * value * (3 - (2 * value));
+
+    function requestTick() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(render);
+    }
+
+    function updateTargets() {
+        const viewport = window.innerHeight;
+        const rect = film.getBoundingClientRect();
+        const travel = Math.max(1, rect.height - viewport);
+        const progress = clamp(-rect.top / travel);
+
+        const blendOne = ease(clamp((progress - .23) / .04));
+        const blendTwo = ease(clamp((progress - .48) / .04));
+        const blendThree = ease(clamp((progress - .73) / .04));
+        const clipProgress = [
+            clamp(progress / .27),
+            clamp((progress - .23) / .29),
+            clamp((progress - .48) / .29),
+            clamp((progress - .73) / .21)
+        ];
+
+        state.forEach((item, index) => {
+            item.target = reducedMotion ? Math.round(clipProgress[index]) : clipProgress[index];
+        });
+
+        videos[0].style.setProperty('--video-opacity', 1 - blendOne);
+        videos[1].style.setProperty('--video-opacity', blendOne * (1 - blendTwo));
+        videos[2].style.setProperty('--video-opacity', blendTwo * (1 - blendThree));
+        videos[3].style.setProperty('--video-opacity', blendThree);
+
+        const firstCopyOut = ease(clamp((progress - .16) / .05));
+        const secondCopyIn = ease(clamp((progress - .255) / .035));
+        const secondCopyOut = ease(clamp((progress - .41) / .05));
+        const thirdCopyIn = ease(clamp((progress - .505) / .035));
+        const thirdCopyOut = ease(clamp((progress - .66) / .05));
+        const fireCopyIn = ease(clamp((progress - .755) / .035));
+        const fireCopyOut = ease(clamp((progress - .85) / .035));
+        const handCopyIn = ease(clamp((progress - .865) / .03));
+
+        copies.one.style.setProperty('--copy-opacity', 1 - firstCopyOut);
+        copies.one.style.setProperty('--copy-y', mix(0, -28, firstCopyOut) + 'px');
+        copies.two.style.setProperty('--copy-opacity', secondCopyIn * (1 - secondCopyOut));
+        copies.two.style.setProperty('--copy-y', mix(22, -22, secondCopyIn) + 'px');
+        copies.three.style.setProperty('--copy-opacity', thirdCopyIn * (1 - thirdCopyOut));
+        copies.three.style.setProperty('--copy-y', mix(22, -22, thirdCopyIn) + 'px');
+        copies.fire.style.setProperty('--copy-opacity', fireCopyIn * (1 - fireCopyOut));
+        copies.fire.style.setProperty('--copy-y', mix(22, -22, fireCopyIn) + 'px');
+        copies.hand.style.setProperty('--copy-opacity', handCopyIn);
+        copies.hand.style.setProperty('--copy-y', mix(22, 0, handCopyIn) + 'px');
+        requestTick();
+    }
+
+    function render() {
+        let moving = false;
+
+        videos.forEach((video, index) => {
+            const item = state[index];
+            item.current += (item.target - item.current) * (reducedMotion ? 1 : .22);
+            if (Math.abs(item.target - item.current) > .0005) moving = true;
+
+            if (item.ready && Number.isFinite(video.duration)) {
+                const targetTime = clamp(item.current, 0, .9995) * video.duration;
+                if (Math.abs(video.currentTime - targetTime) > .01) {
+                    video.currentTime = targetTime;
+                }
+            }
+        });
+
+        if (moving) window.requestAnimationFrame(render);
+        else ticking = false;
+    }
+
+    videos.forEach((video, index) => {
+        video.pause();
+        const markReady = () => {
+            state[index].ready = true;
+            if (Number.isFinite(video.duration)) video.currentTime = Math.min(.01, video.duration);
+            updateTargets();
+        };
+        video.addEventListener('loadedmetadata', markReady, { once: true });
+        video.addEventListener('error', markReady, { once: true });
+        video.load();
+    });
+
+    window.addEventListener('scroll', updateTargets, { passive: true });
+    window.addEventListener('resize', updateTargets, { passive: true });
+    window.addEventListener('pageshow', updateTargets);
+    updateTargets();
+});
+
 // Functions for floating blobs
 function createFloatingBlobs() {
     const loadingScreen = document.getElementById('loading-screen');
