@@ -4,6 +4,7 @@ body {
     background-color: black;
     color: #c0c0c0;
     scroll-behavior: smooth;
+    overflow-x: hidden;
     overflow-x: clip;
 }
 
@@ -337,6 +338,7 @@ main {
 .hero-film__stage {
     position: sticky;
     top: 0;
+    height: 100vh;
     height: 100svh;
     min-height: 520px;
     overflow: hidden;
@@ -640,6 +642,7 @@ main {
         top: 80px;
         left: 0;
         width: min(82vw, 340px);
+        height: calc(100vh - 80px);
         height: calc(100dvh - 80px);
         background-color: rgba(10, 10, 10, 0.98);
         padding: 24px 20px 40px;
@@ -662,6 +665,7 @@ main {
 
     header.shrink .nav-links {
         top: 60px;
+        height: calc(100vh - 60px);
         height: calc(100dvh - 60px);
     }
 
@@ -677,7 +681,7 @@ main {
         z-index: 99;
     }
 
-    body.menu-open:has(header.shrink)::after {
+    body.menu-open.header-shrunk::after {
         top: 60px;
     }
     

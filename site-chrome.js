@@ -48,6 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     window.addEventListener('scroll', function () {
-        header.classList.toggle('shrink', window.scrollY > 100);
+        const isShrunk = window.scrollY > 100;
+        header.classList.toggle('shrink', isShrunk);
+        document.body.classList.toggle('header-shrunk', isShrunk);
     }, { passive: true });
 });

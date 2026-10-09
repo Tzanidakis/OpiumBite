@@ -189,6 +189,7 @@ body.collection-page {
         top: 80px;
         left: 0;
         width: min(82vw, 340px);
+        height: calc(100vh - 80px);
         height: calc(100dvh - 80px);
         padding: 24px 20px 40px;
         box-sizing: border-box;
@@ -211,6 +212,7 @@ body.collection-page {
 
     .collection-page #main-header.shrink #primary-navigation {
         top: 60px;
+        height: calc(100vh - 60px);
         height: calc(100dvh - 60px);
     }
 

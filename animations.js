@@ -134,12 +134,15 @@ document.addEventListener('DOMContentLoaded', function() {
         target: 0,
         current: 0,
         ready: false,
-        visible: false
+        visible: false,
+        recovering: false
     }));
     const minimumFrameInterval = 1000 / 30;
     let ticking = false;
-    let targetUpdateQueued = false;
     let lastFrameTime = 0;
+    let renderFrame = 0;
+    let targetUpdateFrame = 0;
+    let resumeTimer = 0;
 
     const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
     const mix = (start, end, amount) => start + (end - start) * amount;
@@ -148,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function requestTick() {
         if (ticking) return;
         ticking = true;
-        window.requestAnimationFrame(render);
+        renderFrame = window.requestAnimationFrame(render);
     }
 
     function updateTargets() {
@@ -209,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function render(timestamp) {
         if (timestamp - lastFrameTime < minimumFrameInterval) {
-            window.requestAnimationFrame(render);
+            renderFrame = window.requestAnimationFrame(render);
             return;
         }
 
@@ -235,17 +238,81 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        if (moving) window.requestAnimationFrame(render);
-        else ticking = false;
+        if (moving) {
+            renderFrame = window.requestAnimationFrame(render);
+        } else {
+            ticking = false;
+            renderFrame = 0;
+        }
     }
 
     function queueTargetUpdate() {
-        if (targetUpdateQueued) return;
-        targetUpdateQueued = true;
-        window.requestAnimationFrame(() => {
-            targetUpdateQueued = false;
+        if (targetUpdateFrame) return;
+        targetUpdateFrame = window.requestAnimationFrame(() => {
+            targetUpdateFrame = 0;
             updateTargets();
         });
+    }
+
+    function suspendFilm() {
+        if (renderFrame) window.cancelAnimationFrame(renderFrame);
+        if (targetUpdateFrame) window.cancelAnimationFrame(targetUpdateFrame);
+        window.clearTimeout(resumeTimer);
+        renderFrame = 0;
+        targetUpdateFrame = 0;
+        resumeTimer = 0;
+        ticking = false;
+        lastFrameTime = 0;
+    }
+
+    function restoreVisibleFrame(video, index) {
+        const item = state[index];
+        if (!item.visible) return;
+
+        const seekToScrollPosition = () => {
+            item.recovering = false;
+            if (!Number.isFinite(video.duration)) return;
+            item.ready = true;
+            item.current = item.target;
+            const targetTime = clamp(item.target, 0, .9995) * video.duration;
+            const nudge = Math.abs(video.currentTime - targetTime) < .002 ? .002 : 0;
+
+            try {
+                // Assigning currentTime again aborts stale seeks left behind when
+                // iOS or Android suspends the media decoder while the phone is locked.
+                video.currentTime = Math.min(targetTime + nudge, video.duration * .9995);
+            } catch (error) {
+                // A later loadeddata event will retry if the decoder is not ready yet.
+            }
+
+            requestTick();
+        };
+
+        video.pause();
+        if (video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
+            if (item.recovering) return;
+            item.ready = false;
+            item.recovering = true;
+            video.addEventListener('loadeddata', seekToScrollPosition, { once: true });
+            video.addEventListener('error', function resetRecovery() {
+                item.recovering = false;
+            }, { once: true });
+            video.load();
+        } else {
+            seekToScrollPosition();
+        }
+    }
+
+    function restoreFilm() {
+        if (document.hidden) return;
+        suspendFilm();
+        updateTargets();
+        videos.forEach(restoreVisibleFrame);
+    }
+
+    function scheduleFilmRestore() {
+        window.clearTimeout(resumeTimer);
+        resumeTimer = window.setTimeout(restoreFilm, 80);
     }
 
     videos.forEach((video, index) => {
@@ -271,12 +338,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('scroll', queueTargetUpdate, { passive: true });
     window.addEventListener('resize', queueTargetUpdate, { passive: true });
-    window.addEventListener('pageshow', queueTargetUpdate);
+    window.addEventListener('pageshow', scheduleFilmRestore);
+    window.addEventListener('pagehide', suspendFilm);
+    window.addEventListener('focus', scheduleFilmRestore);
+    document.addEventListener('resume', scheduleFilmRestore);
     document.addEventListener('visibilitychange', function() {
         if (document.hidden) {
-            ticking = false;
+            suspendFilm();
         } else {
-            updateTargets();
+            scheduleFilmRestore();
         }
     });
     updateTargets();
@@ -341,24 +411,26 @@ document.addEventListener('DOMContentLoaded', function() {
             threshold: 0.5
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const sectionId = entry.target.id;
-                    if (sections[sectionId]) {
-                        updateActiveNav(sections[sectionId]);
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionId = entry.target.id;
+                        if (sections[sectionId]) {
+                            updateActiveNav(sections[sectionId]);
+                        }
                     }
+                });
+            }, observerOptions);
+
+            // Observe each section
+            Object.keys(sections).forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    observer.observe(section);
                 }
             });
-        }, observerOptions);
-
-        // Observe each section
-        Object.keys(sections).forEach(sectionId => {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                observer.observe(section);
-            }
-        });
+        }
 
         // Set home as active by default
         updateActiveNav('home-link');
