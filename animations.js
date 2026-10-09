@@ -41,21 +41,25 @@ document.addEventListener('DOMContentLoaded', function() {
     loadingScreen.classList.remove('slide-up');
     mainContent.style.visibility = 'hidden';
 
-    // Explicitly start playback for the initial visit.
-    // The video is muted and inline, which keeps this compatible with autoplay rules.
-    if (openingVideo) {
+    function playOpeningVideo() {
+        if (!openingVideo || loadingScreen.classList.contains('slide-up')) return;
         openingVideo.muted = true;
-        openingVideo.currentTime = 0;
-        openingVideo.play().catch(() => {
-            // Some browsers wait until the page becomes visible before allowing playback.
-            document.addEventListener('visibilitychange', function playWhenVisible() {
-                if (!document.hidden) {
-                    openingVideo.play().catch(() => {});
-                    document.removeEventListener('visibilitychange', playWhenVisible);
-                }
-            });
-        });
+        openingVideo.defaultMuted = true;
+        openingVideo.setAttribute('muted', '');
+        const playAttempt = openingVideo.play();
+        if (playAttempt) playAttempt.catch(() => {});
     }
+
+    // iOS can reject autoplay in Low Power Mode and after a phone unlock. A touch
+    // is a valid user gesture, so retry immediately when the visitor interacts.
+    playOpeningVideo();
+    loadingScreen.addEventListener('touchstart', playOpeningVideo, { passive: true });
+    loadingScreen.addEventListener('pointerdown', playOpeningVideo, { passive: true });
+    window.addEventListener('focus', playOpeningVideo);
+    window.addEventListener('pageshow', playOpeningVideo);
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) playOpeningVideo();
+    });
     
     // Disable scrolling during loading animation
     document.body.style.overflow = 'hidden';
@@ -135,9 +139,14 @@ document.addEventListener('DOMContentLoaded', function() {
         current: 0,
         ready: false,
         visible: false,
-        recovering: false
+        recovering: false,
+        seekTimer: 0
     }));
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     const minimumFrameInterval = 1000 / 30;
+    let playbackFallback = false;
+    let filmInView = false;
     let ticking = false;
     let lastFrameTime = 0;
     let renderFrame = 0;
@@ -148,6 +157,51 @@ document.addEventListener('DOMContentLoaded', function() {
     const mix = (start, end, amount) => start + (end - start) * amount;
     const ease = value => value * value * (3 - (2 * value));
 
+    function playVideo(video) {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.playsInline = true;
+        const playAttempt = video.play();
+        if (playAttempt) playAttempt.catch(() => {});
+    }
+
+    function syncPlaybackVideos() {
+        if (!playbackFallback) return;
+        videos.forEach((video, index) => {
+            if (filmInView && state[index].visible && !document.hidden) {
+                playVideo(video);
+            } else {
+                video.pause();
+            }
+        });
+    }
+
+    function enablePlaybackFallback() {
+        if (playbackFallback) return;
+        playbackFallback = true;
+        film.classList.add('uses-playback-fallback');
+        state.forEach(item => {
+            window.clearTimeout(item.seekTimer);
+            item.seekTimer = 0;
+            item.current = item.target;
+        });
+        videos.forEach(video => {
+            video.loop = true;
+            video.muted = true;
+            video.defaultMuted = true;
+            video.setAttribute('muted', '');
+            video.setAttribute('playsinline', '');
+        });
+        syncPlaybackVideos();
+    }
+
+    function watchSeek(video, item) {
+        window.clearTimeout(item.seekTimer);
+        item.seekTimer = window.setTimeout(() => {
+            if (video.seeking) enablePlaybackFallback();
+        }, 700);
+    }
+
     function requestTick() {
         if (ticking) return;
         ticking = true;
@@ -157,6 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateTargets() {
         const viewport = window.innerHeight;
         const rect = film.getBoundingClientRect();
+        filmInView = rect.bottom > 0 && rect.top < viewport;
         const travel = Math.max(1, rect.height - viewport);
         const progress = clamp(-rect.top / travel);
 
@@ -187,6 +242,8 @@ document.addEventListener('DOMContentLoaded', function() {
             video.style.setProperty('--video-opacity', opacity);
             video.classList.toggle('is-visible', state[index].visible);
         });
+
+        syncPlaybackVideos();
 
         const firstCopyOut = ease(clamp((progress - .16) / .05));
         const secondCopyIn = ease(clamp((progress - .255) / .035));
@@ -227,13 +284,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            if (playbackFallback) {
+                item.current = item.target;
+                return;
+            }
+
             item.current += (item.target - item.current) * (reducedMotion ? 1 : .22);
             if (Math.abs(item.target - item.current) > .0005) moving = true;
 
             if (item.ready && item.visible && !video.seeking && Number.isFinite(video.duration)) {
                 const targetTime = clamp(item.current, 0, .9995) * video.duration;
                 if (Math.abs(video.currentTime - targetTime) > .04) {
-                    video.currentTime = targetTime;
+                    try {
+                        video.currentTime = targetTime;
+                        watchSeek(video, item);
+                    } catch (error) {
+                        enablePlaybackFallback();
+                    }
                 }
             }
         });
@@ -263,11 +330,21 @@ document.addEventListener('DOMContentLoaded', function() {
         resumeTimer = 0;
         ticking = false;
         lastFrameTime = 0;
+        state.forEach(item => {
+            window.clearTimeout(item.seekTimer);
+            item.seekTimer = 0;
+        });
+        if (playbackFallback) videos.forEach(video => video.pause());
     }
 
     function restoreVisibleFrame(video, index) {
         const item = state[index];
         if (!item.visible) return;
+
+        if (playbackFallback) {
+            if (filmInView) playVideo(video);
+            return;
+        }
 
         const seekToScrollPosition = () => {
             item.recovering = false;
@@ -281,6 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Assigning currentTime again aborts stale seeks left behind when
                 // iOS or Android suspends the media decoder while the phone is locked.
                 video.currentTime = Math.min(targetTime + nudge, video.duration * .9995);
+                watchSeek(video, item);
             } catch (error) {
                 // A later loadeddata event will retry if the decoder is not ready yet.
             }
@@ -332,9 +410,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         video.addEventListener('seeked', function() {
+            window.clearTimeout(state[index].seekTimer);
+            state[index].seekTimer = 0;
             if (state[index].visible) requestTick();
         });
     });
+
+    if (isIOS) enablePlaybackFallback();
+
+    document.addEventListener('touchstart', syncPlaybackVideos, { passive: true });
+    document.addEventListener('pointerdown', syncPlaybackVideos, { passive: true });
 
     window.addEventListener('scroll', queueTargetUpdate, { passive: true });
     window.addEventListener('resize', queueTargetUpdate, { passive: true });
