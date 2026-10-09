@@ -4,6 +4,13 @@ body {
     background-color: black;
     color: #c0c0c0;
     scroll-behavior: smooth;
+    overflow-x: clip;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 header {
@@ -323,7 +330,7 @@ main {
 .hero-film {
     --film-accent: rgb(194, 178, 128);
     position: relative;
-    height: 3100vh;
+    height: 2400vh;
     background: #080808;
 }
 
@@ -451,10 +458,23 @@ main {
 }
 
 @media (max-width: 680px) {
-    .hero-film { height: 2500vh; }
-    .hero-film__copy-stack { min-height: 330px; }
+    .hero-film { height: 1900vh; }
+    .hero-film__video {
+        transform: scale(.92);
+        transform-origin: center;
+    }
+    .hero-film__ui {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+    .hero-film__copy-stack { min-height: 350px; }
     .hero-film__copy h1,
-    .hero-film__copy h2 { font-size: clamp(42px, 13vw, 64px); }
+    .hero-film__copy h2 {
+        max-width: 100%;
+        font-size: clamp(36px, 10.5vw, 48px);
+        letter-spacing: -.055em;
+        overflow-wrap: anywhere;
+    }
     .hero-film__copy p { max-width: 30ch; }
 }
 
@@ -463,74 +483,6 @@ main {
     .hero-film__grain { animation: none; }
 }
 
-/* Hero Carousel - Mobile Only */
-.hero-carousel {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 3;
-    text-align: center;
-    padding: 20px;
-}
-
-.carousel-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.carousel-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.carousel-slide.active {
-    opacity: 1;
-}
-
-.carousel-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.carousel-indicators {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-    z-index: 4;
-}
-
-.indicator {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.indicator.active {
-    background-color: #ffffff;
-}
 .hamburger {
     display: none;
     padding: 0;
@@ -656,10 +608,6 @@ main {
     .hero::before,
     .hero::after {
         display: none;
-    }
-    
-    .hero-carousel {
-        display: block;
     }
     
     .hero h1 {
@@ -1338,6 +1286,13 @@ main {
     mask-image: radial-gradient(ellipse at center, #000 42%, rgba(0, 0, 0, 0.85) 56%, transparent 78%);
 }
 
+@media (max-width: 680px) {
+    #opening-video {
+        width: 84vw;
+        max-height: 58svh;
+    }
+}
+
 #loading-screen::after {
     content: '';
     position: absolute;
@@ -1434,164 +1389,9 @@ main {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Animation keyframes */
-@keyframes logoGlow {
-    0%, 100% {
-        filter: drop-shadow(0 0 20px rgba(192, 192, 192, 0.5));
-        transform: scale(1);
-    }
-    50% {
-        filter: drop-shadow(0 0 35px rgba(192, 192, 192, 0.9));
-        transform: scale(1.02);
-    }
-}
-
-#loading-logo.fade-in img {
-    animation: logoGlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
 /* Ensure main content is hidden initially */
 #main-content {
     visibility: hidden;
-}
-
-/* Floating background blobs */
-.floating-blob {
-    position: absolute;
-    background: radial-gradient(ellipse, rgba(64, 64, 64, 0.12) 0%, rgba(32, 32, 32, 0.06) 60%, transparent 100%);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 2s ease-in-out;
-    filter: blur(1px);
-}
-
-.floating-blob.visible {
-    opacity: 1;
-}
-
-.blob-1 {
-    width: 600px;
-    height: 600px;
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    animation: float1 20s infinite ease-in-out, breathe1 8s infinite ease-in-out;
-}
-
-.blob-2 {
-    width: 550px;
-    height: 550px;
-    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-    animation: float2 25s infinite ease-in-out, breathe2 6s infinite ease-in-out;
-}
-
-.blob-3 {
-    width: 580px;
-    height: 580px;
-    border-radius: 70% 30% 50% 50% / 40% 50% 60% 50%;
-    animation: float3 22s infinite ease-in-out, breathe3 10s infinite ease-in-out;
-}
-
-/* Blob floating animations */
-@keyframes float1 {
-    0%, 100% {
-        left: 10vw;
-        top: 20vh;
-    }
-    25% {
-        left: 70vw;
-        top: 10vh;
-    }
-    50% {
-        left: 60vw;
-        top: 70vh;
-    }
-    75% {
-        left: 20vw;
-        top: 80vh;
-    }
-}
-
-@keyframes float2 {
-    0%, 100% {
-        left: 75vw;
-        top: 60vh;
-    }
-    20% {
-        left: 15vw;
-        top: 30vh;
-    }
-    40% {
-        left: 50vw;
-        top: 15vh;
-    }
-    60% {
-        left: 30vw;
-        top: 75vh;
-    }
-    80% {
-        left: 65vw;
-        top: 40vh;
-    }
-}
-
-@keyframes float3 {
-    0%, 100% {
-        left: 40vw;
-        top: 10vh;
-    }
-    30% {
-        left: 10vw;
-        top: 50vh;
-    }
-    60% {
-        left: 80vw;
-        top: 70vh;
-    }
-    90% {
-        left: 30vw;
-        top: 85vh;
-    }
-}
-
-/* Breathing animations for organic shapes */
-@keyframes breathe1 {
-    0%, 100% {
-        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-        transform: scale(1);
-    }
-    50% {
-        border-radius: 40% 60% 50% 30% / 40% 70% 30% 60%;
-        transform: scale(1.1);
-    }
-}
-
-@keyframes breathe2 {
-    0%, 100% {
-        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-        transform: scale(1);
-    }
-    33% {
-        border-radius: 60% 30% 40% 70% / 30% 50% 70% 40%;
-        transform: scale(0.9);
-    }
-    66% {
-        border-radius: 50% 50% 30% 70% / 60% 40% 50% 30%;
-        transform: scale(1.15);
-    }
-}
-
-@keyframes breathe3 {
-    0%, 100% {
-        border-radius: 70% 30% 50% 50% / 40% 50% 60% 50%;
-        transform: scale(1);
-    }
-    25% {
-        border-radius: 50% 70% 30% 50% / 60% 40% 50% 60%;
-        transform: scale(1.05);
-    }
-    75% {
-        border-radius: 30% 50% 70% 50% / 50% 60% 40% 50%;
-        transform: scale(0.95);
-    }
 }
 
 @keyframes gradientShift {

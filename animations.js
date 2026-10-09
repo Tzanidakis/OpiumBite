@@ -1,47 +1,5 @@
 // Loading screen animations
 document.addEventListener('DOMContentLoaded', function() {
-    const hamburger = document.getElementById('hamburger-menu');
-    const navigation = document.getElementById('primary-navigation');
-
-    if (hamburger && navigation) {
-        function setMenuOpen(isOpen) {
-            navigation.classList.toggle('active', isOpen);
-            document.body.classList.toggle('menu-open', isOpen);
-            hamburger.setAttribute('aria-expanded', String(isOpen));
-            hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
-            hamburger.textContent = isOpen ? 'close' : 'menu';
-        }
-
-        hamburger.addEventListener('click', function() {
-            setMenuOpen(!navigation.classList.contains('active'));
-        });
-
-        navigation.addEventListener('click', function(event) {
-            if (event.target.closest('a')) {
-                setMenuOpen(false);
-            }
-        });
-
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('#main-header')) {
-                setMenuOpen(false);
-            }
-        });
-
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                setMenuOpen(false);
-                hamburger.focus();
-            }
-        });
-
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                setMenuOpen(false);
-            }
-        });
-    }
-
     const loadingScreen = document.getElementById('loading-screen');
     const biteButton = document.getElementById('bite-button');
     const mainContent = document.getElementById('main-content');
@@ -198,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
             clamp(progress / .27),
             clamp((progress - .23) / .29),
             clamp((progress - .48) / .29),
-            clamp((progress - .73) / .21)
+            clamp((progress - .73) / .23) * .88
         ];
 
         state.forEach((item, index) => {
@@ -216,8 +174,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const thirdCopyIn = ease(clamp((progress - .505) / .035));
         const thirdCopyOut = ease(clamp((progress - .66) / .05));
         const fireCopyIn = ease(clamp((progress - .755) / .035));
-        const fireCopyOut = ease(clamp((progress - .85) / .035));
-        const handCopyIn = ease(clamp((progress - .865) / .03));
+        const fireCopyOut = ease(clamp((progress - .94) / .015));
+        const handCopyIn = ease(clamp((progress - .955) / .015));
 
         copies.one.style.setProperty('--copy-opacity', 1 - firstCopyOut);
         copies.one.style.setProperty('--copy-y', mix(0, -28, firstCopyOut) + 'px');
@@ -270,34 +228,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateTargets();
 });
 
-// Functions for floating blobs
-function createFloatingBlobs() {
-    const loadingScreen = document.getElementById('loading-screen');
-    
-    // Create 3 floating blobs
-    for (let i = 1; i <= 3; i++) {
-        const blob = document.createElement('div');
-        blob.className = `floating-blob blob-${i}`;
-        blob.id = `blob-${i}`;
-        loadingScreen.appendChild(blob);
-    }
-}
-
-function showFloatingBlobs() {
-    // Show blobs with staggered timing for more natural appearance
-    setTimeout(() => {
-        document.getElementById('blob-1').classList.add('visible');
-    }, 200);
-    
-    setTimeout(() => {
-        document.getElementById('blob-2').classList.add('visible');
-    }, 800);
-    
-    setTimeout(() => {
-        document.getElementById('blob-3').classList.add('visible');
-    }, 1400);
-}
-
 // Typewriter effect function
 function startTypewriterEffect(element, text) {
     element.textContent = '';
@@ -348,8 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Set up intersection observer to detect which section is in view
         const sections = {
             'home': 'home-link',
-            'collections': 'collections-link',
-            'custom': 'custom-link'
+            'collections': 'collections-link'
         };
 
         const observerOptions = {
@@ -383,91 +312,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add click event listeners to nav links for smooth scrolling
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', function(e) {
-                if (this.hash && this.hash !== '#') {
+                const destination = new URL(this.href, window.location.href);
+                const isCurrentPage = destination.pathname === window.location.pathname;
+                const target = isCurrentPage && destination.hash
+                    ? document.querySelector(destination.hash)
+                    : null;
+
+                if (target) {
                     e.preventDefault();
-                    const target = document.querySelector(this.hash);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    target.scrollIntoView({ behavior: 'smooth' });
                 }
             });
         });
-
-        // Shrinking header on scroll
-        const header = document.getElementById('main-header');
-        let lastScrollPosition = 0;
-
-        window.addEventListener('scroll', function() {
-            const currentScrollPosition = window.pageYOffset;
-            
-            // Only trigger if scrolled more than 50px
-            if (Math.abs(currentScrollPosition - lastScrollPosition) > 50) {
-                if (currentScrollPosition > lastScrollPosition && currentScrollPosition > 100) {
-                    // Scrolling down
-                    header.classList.add('shrink');
-                } else {
-                    // Scrolling up
-                    if (currentScrollPosition < 100) {
-                        header.classList.remove('shrink');
-                    } else {
-                        header.classList.add('shrink');
-                    }
-                }
-                lastScrollPosition = currentScrollPosition;
-            }
-        });
-
-        // Hero Carousel functionality (Mobile Only)
-        const heroCarousel = document.querySelector('.hero-carousel');
-        if (heroCarousel) {
-            const slides = document.querySelectorAll('.carousel-slide');
-            const indicators = document.querySelectorAll('.indicator');
-            
-            let currentSlide = 0;
-            let slideInterval;
-            
-            function showSlide(index) {
-                // Hide all slides
-                slides.forEach(slide => slide.classList.remove('active'));
-                indicators.forEach(indicator => indicator.classList.remove('active'));
-                
-                // Show current slide
-                slides[index].classList.add('active');
-                indicators[index].classList.add('active');
-                
-                currentSlide = index;
-            }
-            
-            function nextSlide() {
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
-            }
-            
-            function startAutoSlide() {
-                slideInterval = setInterval(nextSlide, 4000); // Change slide every 4 seconds
-            }
-            
-            function stopAutoSlide() {
-                clearInterval(slideInterval);
-            }
-            
-            // Indicator click handlers
-            indicators.forEach((indicator, index) => {
-                indicator.addEventListener('click', () => {
-                    showSlide(index);
-                    stopAutoSlide();
-                    startAutoSlide(); // Restart auto-slide
-                });
-            });
-            
-            // Start with first slide and auto-slide
-            showSlide(0);
-            startAutoSlide();
-            
-            // Pause auto-slide on hover
-            heroCarousel.addEventListener('mouseenter', stopAutoSlide);
-            heroCarousel.addEventListener('mouseleave', startAutoSlide);
-        }
 
         // Carousel functionality
         const carousel = document.getElementById('carousel');
@@ -481,9 +337,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             const itemCount = items.length;
-            const itemWidth = 100 / (itemCount / 2);
             let currentIndex = 0;
             let isAnimating = false;
+
+            function getItemWidth() {
+                return carousel.querySelector('.carousel-item').getBoundingClientRect().width;
+            }
             
             function updateCarousel(animate = true) {
                 if (isAnimating) return;
@@ -495,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     carousel.style.transition = 'none';
                 }
                 
-                carousel.style.transform = `translateX(-${currentIndex * itemWidth}%)`;
+                carousel.style.transform = `translateX(-${currentIndex * getItemWidth()}px)`;
                 
                 setTimeout(() => {
                     if (currentIndex >= itemCount) {
@@ -522,6 +381,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     updateCarousel();
                 });
             }
+
+            window.addEventListener('resize', function() {
+                carousel.style.transition = 'none';
+                carousel.style.transform = `translateX(-${currentIndex * getItemWidth()}px)`;
+            }, { passive: true });
             
             updateCarousel(false);
         }
