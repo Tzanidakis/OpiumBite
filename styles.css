@@ -353,6 +353,11 @@ main {
     background: #080808;
     filter: saturate(.82) contrast(1.08) brightness(.84);
     opacity: var(--video-opacity, 1);
+    visibility: hidden;
+}
+
+.hero-film__video.is-visible {
+    visibility: visible;
     will-change: opacity;
 }
 
@@ -462,6 +467,11 @@ main {
     .hero-film__video {
         transform: scale(.92);
         transform-origin: center;
+        filter: none;
+    }
+    .hero-film__grain {
+        inset: 0;
+        animation: none;
     }
     .hero-film__ui {
         padding-right: 20px;

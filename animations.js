@@ -130,8 +130,16 @@ document.addEventListener('DOMContentLoaded', function() {
         hand: film.querySelector('.hero-film__copy--four-hand')
     };
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const state = videos.map(() => ({ target: 0, current: 0, ready: false }));
+    const state = videos.map(() => ({
+        target: 0,
+        current: 0,
+        ready: false,
+        visible: false
+    }));
+    const minimumFrameInterval = 1000 / 30;
     let ticking = false;
+    let targetUpdateQueued = false;
+    let lastFrameTime = 0;
 
     const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
     const mix = (start, end, amount) => start + (end - start) * amount;
@@ -163,10 +171,19 @@ document.addEventListener('DOMContentLoaded', function() {
             item.target = reducedMotion ? Math.round(clipProgress[index]) : clipProgress[index];
         });
 
-        videos[0].style.setProperty('--video-opacity', 1 - blendOne);
-        videos[1].style.setProperty('--video-opacity', blendOne * (1 - blendTwo));
-        videos[2].style.setProperty('--video-opacity', blendTwo * (1 - blendThree));
-        videos[3].style.setProperty('--video-opacity', blendThree);
+        const videoOpacities = [
+            1 - blendOne,
+            blendOne * (1 - blendTwo),
+            blendTwo * (1 - blendThree),
+            blendThree
+        ];
+
+        videos.forEach((video, index) => {
+            const opacity = videoOpacities[index];
+            state[index].visible = opacity > .001;
+            video.style.setProperty('--video-opacity', opacity);
+            video.classList.toggle('is-visible', state[index].visible);
+        });
 
         const firstCopyOut = ease(clamp((progress - .16) / .05));
         const secondCopyIn = ease(clamp((progress - .255) / .035));
@@ -190,17 +207,29 @@ document.addEventListener('DOMContentLoaded', function() {
         requestTick();
     }
 
-    function render() {
+    function render(timestamp) {
+        if (timestamp - lastFrameTime < minimumFrameInterval) {
+            window.requestAnimationFrame(render);
+            return;
+        }
+
+        lastFrameTime = timestamp;
         let moving = false;
 
         videos.forEach((video, index) => {
             const item = state[index];
+
+            if (!item.visible) {
+                item.current = item.target;
+                return;
+            }
+
             item.current += (item.target - item.current) * (reducedMotion ? 1 : .22);
             if (Math.abs(item.target - item.current) > .0005) moving = true;
 
-            if (item.ready && Number.isFinite(video.duration)) {
+            if (item.ready && item.visible && !video.seeking && Number.isFinite(video.duration)) {
                 const targetTime = clamp(item.current, 0, .9995) * video.duration;
-                if (Math.abs(video.currentTime - targetTime) > .01) {
+                if (Math.abs(video.currentTime - targetTime) > .04) {
                     video.currentTime = targetTime;
                 }
             }
@@ -210,21 +239,46 @@ document.addEventListener('DOMContentLoaded', function() {
         else ticking = false;
     }
 
+    function queueTargetUpdate() {
+        if (targetUpdateQueued) return;
+        targetUpdateQueued = true;
+        window.requestAnimationFrame(() => {
+            targetUpdateQueued = false;
+            updateTargets();
+        });
+    }
+
     videos.forEach((video, index) => {
         video.pause();
         const markReady = () => {
+            if (state[index].ready) return;
             state[index].ready = true;
             if (Number.isFinite(video.duration)) video.currentTime = Math.min(.01, video.duration);
             updateTargets();
         };
-        video.addEventListener('loadedmetadata', markReady, { once: true });
-        video.addEventListener('error', markReady, { once: true });
-        video.load();
+
+        if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+            markReady();
+        } else {
+            video.addEventListener('loadedmetadata', markReady, { once: true });
+            video.addEventListener('error', markReady, { once: true });
+        }
+
+        video.addEventListener('seeked', function() {
+            if (state[index].visible) requestTick();
+        });
     });
 
-    window.addEventListener('scroll', updateTargets, { passive: true });
-    window.addEventListener('resize', updateTargets, { passive: true });
-    window.addEventListener('pageshow', updateTargets);
+    window.addEventListener('scroll', queueTargetUpdate, { passive: true });
+    window.addEventListener('resize', queueTargetUpdate, { passive: true });
+    window.addEventListener('pageshow', queueTargetUpdate);
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            ticking = false;
+        } else {
+            updateTargets();
+        }
+    });
     updateTargets();
 });
 
