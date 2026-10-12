@@ -1,0 +1,84 @@
+/* Shared phone/tablet refresh overlay. Its markup mirrors the homepage loader. */
+html.mobile-lifecycle-pending,
+html.mobile-lifecycle-pending body {
+    background: #000;
+}
+
+html.mobile-lifecycle-pending body {
+    visibility: hidden;
+}
+
+#loading-screen.lifecycle-refresh-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+    background: #000;
+    transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+#loading-screen.lifecycle-refresh-screen.slide-up {
+    transform: translateY(-100%);
+}
+
+#loading-screen.lifecycle-refresh-screen .opening-fog,
+#loading-screen.lifecycle-refresh-screen #opening-video,
+#loading-screen.lifecycle-refresh-screen .opening-caption {
+    display: none;
+}
+
+#loading-screen.lifecycle-refresh-screen .device-loader {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: min(64vw, 320px);
+}
+
+#loading-screen.lifecycle-refresh-screen .device-loader__label {
+    color: #c0c0c0;
+    font: 600 11px/1 Arial, sans-serif;
+    letter-spacing: 0.42em;
+    padding-left: 0.42em;
+}
+
+#loading-screen.lifecycle-refresh-screen .device-loader__track {
+    display: block;
+    width: 100%;
+    height: 2px;
+    overflow: hidden;
+    background: rgba(192, 192, 192, 0.18);
+}
+
+#loading-screen.lifecycle-refresh-screen .device-loader__bar {
+    display: block;
+    width: 45%;
+    height: 100%;
+    background: rgb(194, 178, 128);
+    box-shadow: 0 0 10px rgba(194, 178, 128, 0.55);
+    animation: lifecycle-loader-progress 1.1s ease-in-out infinite;
+}
+
+body.mobile-lifecycle-locked {
+    overflow: hidden !important;
+}
+
+@keyframes lifecycle-loader-progress {
+    0% { transform: translateX(-110%); }
+    100% { transform: translateX(245%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #loading-screen.lifecycle-refresh-screen .device-loader__bar {
+        width: 100%;
+        animation: none;
+    }
+}
+

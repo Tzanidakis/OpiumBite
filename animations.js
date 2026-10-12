@@ -5,7 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainContent = document.getElementById('main-content');
     const openingVideo = document.getElementById('opening-video');
     const introSessionKey = 'opiumBiteIntroShownV2';
-    const isPhoneOrTablet = window.matchMedia('(max-width: 1024px)').matches;
+    const isIPadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+    const isPhoneOrTablet = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '') ||
+        isIPadOS ||
+        (window.matchMedia('(max-width: 1024px)').matches && window.matchMedia('(pointer: coarse)').matches);
     let openingCaption = '[make them bite your dust]';
     let introAlreadyShown = false;
 
@@ -44,13 +47,28 @@ document.addEventListener('DOMContentLoaded', function() {
             const remainingTime = Math.max(0, minimumDisplayTime - (performance.now() - loaderStartedAt));
 
             setTimeout(() => {
-                loadingScreen.classList.add('slide-up');
-                mainContent.style.visibility = 'visible';
-                document.body.style.overflow = 'auto';
+                let finished = false;
 
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 550);
+                function revealPage() {
+                    if (finished) return;
+                    finished = true;
+                    loadingScreen.classList.add('slide-up');
+                    mainContent.style.visibility = 'visible';
+                    document.body.style.overflow = 'auto';
+
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        document.body.classList.remove('mobile-lifecycle-locked');
+                        window.dispatchEvent(new CustomEvent('opiumbite:loader-finished'));
+                    }, 550);
+                }
+
+                if (loadingScreen.dataset.restorePending === 'true') {
+                    window.addEventListener('opiumbite:restore-complete', revealPage, { once: true });
+                    setTimeout(revealPage, 4500);
+                } else {
+                    revealPage();
+                }
             }, remainingTime);
         }
 
