@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainContent = document.getElementById('main-content');
     const openingVideo = document.getElementById('opening-video');
     const introSessionKey = 'opiumBiteIntroShownV2';
+    const isPhoneOrTablet = window.matchMedia('(max-width: 1024px)').matches;
     let openingCaption = '[make them bite your dust]';
     let introAlreadyShown = false;
 
@@ -22,6 +23,47 @@ document.addEventListener('DOMContentLoaded', function() {
         // If session storage is unavailable, showing the intro is the safe fallback.
     }
 
+    loadingScreen.style.display = 'flex';
+    loadingScreen.classList.remove('slide-up', 'device-loading');
+    mainContent.style.visibility = 'hidden';
+
+    // After the first opening video, phones and tablets use the lightweight
+    // loading text and bar for every refresh in the same tab session.
+    if (introAlreadyShown && isPhoneOrTablet) {
+        loadingScreen.classList.add('device-loading');
+
+        if (openingVideo) {
+            openingVideo.pause();
+        }
+
+        document.body.style.overflow = 'hidden';
+        const loaderStartedAt = performance.now();
+
+        function finishMobileLoading() {
+            const minimumDisplayTime = 900;
+            const remainingTime = Math.max(0, minimumDisplayTime - (performance.now() - loaderStartedAt));
+
+            setTimeout(() => {
+                loadingScreen.classList.add('slide-up');
+                mainContent.style.visibility = 'visible';
+                document.body.style.overflow = 'auto';
+
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 550);
+            }, remainingTime);
+        }
+
+        if (document.readyState === 'complete') {
+            finishMobileLoading();
+        } else {
+            window.addEventListener('load', finishMobileLoading, { once: true });
+        }
+
+        return;
+    }
+
+    // Desktop skips the loading overlay after its first opening video.
     if (introAlreadyShown) {
         loadingScreen.style.display = 'none';
         mainContent.style.visibility = 'visible';
@@ -29,17 +71,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // Mark this tab's visit immediately so returning to Home does not replay the intro.
     try {
         sessionStorage.setItem(introSessionKey, 'true');
     } catch (error) {
         // The opening sequence still works when storage is blocked.
     }
-
-    // Show the opening sequence on the first homepage load in this tab.
-    loadingScreen.style.display = 'flex';
-    loadingScreen.classList.remove('slide-up');
-    mainContent.style.visibility = 'hidden';
 
     // Explicitly start playback for the initial visit.
     // The video is muted and inline, which keeps this compatible with autoplay rules.

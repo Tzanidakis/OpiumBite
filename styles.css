@@ -1227,6 +1227,10 @@ main {
     transform: translateY(-100%);
 }
 
+.device-loader {
+    display: none;
+}
+
 .opening-fog {
     position: absolute;
     inset: -30%;
@@ -1300,11 +1304,61 @@ main {
     mask-image: radial-gradient(ellipse at center, #000 42%, rgba(0, 0, 0, 0.85) 56%, transparent 78%);
 }
 
-@media (max-width: 680px) {
+@media (max-width: 1024px) {
+    #loading-screen.device-loading {
+        min-height: 100svh;
+        transition-duration: 0.55s;
+    }
+
+    #loading-screen.device-loading .opening-fog,
+    #loading-screen.device-loading #opening-video,
+    #loading-screen.device-loading .opening-caption {
+        display: none;
+    }
+
+    #loading-screen.device-loading .device-loader {
+        position: relative;
+        z-index: 6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        width: min(64vw, 320px);
+    }
+
+    .device-loader__label {
+        color: #c0c0c0;
+        font: 600 11px/1 Arial, sans-serif;
+        letter-spacing: 0.42em;
+        padding-left: 0.42em;
+    }
+
+    .device-loader__track {
+        display: block;
+        width: 100%;
+        height: 2px;
+        overflow: hidden;
+        background: rgba(192, 192, 192, 0.18);
+    }
+
+    .device-loader__bar {
+        display: block;
+        width: 45%;
+        height: 100%;
+        background: rgb(194, 178, 128);
+        box-shadow: 0 0 10px rgba(194, 178, 128, 0.55);
+        animation: device-loader-progress 1.1s ease-in-out infinite;
+    }
+
     #opening-video {
         width: 84vw;
         max-height: 58svh;
     }
+}
+
+@keyframes device-loader-progress {
+    0% { transform: translateX(-110%); }
+    100% { transform: translateX(245%); }
 }
 
 #loading-screen::after {
@@ -1328,6 +1382,11 @@ main {
 @media (prefers-reduced-motion: reduce) {
     .opening-fog {
         animation: none;
+    }
+
+    .device-loader__bar {
+        animation: none;
+        width: 100%;
     }
 }
 
