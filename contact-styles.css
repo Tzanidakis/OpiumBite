@@ -351,6 +351,11 @@
     z-index: 2;
 }
 
+.faq-question:focus-visible {
+    outline: 3px solid rgb(194, 178, 128);
+    outline-offset: -3px;
+}
+
 .faq-question:hover {
     background: transparent;
 }

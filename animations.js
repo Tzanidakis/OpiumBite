@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     finished = true;
                     loadingScreen.classList.add('slide-up');
                     mainContent.style.visibility = 'visible';
-                    document.body.style.overflow = 'auto';
+                    document.body.style.removeProperty('overflow');
 
                     setTimeout(() => {
                         loadingScreen.style.display = 'none';
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (introAlreadyShown) {
         loadingScreen.style.display = 'none';
         mainContent.style.visibility = 'visible';
-        document.body.style.overflow = 'auto';
+        document.body.style.removeProperty('overflow');
         return;
     }
 
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 mainContent.style.visibility = 'visible';
                 // Re-enable scrolling when main content is shown
-                document.body.style.overflow = 'auto';
+                document.body.style.removeProperty('overflow');
                 
                 // Remove loading screen completely after animation
                 setTimeout(() => {

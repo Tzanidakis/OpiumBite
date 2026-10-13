@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="mobile-lifecycle.css?v=2">
-    <script src="mobile-lifecycle.js?v=2"></script>
+    <link rel="stylesheet" href="mobile-lifecycle.css?v=3">
+    <script src="mobile-lifecycle.js?v=3"></script>
     <title>Contact Us - Custom Grillz</title>
     <link rel="icon" type="image/x-icon" href="media/logo.png">
     <!-- Add Google Material Symbols -->
@@ -14,10 +14,10 @@
     <!-- Add Playfair Display Font -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <!-- Link to external CSS file -->
-    <link rel="stylesheet" href="styles.css?v=16">
-    <link rel="stylesheet" href="contact-styles.css?v=4">
-    <link rel="stylesheet" href="translation.css?v=1">
-    <script src="translation.js?v=1" defer></script>
+    <link rel="stylesheet" href="styles.css?v=23">
+    <link rel="stylesheet" href="contact-styles.css?v=5">
+    <link rel="stylesheet" href="translation.css?v=2">
+    <script src="translation.js?v=2" defer></script>
 </head>
 <body>
     <header id="main-header">
@@ -55,7 +55,6 @@
                 <a href="about.html" id="about-link">ABOUT US</a>
             </div>
             <div class="icons" aria-hidden="true">
-                <span class="material-symbols-outlined">search</span>
             </div>
         </nav>
     </header>
@@ -80,7 +79,7 @@
                         </div>
                         <div class="contact-details">
                             <h3>Email</h3>
-                            <a href="mailto:steliosxatz2003@gmail.com">opiumbite@gmail.com</a>
+                            <a href="mailto:opiumbite@gmail.com">opiumbite@gmail.com</a>
                             <p>For orders, inquiries, and custom designs</p>
                         </div>
                     </div>
@@ -91,8 +90,8 @@
                         </div>
                         <div class="contact-details">
                             <h3>Phone</h3>
-                            <a href="tel:+1234567890">+30 6985071700</a>
-                            <p>Mon-Fri: 9AM-6PM EST</p>
+                            <a href="tel:+306985071700">+30 698 507 1700</a>
+                            <p>Mon–Fri: 9:00–18:00 (Greece)</p>
                         </div>
                     </div>
 
@@ -102,7 +101,7 @@
                         </div>
                         <div class="contact-details">
                             <h3>Instagram</h3>
-                            <a href="https://www.instagram.com/opium.bite/" target="_blank">@opium.bite</a>
+                            <a href="https://www.instagram.com/opium.bite/" target="_blank" rel="noopener noreferrer">@opium.bite</a>
                             <p>Follow us for latest designs and updates</p>
                         </div>
                     </div>
@@ -114,7 +113,7 @@
         <section class="contact-form-section">
             <div class="contact-container">
                 <h2>Send Us a Message</h2>
-                <form class="contact-form">
+                <form class="contact-form" id="contact-form" aria-describedby="contact-form-status">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="firstName">First Name</label>
@@ -153,7 +152,8 @@
                         <textarea id="message" name="message" rows="6" placeholder="Tell us about your vision, requirements, or any questions you have..." required></textarea>
                     </div>
 
-                    <button type="submit" class="submit-btn">Send Message</button>
+                    <button type="submit" class="submit-btn">Open Email Draft</button>
+                    <p id="contact-form-status" class="form-status" role="status" aria-live="polite">Your email app will open with this message as a draft.</p>
                 </form>
             </div>
         </section>
@@ -228,14 +228,37 @@
     </main>
 
     <script>
+        const contactParams = new URLSearchParams(window.location.search);
+        const requestedProduct = (contactParams.get('product') || '').trim().slice(0, 120);
+        if (requestedProduct) {
+            const requestedPrice = (contactParams.get('price') || '').trim().slice(0, 40);
+            const requestedDetails = (contactParams.get('details') || '').trim().slice(0, 160);
+            document.getElementById('subject').value = 'custom-order';
+            document.getElementById('message').value = [
+                'I am interested in: ' + requestedProduct,
+                requestedPrice ? 'Listed price: ' + requestedPrice : '',
+                requestedDetails ? 'Selected options: ' + requestedDetails : '',
+                '',
+                'Please tell me about availability and next steps.'
+            ].filter(Boolean).join('\n');
+        }
+
         // FAQ toggle functionality
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
+        document.querySelectorAll('.faq-question').forEach((question, index) => {
+            const answer = question.parentElement.querySelector('.faq-answer');
+            const answerId = 'faq-answer-' + index;
+            answer.id = answerId;
+            question.setAttribute('role', 'button');
+            question.setAttribute('tabindex', '0');
+            question.setAttribute('aria-controls', answerId);
+            question.setAttribute('aria-expanded', 'false');
+
+            function toggleQuestion() {
                 const faqItem = question.parentElement;
-                const answer = faqItem.querySelector('.faq-answer');
                 const toggle = question.querySelector('.faq-toggle');
                 
                 faqItem.classList.toggle('active');
+                question.setAttribute('aria-expanded', String(faqItem.classList.contains('active')));
                 
                 if (faqItem.classList.contains('active')) {
                     answer.style.maxHeight = answer.scrollHeight + 'px';
@@ -244,14 +267,39 @@
                     answer.style.maxHeight = '0';
                     toggle.textContent = '+';
                 }
+            }
+
+            question.addEventListener('click', toggleQuestion);
+            question.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    toggleQuestion();
+                }
             });
         });
 
-        // Form submission (you can connect this to your backend)
         document.querySelector('.contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you for your message! We\'ll get back to you within 24 hours.');
-            this.reset();
+            if (!this.reportValidity()) return;
+
+            const data = new FormData(this);
+            const subjectLabels = {
+                'custom-order': 'Custom Order',
+                'existing-order': 'Existing Order',
+                'general-inquiry': 'General Inquiry',
+                'collaboration': 'Collaboration'
+            };
+            const subject = subjectLabels[data.get('subject')] || 'Website inquiry';
+            const body = [
+                'Name: ' + data.get('firstName') + ' ' + data.get('lastName'),
+                'Email: ' + data.get('email'),
+                'Phone: ' + (data.get('phone') || 'Not provided'),
+                '',
+                data.get('message')
+            ].join('\n');
+
+            document.getElementById('contact-form-status').textContent = 'Opening your email app. Review the draft there before sending.';
+            window.location.href = 'mailto:opiumbite@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
         });
     </script>
 
@@ -261,9 +309,7 @@
                 <h3>About Us</h3>
                 <p>We craft premium custom grillz and jewelry for those who demand excellence. Each piece is handmade with precision and care.</p>
                 <div class="social-links">
-                    <a href="#" aria-label="Facebook"><span class="material-symbols-outlined">facebook</span></a>
                     <a href="https://www.instagram.com/opium.bite/" aria-label="Instagram"><span class="material-symbols-outlined">photo_camera</span></a>
-                    <a href="#" aria-label="YouTube"><span class="material-symbols-outlined">smart_display</span></a>
                 </div>
             </div>
             <div class="footer-column">
@@ -292,6 +338,6 @@
             <p>&copy; 2026 Opium Bite. All rights reserved.</p>
         </div>
     </footer>
-    <script src="site-chrome.js?v=2" defer></script>
+    <script src="site-chrome.js?v=4" defer></script>
 </body>
 </html>

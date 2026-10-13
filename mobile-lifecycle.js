@@ -283,20 +283,18 @@
         if (!state || state.url !== currentUrl) return;
 
         refreshStarted = true;
-        state.savedAt = Date.now();
-        if (!writeStorage(RESTORE_KEY, state)) {
-            refreshStarted = false;
-            return;
-        }
         const screen = ensureLoader();
-        screen.dataset.restorePending = 'true';
+        const startedAt = performance.now();
+        screen.dataset.restorePending = 'false';
 
-        // Let the overlay paint before starting navigation. The same overlay is
-        // recreated immediately on the refreshed document to prevent flicker.
-        window.requestAnimationFrame(function () {
-            window.requestAnimationFrame(function () {
-                window.setTimeout(function () { window.location.reload(); }, 80);
-            });
+        // Visibility changes also happen for app switching, tab changes, and
+        // permission prompts. Rehydrate the suspended page in place instead of
+        // treating every return as a device unlock and forcing a destructive reload.
+        waitForLayout().then(function () {
+            restorePosition(state);
+            window.dispatchEvent(new CustomEvent('opiumbite:lifecycle-resume'));
+            finishInjectedLoader(screen, startedAt);
+            refreshStarted = false;
         });
     }
 

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="mobile-lifecycle.css?v=2">
-    <script src="mobile-lifecycle.js?v=2"></script>
+    <link rel="stylesheet" href="mobile-lifecycle.css?v=3">
+    <script src="mobile-lifecycle.js?v=3"></script>
     <title>Product Overview - Opium Bite</title>
     <link rel="icon" type="image/png" href="media/logo.png">
     <!-- Add Google Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=16">
+    <link rel="stylesheet" href="styles.css?v=23">
     <style>
         body {
             margin: 0;
@@ -240,9 +240,9 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="collection-header.css?v=7">
-    <link rel="stylesheet" href="translation.css?v=1">
-    <script src="translation.js?v=1" defer></script>
+    <link rel="stylesheet" href="collection-header.css?v=9">
+    <link rel="stylesheet" href="translation.css?v=2">
+    <script src="translation.js?v=2" defer></script>
 </head>
 <body class="collection-page">
     <header id="main-header">
@@ -280,7 +280,6 @@
                 <a href="about.html" id="about-link">ABOUT US</a>
             </div>
             <div class="icons" aria-hidden="true">
-                <span class="material-symbols-outlined">search</span>
             </div>
         </nav>
     </header>
@@ -328,9 +327,7 @@
                 <h3>About Us</h3>
                 <p>We craft premium custom grillz and jewelry for those who demand excellence. Each piece is handmade with precision and care.</p>
                 <div class="social-links">
-                    <a href="#" aria-label="Facebook"><span class="material-symbols-outlined">facebook</span></a>
                     <a href="https://www.instagram.com/opium.bite/" aria-label="Instagram"><span class="material-symbols-outlined">photo_camera</span></a>
-                    <a href="#" aria-label="YouTube"><span class="material-symbols-outlined">smart_display</span></a>
                 </div>
             </div>
             <div class="footer-column">
@@ -364,10 +361,15 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Parse URL parameters
             const urlParams = new URLSearchParams(window.location.search);
-            const name = urlParams.get('name') || 'Custom Item';
-            const price = urlParams.get('price') || 'Contact for Price';
-            const img = urlParams.get('img') || 'media/ggz.png';
-            const category = (urlParams.get('category') || '').toLowerCase();
+            const safeText = (value, fallback, maxLength) => {
+                const normalized = (value || '').trim().replace(/[\u0000-\u001f\u007f]/g, '');
+                return (normalized || fallback).slice(0, maxLength);
+            };
+            const safeImage = value => /^media\/[a-z0-9._-]+$/i.test(value || '') ? value : 'media/ggz.png';
+            const name = safeText(urlParams.get('name'), 'Custom Item', 120);
+            const price = safeText(urlParams.get('price'), 'Contact for Price', 40);
+            const img = safeImage(urlParams.get('img'));
+            const category = safeText(urlParams.get('category'), '', 80).toLowerCase();
 
             // Set UI elements
             document.getElementById('product-name').textContent = name;
@@ -441,9 +443,27 @@
                 `;
             }
 
+            const contactButton = document.getElementById('contact-us-btn');
+            function updateContactLink() {
+                const selections = Array.from(optionsContainer.querySelectorAll('select'))
+                    .map(select => select.value ? select.labels[0].textContent + ': ' + select.options[select.selectedIndex].text : '')
+                    .filter(Boolean);
+                const params = new URLSearchParams({ product: name, price: price });
+                if (selections.length) params.set('details', selections.join(', '));
+                contactButton.href = 'contact.html?' + params.toString() + '#contact-form';
+            }
+            optionsContainer.addEventListener('change', updateContactLink);
+            updateContactLink();
+
             // --- Recently Viewed Logic ---
             const maxHistory = 10;
-            let recentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+            let recentlyViewed = [];
+            try {
+                const storedHistory = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+                if (Array.isArray(storedHistory)) recentlyViewed = storedHistory;
+            } catch (error) {
+                // Ignore corrupt or unavailable local history.
+            }
             
             // Create current item object
             const currentItem = {
@@ -454,7 +474,7 @@
             };
 
             // Remove if it already exists to move it to the front
-            recentlyViewed = recentlyViewed.filter(item => item.name !== currentItem.name);
+            recentlyViewed = recentlyViewed.filter(item => item && item.name !== currentItem.name);
             
             // Add to the front
             recentlyViewed.unshift(currentItem);
@@ -465,28 +485,42 @@
             }
             
             // Save back
-            localStorage.setItem('recentlyViewed', JSON.stringify(recentlyViewed));
+            try {
+                localStorage.setItem('recentlyViewed', JSON.stringify(recentlyViewed));
+            } catch (error) {
+                // Recently viewed remains optional when storage is unavailable.
+            }
 
             // Render Carousel (excluding the currently viewed item)
             const rvTrack = document.getElementById('rv-track');
             const rvSection = document.getElementById('recently-viewed-section');
-            const otherItems = recentlyViewed.filter(item => item.name !== currentItem.name);
+            const otherItems = recentlyViewed.filter(item => item && item.name !== currentItem.name);
 
             if (otherItems.length > 0) {
                 rvSection.style.display = 'block';
                 otherItems.forEach(item => {
-                    const url = `product.html?name=${encodeURIComponent(item.name)}&price=${encodeURIComponent(item.price)}&img=${encodeURIComponent(item.img)}&category=${encodeURIComponent(item.category)}`;
+                    const itemName = safeText(item && item.name, 'Custom Item', 120);
+                    const itemPrice = safeText(item && item.price, 'Contact for Price', 40);
+                    const itemImage = safeImage(item && item.img);
+                    const itemCategory = safeText(item && item.category, '', 80);
+                    const url = `product.html?name=${encodeURIComponent(itemName)}&price=${encodeURIComponent(itemPrice)}&img=${encodeURIComponent(itemImage)}&category=${encodeURIComponent(itemCategory)}`;
                     
                     const card = document.createElement('a');
                     card.href = url;
                     card.className = 'rv-card';
-                    card.innerHTML = `
-                        <img src="${item.img}" alt="${item.name}">
-                        <div class="rv-card-info">
-                            <h3>${item.name}</h3>
-                            <div class="price">${item.price}</div>
-                        </div>
-                    `;
+                    const cardImage = document.createElement('img');
+                    const cardInfo = document.createElement('div');
+                    const cardName = document.createElement('h3');
+                    const cardPrice = document.createElement('div');
+                    cardImage.src = itemImage;
+                    cardImage.alt = itemName;
+                    cardImage.loading = 'lazy';
+                    cardInfo.className = 'rv-card-info';
+                    cardName.textContent = itemName;
+                    cardPrice.className = 'price';
+                    cardPrice.textContent = itemPrice;
+                    cardInfo.append(cardName, cardPrice);
+                    card.append(cardImage, cardInfo);
                     rvTrack.appendChild(card);
                 });
                 
@@ -497,28 +531,8 @@
                 document.getElementById('rv-right').addEventListener('click', () => {
                     rvTrack.scrollBy({ left: 220, behavior: 'smooth' });
                 });
-            }
-
-            // Shrinking header on scroll
-            const header = document.getElementById('main-header');
-            let lastScrollPosition = 0;
-            window.addEventListener('scroll', function() {
-                const currentScrollPosition = window.pageYOffset;
-                if (Math.abs(currentScrollPosition - lastScrollPosition) > 50) {
-                    if (currentScrollPosition > lastScrollPosition && currentScrollPosition > 100) {
-                        header.classList.add('shrink');
-                    } else {
-                        if (currentScrollPosition < 100) {
-                            header.classList.remove('shrink');
-                        } else {
-                            header.classList.add('shrink');
-                        }
-                    }
-                    lastScrollPosition = currentScrollPosition;
-                }
-            });
-        });
+            }        });
     </script>
-    <script src="site-chrome.js?v=2" defer></script>
+    <script src="site-chrome.js?v=4" defer></script>
 </body>
 </html>

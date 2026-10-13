@@ -33,9 +33,10 @@
     #main-header .language-toggle {
         position: absolute;
         top: 50%;
-        right: 40px;
+        right: 20px;
         transform: translateY(-50%);
-        min-width: 48px;
+        min-width: 52px;
+        height: 44px;
         padding: 0 6px;
         z-index: 104;
     }
