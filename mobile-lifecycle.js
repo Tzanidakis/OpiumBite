@@ -4,7 +4,10 @@
     const DEVICE_QUERY = '(max-width: 1024px)';
     const STATE_KEY = 'opiumBiteLifecycleStateV1';
     const RESTORE_KEY = 'opiumBiteLifecycleRestoreV1';
-    const RESTORE_TTL = 60 * 1000;
+    // A tab may remain suspended for hours on iOS or Android. Session storage is
+    // scoped to the tab, so a one-day expiry avoids stale restores without losing
+    // the user's place after a longer lock period.
+    const RESTORE_TTL = 24 * 60 * 60 * 1000;
     const MIN_INACTIVE_TIME = 750;
     const MIN_LOADER_TIME = 900;
     const userAgent = navigator.userAgent || '';
@@ -79,11 +82,30 @@
     }
 
     function stableSelector(element) {
+        if (!element || element === document.body || element === document.documentElement) return null;
         if (element.dataset && element.dataset.scrollRestore) {
             return '[data-scroll-restore="' + escapeSelector(element.dataset.scrollRestore) + '"]';
         }
         if (element.id) return '#' + escapeSelector(element.id);
-        return null;
+
+        // Sections do not all have ids. A structural selector gives orientation
+        // changes a stable content anchor without modifying page markup.
+        const path = [];
+        let current = element;
+        while (current && current !== document.body && path.length < 12) {
+            let segment = current.tagName.toLowerCase();
+            const parent = current.parentElement;
+            if (parent) {
+                const siblings = Array.prototype.filter.call(parent.children, function (sibling) {
+                    return sibling.tagName === current.tagName;
+                });
+                if (siblings.length > 1) segment += ':nth-of-type(' + (siblings.indexOf(current) + 1) + ')';
+            }
+            path.unshift(segment);
+            current = parent;
+        }
+
+        return current === document.body ? 'body > ' + path.join(' > ') : null;
     }
 
     function captureScrollContainers() {
@@ -118,13 +140,19 @@
     }
 
     function captureState() {
+        const focusedElement = document.activeElement && document.activeElement !== document.body
+            ? stableSelector(document.activeElement)
+            : null;
+
         return {
-            url: currentUrl,
+            url: window.location.href,
             route: window.location.pathname + window.location.search + window.location.hash,
             x: window.scrollX || window.pageXOffset || 0,
             y: window.scrollY || window.pageYOffset || 0,
             anchor: captureAnchor(),
             containers: captureScrollContainers(),
+            focusedElement: focusedElement,
+            openDetails: Array.prototype.map.call(document.querySelectorAll('details[open]'), stableSelector).filter(Boolean),
             savedAt: Date.now()
         };
     }
@@ -177,7 +205,12 @@
     }
 
     function restorePosition(state) {
-        if (!state || state.url !== currentUrl) return;
+        if (!state || state.url !== window.location.href) return;
+
+        (state.openDetails || []).forEach(function (selector) {
+            const details = document.querySelector(selector);
+            if (details && details.tagName === 'DETAILS') details.open = true;
+        });
 
         window.scrollTo(state.x || 0, state.y || 0);
 
@@ -196,6 +229,18 @@
                 element.scrollLeft = position.left || 0;
             }
         });
+    }
+
+    function restoreFocus(state) {
+        if (!state || !state.focusedElement) return;
+        const element = document.querySelector(state.focusedElement);
+        if (!element || typeof element.focus !== 'function') return;
+
+        try {
+            element.focus({ preventScroll: true });
+        } catch (error) {
+            element.focus();
+        }
     }
 
     function waitForLayout() {
@@ -249,6 +294,7 @@
                     window.requestAnimationFrame(function () {
                         window.requestAnimationFrame(function () {
                             restorePosition(storedRestore);
+                            restoreFocus(storedRestore);
                             screen.dataset.restorePending = 'false';
                             if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
                             window.dispatchEvent(new CustomEvent('opiumbite:restore-complete'));
@@ -280,21 +326,31 @@
         if (formHasUnsavedWork() || hasActiveOperation()) return;
 
         const state = readStorage(STATE_KEY) || captureState();
-        if (!state || state.url !== currentUrl) return;
+        if (!state || state.url !== window.location.href) return;
+
+        state.savedAt = Date.now();
+        state.reason = 'mobile-lifecycle-return';
+        if (!writeStorage(RESTORE_KEY, state)) return;
 
         refreshStarted = true;
         const screen = ensureLoader();
-        const startedAt = performance.now();
-        screen.dataset.restorePending = 'false';
+        screen.dataset.restorePending = 'true';
 
-        // Visibility changes also happen for app switching, tab changes, and
-        // permission prompts. Rehydrate the suspended page in place instead of
-        // treating every return as a device unlock and forcing a destructive reload.
-        waitForLayout().then(function () {
-            restorePosition(state);
-            window.dispatchEvent(new CustomEvent('opiumbite:lifecycle-resume'));
-            finishInjectedLoader(screen, startedAt);
-            refreshStarted = false;
+        // visibilitychange cannot distinguish a device unlock from returning
+        // from another app. Both are valid lifecycle returns for this feature.
+        // Two frames let the existing progress overlay paint before navigation.
+        window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(function () {
+                window.setTimeout(function () {
+                    try {
+                        window.location.reload();
+                    } catch (error) {
+                        // Same-document replacement is a conservative fallback for
+                        // older WebKit builds that reject reload while resuming.
+                        window.location.replace(state.url || currentUrl);
+                    }
+                }, 80);
+            });
         });
     }
 
@@ -317,10 +373,18 @@
     });
     document.addEventListener('freeze', saveInactiveState);
     document.addEventListener('resume', scheduleReturnCheck);
-    window.addEventListener('pagehide', function () {
-        if (!refreshStarted) writeStorage(STATE_KEY, captureState());
+    window.addEventListener('pagehide', function (event) {
+        if (refreshStarted) return;
+        if (event.persisted) saveInactiveState();
+        else writeStorage(STATE_KEY, captureState());
     });
-    window.addEventListener('pageshow', scheduleReturnCheck);
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted && !wasInactive) {
+            hiddenAt = Date.now() - MIN_INACTIVE_TIME;
+            wasInactive = true;
+        }
+        scheduleReturnCheck();
+    });
     window.addEventListener('focus', scheduleReturnCheck);
     window.addEventListener('beforeunload', function () {
         if (!refreshStarted) writeStorage(STATE_KEY, captureState());
