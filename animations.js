@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const seekToScrollPosition = () => {
             item.recovering = false;
-            if (!Number.isFinite(video.duration)) return;
+            if (document.hidden || !item.visible || !Number.isFinite(video.duration)) return;
             item.ready = true;
             item.current = item.target;
             const targetTime = clamp(item.target, 0, .9995) * video.duration;
@@ -336,21 +336,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 // iOS or Android suspends the media decoder while the phone is locked.
                 video.currentTime = Math.min(targetTime + nudge, video.duration * .9995);
             } catch (error) {
-                // A later loadeddata event will retry if the decoder is not ready yet.
+                item.ready = false;
             }
 
             requestTick();
         };
 
         video.pause();
-        if (video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
+        // Metadata is enough to seek. Waiting for loadeddata here can deadlock on
+        // iOS when preload="metadata": Safari often fetches the first frame only
+        // after currentTime is assigned.
+        if (video.readyState < HTMLMediaElement.HAVE_METADATA || !Number.isFinite(video.duration)) {
             if (item.recovering) return;
             item.ready = false;
             item.recovering = true;
-            video.addEventListener('loadeddata', seekToScrollPosition, { once: true });
-            video.addEventListener('error', function resetRecovery() {
+
+            const resetRecovery = () => {
                 item.recovering = false;
-            }, { once: true });
+                video.removeEventListener('loadedmetadata', metadataReady);
+                video.removeEventListener('error', resetRecovery);
+            };
+            const metadataReady = () => {
+                resetRecovery();
+                updateTargets();
+                seekToScrollPosition();
+            };
+
+            video.addEventListener('loadedmetadata', metadataReady, { once: true });
+            video.addEventListener('error', resetRecovery, { once: true });
             video.load();
         } else {
             seekToScrollPosition();
@@ -395,6 +408,12 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('pageshow', scheduleFilmRestore);
     window.addEventListener('pagehide', suspendFilm);
     window.addEventListener('focus', scheduleFilmRestore);
+    window.addEventListener('orientationchange', scheduleFilmRestore);
+    // The mobile lifecycle restores the saved scroll position after dynamic
+    // content is ready. Re-sync the visible scrubbed clip at that final position,
+    // then once more after the loading overlay has completed its transition.
+    window.addEventListener('opiumbite:restore-complete', scheduleFilmRestore);
+    window.addEventListener('opiumbite:loader-finished', scheduleFilmRestore);
     document.addEventListener('resume', scheduleFilmRestore);
     document.addEventListener('visibilitychange', function() {
         if (document.hidden) {
