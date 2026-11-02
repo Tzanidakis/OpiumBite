@@ -217,18 +217,5 @@ document.addEventListener('DOMContentLoaded', function () {
         link.rel = 'noopener noreferrer';
     });
 
-    document.querySelectorAll('.product-item').forEach(function (item) {
-        if (item.hasAttribute('data-catalog-product')) return;
-        const name = item.querySelector('h3');
-        item.setAttribute('role', 'link');
-        item.setAttribute('tabindex', '0');
-        if (name) item.setAttribute('aria-label', 'View ' + name.textContent.trim());
-        item.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                item.click();
-            }
-        });
-    });
 
 });

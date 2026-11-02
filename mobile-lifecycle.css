@@ -27,7 +27,6 @@ html.mobile-lifecycle-pending body {
 }
 
 #loading-screen.lifecycle-refresh-screen .opening-fog,
-#loading-screen.lifecycle-refresh-screen #opening-video,
 #loading-screen.lifecycle-refresh-screen .opening-caption {
     display: none;
 }

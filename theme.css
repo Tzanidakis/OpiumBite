@@ -19,7 +19,7 @@ html[data-theme="dark"] .collections-editorial .product-info { border-color:#b8e
 /* A neutral image stage preserves transparent silver and gold product edges. */
 html[data-theme="dark"] .collections-editorial .product-summary .product-image { background:radial-gradient(ellipse,#363636,#191919); }
 html[data-theme="dark"] .collections-editorial .product-summary .product-image img { mix-blend-mode:normal; }
-html[data-theme="dark"] :is(.finish-studio,.process-heading,.signature-selection,.atelier-faq,.contact-form-section,.story-intro,.inside-finale) { background-color:#050706; }
+html[data-theme="dark"] :is(.process-heading,.signature-selection,.atelier-faq,.contact-form-section,.story-intro,.inside-finale) { background-color:#050706; }
 html[data-theme="dark"] :is(.enquiry-form-panel,.craft-grid article,.location-card,.product-overview-container,.recently-viewed-section) { background-color:#141414; border-color:#b8e8fa35; }
 html[data-theme="dark"] :is(input,select,textarea) { color-scheme:dark; }
 html[data-theme="dark"] :is(.classic-customizer select,.contact-page .form-group input,.contact-page .form-group select,.contact-page .form-group textarea) { background:#0c0c0c; color:#ede9df; border-color:#81a3b380; }

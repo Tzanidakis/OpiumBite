@@ -200,7 +200,6 @@
             document.body.insertBefore(screen, document.body.firstChild);
         }
 
-        document.getElementById('opening-video')?.pause?.();
         const skip = document.getElementById('intro-skip');
         if (skip) skip.hidden = true;
         screen.classList.remove('slide-up');
@@ -282,7 +281,7 @@
 
     function initializeRestore() {
         if (!hasPendingRestore) {
-            // The homepage already owns its first-visit video and returning-mobile loader.
+            // The homepage already owns its first-visit image intro and returning-mobile loader.
             if (!explicitMobileReload || isHomepage) return;
             const screen = ensureLoader();
             const startedAt = performance.now();

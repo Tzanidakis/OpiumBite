@@ -830,80 +830,6 @@ main {
     width: 100%;
 }
 
-.most-liked {
-    padding: 80px 0;
-    text-align: center;
-    background-color: #000;
-    width: 100%;
-    overflow: hidden;
-}
-
-.most-liked h2 {
-    font-size: 32px;
-    margin-bottom: 60px;
-    color: #c0c0c0;
-    padding: 0 20px;
-}
-
-.carousel-container {
-    position: relative;
-    width: 100%;
-    margin: 0 auto;
-    overflow: hidden;
-}
-
-.carousel {
-    display: flex;
-    transition: transform 0.5s ease;
-}
-
-.carousel-item {
-    flex: 0 0 20%;
-    min-width: 300px;
-    padding: 0 10px;
-    box-sizing: border-box;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.carousel-item img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.carousel-item h3 {
-    margin-top: 15px;
-    font-size: 20px;
-    color: #c0c0c0;
-}
-
-.carousel-nav {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    transform: translateY(-50%);
-    z-index: 10;
-}
-
-.carousel-nav button {
-    background: none;
-    border: none;
-    color: #c0c0c0;
-    font-size: 40px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 0 30px;
-}
-
-.carousel-nav button:hover {
-    color: #ffffff;
-    transform: scale(1.2);
-}
-
 .luxury-hero {
     display: flex;
     padding: 100px 5%;
@@ -1319,26 +1245,12 @@ main {
     }
 }
 
-#opening-video {
-    position: relative;
-    display: block;
-    width: min(90vw, 900px);
-    height: auto;
-    max-height: 65vh;
-    object-fit: contain;
-    background-color: #000;
-    z-index: 4;
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 42%, rgba(0, 0, 0, 0.85) 56%, transparent 78%);
-    mask-image: radial-gradient(ellipse at center, #000 42%, rgba(0, 0, 0, 0.85) 56%, transparent 78%);
-}
-
 #loading-screen.device-loading {
     min-height: 100svh;
     transition-duration: 0.55s;
 }
 
 #loading-screen.device-loading .opening-fog,
-#loading-screen.device-loading #opening-video,
 #loading-screen.device-loading .opening-caption {
     display: none;
 }
@@ -1375,13 +1287,6 @@ main {
     background: rgb(166, 223, 243);
     box-shadow: 0 0 10px rgba(166, 223, 243, 0.55);
     animation: device-loader-progress 1.1s ease-in-out infinite;
-}
-
-@media (max-width: 1024px) {
-    #opening-video {
-        width: 84vw;
-        max-height: 58svh;
-    }
 }
 
 @keyframes device-loader-progress {
@@ -1447,17 +1352,6 @@ main {
 #bite-button.typing-complete {
     border-color: #c0c0c0;
     cursor: pointer;
-}
-
-#bite-button.typing::after {
-    content: '|';
-    animation: blink 1s infinite;
-    color: #c0c0c0;
-}
-
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
 }
 
 #bite-button::before {
@@ -1790,7 +1684,7 @@ footer {
 .video-play-fallback{position:absolute;right:20px;bottom:145px;z-index:10;border:1px solid #a6dff3;background:#111e;color:#eee9dd;padding:13px 18px;font:600 13px/1.3 Arial,sans-serif;min-height:44px;cursor:pointer}
 .video-play-fallback[hidden]{display:none!important}.video-play-fallback:focus-visible{outline:2px solid #eee9dd;outline-offset:4px}
 #loading-screen .intro-play{position:relative;right:auto;bottom:auto;z-index:8;margin-top:12px}
-@media(max-width:768px){.hero-film__stage{min-height:0;height:100vh;height:100svh}.hero-film__video{filter:none;transform:none}#opening-video{min-height:180px;-webkit-mask-image:none;mask-image:none}.video-play-fallback{right:16px;bottom:145px}}
+@media(max-width:768px){.hero-film__stage{min-height:0;height:100vh;height:100svh}.hero-film__video{filter:none;transform:none}.video-play-fallback{right:16px;bottom:145px}}
 
 /* A transparent emblem replaces intro video decoding on every device. */
 #opening-logo { position:relative; z-index:4; display:block; width:min(72vw,470px); height:auto; max-height:66svh; object-fit:contain; animation:emblem-arrive 1.4s ease both; }

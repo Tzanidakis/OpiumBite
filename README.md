@@ -4,7 +4,7 @@ This is the source code for the Opium Bite custom jewelry website. This guide ex
 
 **Repository:** [Tzanidakis/OpiumBite](https://github.com/Tzanidakis/OpiumBite)  
 **Source folder used for this handoff:** `testOpium`  
-**Documentation reviewed:** 2 November 2026, against source commit `3ca48bf`.
+**Documentation reviewed:** 2 November 2026; updated after the unused-code cleanup (original handoff baseline: `3ca48bf`).
 
 The project is a static, multi-page website built with plain HTML, CSS, and browser JavaScript. There is no React application, application server, database, account system, shopping cart, or checkout in this repository. Visitors browse products, select options, and send an enquiry through an external form service. Node.js is used for building and testing, not for serving production requests.
 
@@ -21,6 +21,7 @@ The project is a static, multi-page website built with plain HTML, CSS, and brow
 - [Build and deployment](#build-and-deployment)
 - [Tests](#tests)
 - [Common development tasks](#common-development-tasks)
+- [Unused-code cleanup record](#unused-code-cleanup-record)
 - [Known limitations and handoff checks](#known-limitations-and-handoff-checks)
 
 ## Start locally
@@ -39,7 +40,7 @@ The build and test scripts use Node's built-in modules, so these commands do not
 
 Edit the HTML, CSS, and JavaScript files in the repository root, then rebuild and reload. There is no watch mode or automatic browser refresh. **Do not edit `public/` directly:** the next build deletes and recreates it. The local server does not emulate Cloudflare's extensionless redirects, custom response headers, or 404 handling; locally, use links such as `/classic.html` and `/product.html?id=classic-six`.
 
-At the handoff baseline, the build produced **81 files** and all **83 automated tests passed**. These counts describe that revision, not a permanent target.
+After the unused-code cleanup, the build produces **81 files** and all **80 automated tests pass**. Three draft-generator tests were retired with that unused feature; attachment validation and direct-send coverage remain. These counts describe this revision, not a permanent target.
 
 ## How the project connects
 
@@ -78,7 +79,7 @@ Many files intentionally return without doing anything when their target element
 
 | File | Role and connections |
 | --- | --- |
-| [`index.html`](index.html) | Homepage: logo introduction, campaign hero, collection links, scroll-controlled making-of film, finish preview, custom-piece call to action, partner locations, and FAQ. Uses `animations.js` and `atelier.js` alongside shared scripts. |
+| [`index.html`](index.html) | Homepage: logo introduction, campaign hero, collection links, scroll-controlled making-of film, custom-piece call to action, partner locations, and FAQ. Uses `animations.js` and `atelier.js` alongside shared scripts. |
 | [`about.html`](about.html) | Brand, process, and FAQ content. Uses the inside-page styling and reveal behavior. |
 | [`contact.html`](contact.html) | Enquiry form, topic controls, attachment picker, contact details, and FAQ. Inline JavaScript reads product information from the query string and prefills the message. Uses both contact scripts and `inside-pages.js`. |
 | [`grillz.html`](grillz.html) | Grillz overview with links to the Classic, Iced Out, and Opium collections. |
@@ -98,24 +99,24 @@ Header, footer, links, and some styles/behavior are repeated in HTML files. Ther
 
 | File | What it does and what depends on it |
 | --- | --- |
-| [`site-chrome.js`](site-chrome.js) | Shared header/menu behavior: current-page highlighting, shrinking header, mobile drawer, focus handling and Escape, nested collection disclosures, and language/theme control placement. Makes applicable product cards keyboard accessible and protects new-window links. Uses the header/nav markup and reacts to language changes. |
+| [`site-chrome.js`](site-chrome.js) | Shared header/menu behavior: current-page highlighting, shrinking header, mobile drawer, focus handling and Escape, nested collection disclosures, and language/theme control placement. Protects new-window links; catalog cards use native accessible anchors. Uses the header/nav markup and reacts to language changes. |
 | [`theme.js`](theme.js) | Applies saved light/dark appearance before the page paints, creates the theme button, persists the choice, and synchronizes changes between tabs. Sets `data-theme` on `<html>`; `theme.css` uses it. Default is light. |
 | [`page-entry.js`](page-entry.js) | Explicit browser refresh starts at the top and removes the fragment anchor. A valid mobile lifecycle return is exempt, so its saved position can be restored. Does not force ordinary links or cached back navigation to the top. |
 | [`mobile-lifecycle.js`](mobile-lifecycle.js) | Handles phone/tablet suspension, lock/unlock, visibility changes, and discarded pages. Saves position, scroll containers, open details, and focus; can reload after return and restore the page. Avoids automatic reload when unsaved form work or an active operation is detected. Owns its recovery loader and bounded completion timers. |
 | [`opening-intro.js`](opening-intro.js) | Opening logo image, smoke/caption interaction, dismissal and automatic exit. Creates an intro for direct inner-page openings when needed. Uses visit state to skip repeat internal navigation/reload intros and coordinates mobile loading with lifecycle restore. The intro is an image animation, not video. |
-| [`animations.js`](animations.js) | Homepage scroll-controlled film: translates scroll position into video seeking and copy transitions; pauses work offscreen/while hidden; primes and recovers suspended media and provides a user playback fallback. Also contains older typewriter, section navigation, and carousel helpers. Only active where the expected markup exists. |
-| [`atelier.js`](atelier.js) | Editorial homepage enhancements: reveal effects, finish selection preview, signature-card track controls, pointer effects, intro skip hookup when present, and the floating Create your piece link. Updates dynamic text/links that translations must also handle. |
+| [`animations.js`](animations.js) | Homepage scroll-controlled film: translates scroll position into video seeking and copy transitions; pauses work offscreen/while hidden; primes and recovers suspended media and provides a user playback fallback. Also handles homepage section highlighting and same-page navigation. The unused typewriter and old carousel were removed. |
+| [`atelier.js`](atelier.js) | Editorial homepage enhancements: reveal effects, signature-card track controls, pointer effects, intro skip hookup when present, and the floating Create your piece link. The unused finish-selector component was removed; the current homepage has no finish-selector markup. |
 | [`inside-pages.js`](inside-pages.js) | About/contact reveal effects and pointer spotlights. On contact, keeps topic buttons synchronized with the subject field and updates the message character count. |
 | [`collections.js`](collections.js) | Centers the current item in the phone collection navigation strip, adds optional collection reveal effects, and reveals focused cards for keyboard users. Does not provide product data. |
 | [`product-catalog.js`](product-catalog.js) | Main product records, prices, categories, material photo lists, option normalization, quote lookup, cover/gallery lookup, and versioned asset URLs. Exposes `window.OpiumProducts`; consumed by collection cards, product detail, tests, and build-time sitemap generation. |
 | [`product-image-revisions.js`](product-image-revisions.js) | Maps original remote image URLs to revision values. `OpiumProducts.asset()` adds `?v=...` so replacement images can refresh without changing their object paths. Does not upload or change any remote image. |
 | [`catalog-collections.js`](catalog-collections.js) | Finds a section with `data-catalog-category`, filters the catalog, and creates product cards with covers, starting prices, and product links. Refreshes labels on language changes. No matching section means no cards are created. |
-| [`product-customizer.js`](product-customizer.js) | Resolves catalog `id`, builds material/color/karat and supported stone/length controls, renders prices and material galleries, updates the product URL and metadata, and creates the enquiry URL. Handles thumbnail selection and prevents a late image response from showing the wrong material. Retains a legacy Classic-summary branch for matching older markup. |
+| [`product-customizer.js`](product-customizer.js) | Resolves catalog `id`, builds material/color/karat and supported stone/length controls, renders prices and material galleries, updates the product URL and metadata, and creates the enquiry URL. Handles thumbnail selection and prevents a late image response from showing the wrong material. Runs only for recognized catalog product detail; the unreachable collection-summary branch was removed. |
 | [`product-image-viewer.js`](product-image-viewer.js) | Makes `#product-img` open a modal photo viewer. Supports zoom, drag/pan, pinch, double tap, keyboard controls, close/focus restoration, and English/Greek labels. Uses the currently displayed product image. |
 | [`translation-data.js`](translation-data.js) | English-to-Greek dictionary exposed as `window.OPIUM_TRANSLATIONS_EL`. Add shared translated strings here. |
 | [`translation.js`](translation.js) | Creates the language control and `window.OpiumI18n`. Translates text and supported attributes, supports explicit `data-i18n-el` HTML, preserves original content and form input, observes dynamic changes, and broadcasts language changes. |
 | [`cookie-consent.js`](cookie-consent.js) | Creates optional-cookie preference controls and a footer settings button; saves the choice and exposes `OpiumConsent.allowed()`. The current source does not load optional analytics/advertising tags. Any future integration must explicitly consult consent. |
-| [`contact-attachments.js`](contact-attachments.js) | Attachment selection, drag/drop, removal, validation, and accessible status UI. Exposes selected files through `OpiumAttachments`. Also retains a MIME `.eml` draft generator tested for compatibility; that generator is not the active submission flow. |
+| [`contact-attachments.js`](contact-attachments.js) | Attachment selection, drag/drop, removal, validation, and accessible status UI. Exposes selected files through `OpiumAttachments`. The unused MIME `.eml` draft generator was removed; enquiries use the direct-send flow. |
 | [`contact-send.js`](contact-send.js) | Reads validated selected files, creates real multipart attachment inputs, marks the form busy, and submits it natively to FormSubmit. Restores usable controls when returning from the provider and preserves the form when attachment preparation fails. Does not itself confirm email delivery. |
 
 ### Inline code still matters
@@ -124,7 +125,7 @@ Not all logic is in separate `.js` files. In particular:
 
 - `contact.html` reads `product`, `price`, and `details` query parameters, limits their lengths, and constructs a translated initial enquiry message.
 - `product.html` has a fallback for unrecognized/missing catalog IDs, with bounded text and restricted image sources, plus category-specific legacy controls.
-- Some collection pages retain older inline card-navigation handlers. Read the page as well as the shared script before changing its click behavior.
+- Collection cards are native links created by `catalog-collections.js`. The obsolete inline click handlers were removed because catalog cards always bypassed them and Coming soon pages contained no cards.
 
 Search `<script>` blocks when tracing a feature; avoid adding a second handler for something already handled inline.
 
@@ -135,7 +136,7 @@ CSS is layered through multiple `<link>` tags and inline `<style>` blocks. Later
 | File | Responsibility |
 | --- | --- |
 | [`styles.css`](styles.css) | Original shared foundation: page layout, header/navigation, intro, homepage sections, cards, footer, responsive behavior, and general accessibility rules. |
-| [`atelier.css`](atelier.css) | Editorial design layer: colors, campaign heroes, buttons, collection previews, finish display, signature track, floating enquiry link, intro decoration, and responsive overrides. Contains shared rules as well as homepage rules. |
+| [`atelier.css`](atelier.css) | Editorial design layer: colors, campaign heroes, buttons, collection previews, signature track, floating enquiry link, intro decoration, and responsive overrides. Contains shared rules as well as homepage rules. |
 | [`navigation.css`](navigation.css) | Later navigation overrides, including phone menu layout, dropdown disclosures, preference controls, and current-page presentation. Coordinate changes with `site-chrome.js`. |
 | [`collection-header.css`](collection-header.css) | Header layout/spacing for pages using `collection-page`, including product detail. |
 | [`collections.css`](collections.css) | Collection title/navigation strip, editorial cards/grid, Coming soon and commission sections, reveal states, and phone layout. |
@@ -198,7 +199,7 @@ Use `asset()` when assigning catalog photo URLs so revision-based cache refresh 
 | --- | --- |
 | `window.OpiumImageRevisions` | Revision map read by `OpiumProducts.asset()`. |
 | `window.OpiumI18n` | `t()`, `originalText()`, `refresh()`, `setLanguage()`, and `language`; used for dynamic labels, cards, options, and attachment messages. |
-| `window.OpiumAttachments` | `validateFiles()`, `createDraft()`, and a copied `files` list; submission reads it. |
+| `window.OpiumAttachments` | `validateFiles()` and a copied `files` list; submission reads it. |
 | `window.OpiumContact` | Exposes `prepareAttachments(form, files)`; also exercised in submission tests. |
 | `window.OpiumConsent` | `allowed()` returns whether optional tracking was accepted. |
 | `opiumbite:language-change` | Emitted by translation code; listeners update menus, cards, product controls/gallery labels, viewer, and attachments. |
@@ -284,7 +285,7 @@ The audit still probes some older remote video filenames as compatibility checks
 | [`tests/phone-ui.test.mjs`](tests/phone-ui.test.mjs) | Phone collection layout, thumbnail/no-arrow expectations, icon presentation, and current image-intro/video-film separation. |
 | [`tests/translations.test.mjs`](tests/translations.test.mjs) | Greek/English switching, attribute/dynamic text translation, input preservation, blocked storage, category navigation, and contact prefill. |
 | [`tests/theme.test.mjs`](tests/theme.test.mjs) | Default and saved theme, toggling, cross-tab updates, and unavailable storage. |
-| [`tests/contact-attachments.test.mjs`](tests/contact-attachments.test.mjs) | File limits/type validation and retained MIME draft generator, including Unicode/binary content and malformed/unreadable input. |
+| [`tests/contact-attachments.test.mjs`](tests/contact-attachments.test.mjs) | File limits/type validation, accepted Unicode filenames and reference formats, and rejection of executable files. Actual multipart attachment preservation is checked in the direct-send tests. |
 | [`tests/contact-send.test.mjs`](tests/contact-send.test.mjs) | Real attachment preparation, single native submission, invalid-input preservation, and controls after returning from the provider. |
 
 For a focused run, use for example `node --test tests/product-catalog.test.mjs`. Run the full suite before sharing a finished change. Deployment tests rebuild `public/` themselves.
@@ -322,6 +323,24 @@ For refresh/lock-unlock behavior, review `page-entry.js`, `mobile-lifecycle.js`,
 Copy a suitable existing page, keep required shared hooks and load order, set unique metadata/canonical, update shared navigation where appropriate, and add it to build/test page lists. Build and inspect `public/`, run tests, then verify the intended Pages preview. Hosting configuration and R2 uploads are separate from committing source changes to GitHub.
 
 Asset `<script>`/`<link>` URLs often have `?v=...` suffixes. Keep all relevant page references consistent when bumping a shared asset version; the build removes query strings when locating source files, while browsers use them for cache identity.
+
+## Unused-code cleanup record
+
+The following removals were traced against every current source page and browser script:
+
+| Removed code | Evidence that it was inactive |
+| --- | --- |
+| Typewriter helper and its caret/blink styles | No runtime caller; the image intro sets its completed caption directly. The live `typing-complete` state is retained. |
+| Old homepage carousel and dedicated styles | No `#carousel`, `.carousel-item`, or corresponding controls in current markup or generated elements. The separate signature track remains active. |
+| Finish selector and dedicated styles | No `.finish-display`, `#finish-image`, or finish-option controls in current markup or generated elements. |
+| MIME email-draft generator and retired status translations | No production caller; `contact-send.js` submits real multipart attachments to FormSubmit. Tests that only exercised the retired generator were removed. |
+| Seven collection inline click handlers and shared legacy card key handler | Every current generated product card carries `data-catalog-product` and bypassed these handlers; Coming soon pages have no product cards. Native catalog links remain keyboard accessible. |
+| Product-customizer collection-summary branch | The script is loaded only on product detail, which contains no collection summary card. The recognized-ID detail flow remains. |
+| Old gallery-arrow/material-label and obsolete card-control styles | No current markup or script creates those controls. Thumbnail navigation and photo zoom remain. |
+| Opening-video pause calls and styles | The intro uses `#opening-logo`; no runtime source creates `#opening-video`. The homepage scroll-film videos remain. |
+| Catalog script includes on the Iced Out placeholder page | The page has no `data-catalog-category` target or product cards. Its Coming soon content remains. |
+
+Uncertain shared CSS, external integrations, source media, development tools, and the reachable legacy product URL fallback were deliberately retained. This is a conservative removal of verified inactive code, not a claim that static inspection can prove every remaining CSS rule is used in every browser state. Review future candidates against dynamic DOM creation, responsive states, stored history, and old external links before deleting them.
 
 ## Known limitations and handoff checks
 

@@ -15,7 +15,7 @@ function classList() {
     };
 }
 
-function createEnvironment({ mobile = true, dirtyField = false, activeOperation = false, initialStorage = {}, navigationType = 'navigate', openingVideo = false, stalledFrames = false, readyState = 'complete' } = {}) {
+function createEnvironment({ mobile = true, dirtyField = false, activeOperation = false, initialStorage = {}, navigationType = 'navigate', stalledFrames = false, readyState = 'complete' } = {}) {
     let now = 1_000;
     let reloads = 0;
     const longTimers = [];
@@ -46,7 +46,7 @@ function createEnvironment({ mobile = true, dirtyField = false, activeOperation 
         addEventListener(type, handler) { documentListeners.set(type, handler); },
         createElement() { return { classList: classList(), dataset: {}, style: {} }; },
         elementFromPoint: null,
-        getElementById(id) { return id === 'loading-screen' ? screen : id === 'opening-video' && openingVideo ? {} : null; },
+        getElementById(id) { return id === 'loading-screen' ? screen : null; },
         querySelector(selector) {
             if (activeOperation && selector.includes('[aria-busy="true"]')) return { nodeType: 1 };
             return null;
@@ -234,9 +234,9 @@ test('ordinary mobile navigation does not show a refresh overlay',()=>{
  assert.equal(env.screen.classList.contains('lifecycle-refresh-screen'),false);
 });
 
-test('homepage lifecycle restore dismisses its loader even with an opening video', async()=>{
+test('lifecycle restore dismisses an existing intro loader', async()=>{
  const state={url:'https://example.test/about.html',y:700,savedAt:1000};
- const env=createEnvironment({openingVideo:true,initialStorage:{opiumBiteLifecycleRestoreV1:JSON.stringify(state)}});
+ const env=createEnvironment({initialStorage:{opiumBiteLifecycleRestoreV1:JSON.stringify(state)}});
  env.documentListeners.get('DOMContentLoaded')();
  await new Promise(setImmediate);
  assert.equal(env.screen.style.display,'none');
@@ -244,7 +244,7 @@ test('homepage lifecycle restore dismisses its loader even with an opening video
 });
 test('stalled load and animation frames cannot trap a returning phone behind the loader',()=>{
  const state={url:'https://example.test/about.html',y:700,savedAt:1000};
- const env=createEnvironment({openingVideo:true,stalledFrames:true,readyState:'interactive',initialStorage:{opiumBiteLifecycleRestoreV1:JSON.stringify(state)}});
+ const env=createEnvironment({stalledFrames:true,readyState:'interactive',initialStorage:{opiumBiteLifecycleRestoreV1:JSON.stringify(state)}});
  env.documentListeners.get('DOMContentLoaded')();env.runWatchdogs();
  assert.equal(env.screen.style.display,'none');
  assert.equal(env.screen.dataset.restorePending,'false');

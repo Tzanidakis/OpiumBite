@@ -52,10 +52,37 @@ test('dynamic navigation labels stay translated when a menu opens',()=>{
 test('storage restrictions do not break language switching',()=>{const e=environment({blockedStorage:true});e.api.setLanguage('el');assert.equal(e.document.documentElement.lang,'el');e.api.setLanguage('en');assert.equal(e.buttonText.nodeValue,'HOME');});
 test('saved language applies on load and dynamic product sizes are localized',()=>{const e=environment({saved:'el'});assert.equal(e.labelText.nodeValue,'Όνομα');assert.equal(e.api.t('Size 12'),'Μέγεθος 12');assert.equal(e.api.t('View 24K Gold Classic'),'Προβολή: Κλασικός χρυσός 24Κ');assert.equal(e.api.t('Opium Bite'),'Opium Bite');});
 test('refreshing translations does not overwrite newly entered user text',()=>{const e=environment({saved:'el'});e.input.value='Δική μου ιδέα';e.mutate();e.api.setLanguage('en');assert.equal(e.input.value,'Δική μου ιδέα');});
-test('collection navigation uses canonical categories even when titles are translated',()=>{
-    for(const [file,category] of Object.entries({'rings.html':'rings','earrings.html':'earrings','bracelets.html':'bracelets','necklaces.html':'necklaces'})){
-        const html=readFileSync(new URL('../'+file,import.meta.url),'utf8');const inline=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].at(-1)[1];let click;const location={href:''};const item={style:{},querySelector:s=>s==='h3'?{textContent:'μεταφρασμένο προϊόν'}:s==='.price'?{textContent:'$299'}:{getAttribute:()=> 'media/ring.png'},addEventListener:(name,fn)=>click=fn};
-        vm.runInNewContext(inline,{document:{addEventListener:(name,fn)=>fn(),querySelectorAll:()=>[item]},window:{location,OpiumI18n:{originalText:()=> '24K Gold Classic'}},encodeURIComponent});click.call(item);const url=new URL(location.href,'https://example.test');assert.equal(url.searchParams.get('category'),category);assert.equal(url.searchParams.get('name'),'24K Gold Classic');
+test('catalog card links keep product IDs and material choices when labels become Greek',()=>{
+    let language='en';
+    const events={};
+    class Element {
+        constructor(tag){this.tag=tag;this.children=[];this.dataset={};this.attrs={};}
+        append(...children){this.children.push(...children);}
+        setAttribute(key,value){this.attrs[key]=value;}
+        querySelector(){return null;}
+    }
+    const window={addEventListener:(name,fn)=>events[name]=fn,OpiumI18n:{t:text=>language==='el'?'Ελληνικά '+text:text,refresh(){}}};
+    const context={window,URL,URLSearchParams,Intl};
+    vm.runInNewContext(readFileSync(new URL('../product-catalog.js',import.meta.url),'utf8'),context);
+    for(const [file,category] of Object.entries({'classic.html':'classic','capital-custom.html':'opium','earrings.html':'earrings','necklaces.html':'necklaces'})){
+        const html=readFileSync(new URL('../'+file,import.meta.url),'utf8');
+        assert.match(html,new RegExp('data-catalog-category="'+category+'"'));
+        const container=new Element('div'),section={dataset:{catalogCategory:category},querySelector:()=>container};
+        context.document={documentElement:{lang:'en'},querySelector:()=>section,createElement:tag=>new Element(tag)};
+        language='en';
+        vm.runInNewContext(readFileSync(new URL('../catalog-collections.js',import.meta.url),'utf8'),context);
+        const products=window.OpiumProducts.products.filter(p=>p.category===category);
+        assert.equal(container.children.length,products.length);
+        const links=container.children.map(card=>card.children[1]);
+        const original=links.map(link=>link.href);
+        language='el';context.document.documentElement.lang='el';events['opiumbite:language-change']();
+        links.forEach((link,index)=>{
+            assert.equal(link.href,original[index]);
+            const url=new URL(link.href,'https://example.test');
+            assert.equal(url.searchParams.get('id'),products[index].id);
+            assert.equal(url.searchParams.get('material'),'silver');
+            assert.match(link.attrs['aria-label'],/^Ελληνικά View /);
+        });
     }
 });
 

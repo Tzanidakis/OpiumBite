@@ -207,9 +207,6 @@ window.OPIUM_TRANSLATIONS_EL = Object.assign(Object.fromEntries([
   "General Inquiry": "Γενική ερώτηση",
   "Collaboration": "Συνεργασία",
   "Message": "Μήνυμα",
-  "Open email draft": "Άνοιγμα προσχεδίου email",
-  "Your email app will open with this message as a draft.": "Η εφαρμογή email θα ανοίξει με το μήνυμά σου ως προσχέδιο.",
-  "Opening your email app. Review the draft there before sending.": "Ανοίγει η εφαρμογή email. Έλεγξε το προσχέδιο πριν το στείλεις.",
   "03 / Before we begin": "03 / Πριν ξεκινήσουμε",
   "How long does it take to make custom grillz?": "Πόσο χρόνο χρειάζεται η κατασκευή custom grillz;",
   "What materials do you use?": "Τι υλικά χρησιμοποιείτε;",
@@ -336,20 +333,12 @@ Object.assign(window.OPIUM_TRANSLATIONS_EL, {
   "Attachments": "Συνημμένα",
   "Attach reference files": "Επισύναψη αρχείων αναφοράς",
   "Choose files or drop them here": "Επίλεξε αρχεία ή σύρε τα εδώ",
-  "Images, videos, PDFs, documents, 3D files or ZIPs. Up to 5 files, 10 MB each, 15 MB total.": "Εικόνες, βίντεο, PDF, έγγραφα, αρχεία 3D ή ZIP. Έως 5 αρχεία, 10 MB το καθένα, 15 MB συνολικά.",
   "Selected attachments": "Επιλεγμένα συνημμένα",
   "Remove attachment": "Αφαίρεση συνημμένου",
-  "With attachments, your message downloads as an email draft (.eml). Open it in a compatible email app to review and send. Files stay on your device until you send.": "Με συνημμένα, το μήνυμά σου κατεβαίνει ως προσχέδιο email (.eml). Άνοιξέ το σε συμβατή εφαρμογή email για έλεγχο και αποστολή. Τα αρχεία παραμένουν στη συσκευή σου μέχρι να το στείλεις.",
-  "Files attached to your draft.": "Τα αρχεία προστέθηκαν στο προσχέδιο.",
-  "Download draft with files": "Λήψη προσχεδίου με αρχεία",
   "Choose up to 5 files.": "Επίλεξε έως 5 αρχεία.",
   "Choose an image, video, PDF, document, 3D file or ZIP.": "Επίλεξε εικόνα, βίντεο, PDF, έγγραφο, αρχείο 3D ή ZIP.",
   "Empty files cannot be attached. Choose another file.": "Δεν επιτρέπονται κενά αρχεία. Επίλεξε άλλο αρχείο.",
   "Each file must be 10 MB or smaller.": "Κάθε αρχείο πρέπει να είναι έως 10 MB.",
-  "Attachments must be 15 MB or smaller in total.": "Τα συνημμένα πρέπει να είναι έως 15 MB συνολικά.",
-  "Preparing your email draft with attachments...": "Προετοιμάζεται το προσχέδιο email με τα συνημμένα...",
-  "Email draft downloaded. Open the .eml file in a compatible email app, review the attachments, then send it to us.": "Το προσχέδιο email κατέβηκε. Άνοιξε το αρχείο .eml σε συμβατή εφαρμογή email, έλεγξε τα συνημμένα και στείλ’ το μας.",
-  "Could not prepare the attachments. Try choosing the files again. Your message is still here.": "Δεν ήταν δυνατή η προετοιμασία των συνημμένων. Επίλεξε ξανά τα αρχεία. Το μήνυμά σου παραμένει εδώ."
 });
 
 Object.assign(window.OPIUM_TRANSLATIONS_EL, {

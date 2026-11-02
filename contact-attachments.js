@@ -15,66 +15,7 @@
         if (files.reduce((total, file) => total + file.size, 0) > MAX_TOTAL_SIZE) return 'Attachments must be 10 MB or smaller in total.';
         return '';
     }
-    function base64(bytes) {
-        let binary = '';
-        for (let i = 0; i < bytes.length; i += 8192) binary += String.fromCharCode(...bytes.subarray(i, i + 8192));
-        return btoa(binary);
-    }
-    const wrapped = value => (value.match(/.{1,76}/g) || ['']).join('\r\n');
-    const utf8 = value => new TextEncoder().encode(value);
-    // Encoded headers and RFC 2231 filenames prevent line breaks or Unicode from
-    // corrupting the email. Each file is a real MIME attachment, not a mailto link.
-    async function createDraft({ subject, body, files }) {
-        const validation = validateFiles(files);
-        if (validation) throw new Error(validation);
-        const boundary = 'opium-' + crypto.randomUUID();
-        const cleanSubject = subject.replace(/[\r\n\0]/g, ' ');
-        // Fold long RFC 2047 headers at Unicode character boundaries.
-        const subjectChunks = [];
-        let chunk = '';
-        for (const character of cleanSubject) {
-            if (utf8(chunk + character).length > 42) { subjectChunks.push(chunk); chunk = ''; }
-            chunk += character;
-        }
-        subjectChunks.push(chunk);
-        const encodedSubject = subjectChunks.map(value => '=?UTF-8?B?' + base64(utf8(value)) + '?=').join('\r\n ');
-        const parts = [
-            'To: opiumbite@gmail.com',
-            'Subject: ' + encodedSubject,
-            'X-Unsent: 1',
-            'MIME-Version: 1.0',
-            'Content-Type: multipart/mixed; boundary="' + boundary + '"',
-            '',
-            '--' + boundary,
-            'Content-Type: text/plain; charset=UTF-8',
-            'Content-Transfer-Encoding: base64',
-            '',
-            wrapped(base64(utf8(body.replace(/\r?\n/g, '\r\n'))))
-        ];
-        for (const file of files) {
-            const bytes = new Uint8Array(await file.arrayBuffer());
-            if (bytes.byteLength !== file.size) throw new Error('The selected file changed.');
-            const filename = file.name.replace(/[\r\n\0]/g, '').slice(0, 180) || 'attachment';
-            const type = /^[a-z0-9!#$&^_.+-]+\/[a-z0-9!#$&^_.+-]+$/i.test(file.type) ? file.type : 'application/octet-stream';
-            const encodedName = encodeURIComponent(filename).replace(/['()*]/g, char => '%' + char.charCodeAt(0).toString(16).toUpperCase());
-            const nameSegments = [];
-            let segment = '';
-            for (const token of encodedName.match(/%[A-F0-9]{2}|./g) || []) {
-                if (segment.length + token.length > 48) { nameSegments.push(segment); segment = ''; }
-                segment += token;
-            }
-            nameSegments.push(segment);
-            const filenameHeaders = nameSegments.map((value, index) =>
-                ' filename*' + index + '*=' + (index === 0 ? "UTF-8''" : '') + value + (index < nameSegments.length - 1 ? ';' : ''));
-            parts.push('--' + boundary, 'Content-Type: ' + type, 'Content-Transfer-Encoding: base64',
-                'Content-Disposition: attachment;',
-                ...filenameHeaders,
-                '', wrapped(base64(bytes)));
-        }
-        parts.push('--' + boundary + '--', '');
-        return parts.join('\r\n');
-    }
-    window.OpiumAttachments = { validateFiles, createDraft, get files() { return selected.slice(); } };
+    window.OpiumAttachments = { validateFiles, get files() { return selected.slice(); } };
 
     document.addEventListener('DOMContentLoaded', () => {
         const input = document.getElementById('attachments');

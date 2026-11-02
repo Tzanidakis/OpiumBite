@@ -8,23 +8,9 @@
     const product = catalog.classic;
     const params = new URLSearchParams(window.location.search);
     const detail = document.body.dataset.productPage === 'true' && params.get('id') === product.id;
-    const card = document.querySelector('[data-catalog-product="classic-six"]');
-    if (!detail && !card) return;
-    if (!detail) {
-        function renderSummary() {
-            const tr = value => window.OpiumI18n?.t(value) || value;
-            const language = document.documentElement.lang === 'el' ? 'el-GR' : 'en-IE';
-            const amount = new Intl.NumberFormat(language, { style: 'currency', currency: product.currency, maximumFractionDigits: 0 }).format(product.startingPriceMinor / 100);
-            card.querySelector('h3').textContent = product.name;
-            card.querySelector('.price').textContent = tr('Starting from') + ' ' + amount;
-            card.setAttribute('aria-label', tr('View ' + product.name));
-        }
-        renderSummary();
-        window.addEventListener('opiumbite:language-change', renderSummary);
-        return;
-    }
-    const root = detail ? document.querySelector('.product-right') : card;
-    const picture = detail ? document.getElementById('product-img') : card.querySelector('img');
+    if (!detail) return;
+    const root = document.querySelector('.product-right');
+    const picture = document.getElementById('product-img');
     const price = root.querySelector('.price');
     const contact = root.querySelector('.contact-us-btn');
     const imageContainer = picture.parentElement;
@@ -60,7 +46,7 @@
     }
     const panel = document.createElement('div');
     panel.className = 'classic-customizer';
-    const prefix = detail ? 'detail' : 'collection';
+    const prefix = 'detail';
     panel.innerHTML = `
         <div class="variant-field"><label for="${prefix}-material">Material</label>
           <select id="${prefix}-material" name="material">
@@ -97,15 +83,12 @@
         note.textContent='Starting price without diamonds. Stone options are quoted separately.';
         panel.append(note);
     }
-    if (detail) document.getElementById('options-container').append(panel);
-    else price.before(panel);
+    document.getElementById('options-container').append(panel);
     const material = panel.querySelector('[name="material"]');
     const color = panel.querySelector('[name="gold-color"]');
     const karat = panel.querySelector('[name="karat"]');
     const goldOptions = panel.querySelector('.gold-options');
-    const more = card && card.querySelector('[data-product-details]');
     let state = catalog.selection(params.get('material'), params.get('color'), params.get('karat'));
-    if (!detail) state = catalog.selection('', '', '');
     material.value = state.material;
     color.value = state.color || 'yellow';
     karat.value = state.karat || '9';
@@ -213,7 +196,6 @@
         if (diamond?.value) enquiry.set('diamond',diamond.value);
         if (lengthValue()) enquiry.set('length',lengthValue());
         contact.href = 'contact.html?' + enquiry.toString() + '#contact-form';
-        if (more) more.href = productURL();
         if (detail) {
             const url = new URL(window.location.href);
             url.search = new URLSearchParams(productURL().split('?')[1]).toString();

@@ -329,29 +329,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateTargets();
 });
 
-// Typewriter effect function
-function startTypewriterEffect(element, text) {
-    element.textContent = '';
-    element.classList.add('typing');
-    
-    let currentIndex = 0;
-    
-    function typeNextCharacter() {
-        if (currentIndex < text.length) {
-            element.textContent += text[currentIndex];
-            currentIndex++;
-            setTimeout(typeNextCharacter, 80); // 80ms delay between characters (faster)
-        } else {
-            // Typing complete
-            element.classList.remove('typing');
-            element.classList.add('typing-complete');
-        }
-    }
-    
-    // Start typing after a brief delay
-    setTimeout(typeNextCharacter, 200);
-}
-
 // Enhanced scroll header functionality (keeps existing functionality)
 document.addEventListener('DOMContentLoaded', function() {
     // Wait a bit to ensure loading animation completes
@@ -423,72 +400,5 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Carousel functionality
-        const carousel = document.getElementById('carousel');
-        const items = document.querySelectorAll('.carousel-item');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        
-        if (carousel && items.length > 0) {
-            items.forEach(item => {
-                carousel.appendChild(item.cloneNode(true));
-            });
-            
-            const itemCount = items.length;
-            let currentIndex = 0;
-            let isAnimating = false;
-
-            function getItemWidth() {
-                return carousel.querySelector('.carousel-item').getBoundingClientRect().width;
-            }
-            
-            function updateCarousel(animate = true) {
-                if (isAnimating) return;
-                isAnimating = true;
-                
-                if (animate) {
-                    carousel.style.transition = 'transform 0.5s ease';
-                } else {
-                    carousel.style.transition = 'none';
-                }
-                
-                carousel.style.transform = `translateX(-${currentIndex * getItemWidth()}px)`;
-                
-                setTimeout(() => {
-                    isAnimating = false;
-                    if (currentIndex >= itemCount) {
-                        currentIndex = 0;
-                        updateCarousel(false);
-                    } else if (currentIndex < 0) {
-                        currentIndex = itemCount - 1;
-                        updateCarousel(false);
-                    }
-                    isAnimating = false;
-                }, 500);
-            }
-            
-            if (nextBtn) {
-                nextBtn.addEventListener('click', function() {
-                    if (isAnimating) return;
-                    currentIndex++;
-                    updateCarousel();
-                });
-            }
-            
-            if (prevBtn) {
-                prevBtn.addEventListener('click', function() {
-                    if (isAnimating) return;
-                    currentIndex--;
-                    updateCarousel();
-                });
-            }
-
-            window.addEventListener('resize', function() {
-                carousel.style.transition = 'none';
-                carousel.style.transform = `translateX(-${currentIndex * getItemWidth()}px)`;
-            }, { passive: true });
-            
-            updateCarousel(false);
-        }
     }, 2000); // Wait 2 seconds for loading animation to potentially complete
 });

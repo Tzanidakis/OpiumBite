@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
             loading.style.display = 'none';
             document.getElementById('main-content').style.visibility = 'visible';
             document.body.style.removeProperty('overflow');
-            document.getElementById('opening-video')?.pause();
             skip.hidden = true;
             window.dispatchEvent(new CustomEvent('opiumbite:loader-finished'));
             document.querySelector('.atelier-hero .atelier-button')?.focus({ preventScroll: true });
@@ -50,42 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // Campaign interactions use only the site's own images and native browser APIs.
 document.addEventListener('DOMContentLoaded', () => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const finishes = {
-        gold: { image: 'media/ggz.webp?v=transparent-1', alt: 'Gold custom grillz', caption: '01 / GOLD — WARM. BOLD. TIMELESS.', link: 'classic.html', label: 'Explore classic grillz ' },
-        silver: { image: 'media/uggz.webp?v=transparent-1', alt: 'Sculptural silver custom grillz', caption: '02 / SILVER — COOL. SCULPTURAL. DISTINCT.', link: 'capital-custom.html', label: 'Explore Opium grillz ' },
-        iced: { image: 'media/dbbs.webp?v=transparent-1', alt: 'Iced out custom grillz', caption: '03 / ICED — LIGHT FROM EVERY ANGLE.', link: 'iced-out.html', label: 'Explore iced out grillz ' }
-    };
-    const display = document.querySelector('.finish-display');
-    const finishImage = document.getElementById('finish-image');
-    let animationFrame = 0;
-    if (display && finishImage) {
-        document.querySelectorAll('[data-finish].finish-option').forEach(button => {
-            button.addEventListener('click', () => {
-                const key = button.dataset.finish;
-                const choice = finishes[key];
-                if (!choice || button.getAttribute('aria-pressed') === 'true') return;
-                document.querySelectorAll('.finish-option').forEach(option => {
-                    const selected = option === button;
-                    option.classList.toggle('is-selected', selected);
-                    option.setAttribute('aria-pressed', String(selected));
-                });
-                finishImage.src = choice.image;
-                finishImage.alt = choice.alt;
-                display.dataset.finish = key;
-                document.getElementById('finish-name').textContent = choice.caption;
-                const link = document.getElementById('finish-link');
-                link.href = choice.link;
-                link.textContent = choice.label;
-                const arrow = document.createElement('span');
-                arrow.innerHTML = '<svg class="ui-symbol" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg>';
-                arrow.setAttribute('aria-hidden', 'true');
-                link.append(arrow);
-                display.classList.remove('is-switching');
-                cancelAnimationFrame(animationFrame);
-                animationFrame = requestAnimationFrame(() => display.classList.add('is-switching'));
-            });
-        });
-    }
     const track = document.getElementById('signature-track');
     if (track) {
         const previous = document.getElementById('signature-prev');

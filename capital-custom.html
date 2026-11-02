@@ -5,8 +5,8 @@
     <script src="theme.js?v=2"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="page-entry.js?v=1"></script>
-    <link rel="stylesheet" href="mobile-lifecycle.css?v=diamond-blue-2">
-    <script src="mobile-lifecycle.js?v=unlock-1"></script>
+    <link rel="stylesheet" href="mobile-lifecycle.css?v=cleanup-1">
+    <script src="mobile-lifecycle.js?v=cleanup-1"></script>
     <title>Opium Sculptural Grillz Collection | Opium Bite</title>
     <meta name="description" content="Explore sculptural Opium grillz, including Tribal. Browse material galleries, choose silver or gold and discover starting prices for custom designs.">
     <link rel="canonical" href="https://opiumbite.com/capital-custom">
@@ -382,21 +382,21 @@
         }
     </style>
     <link rel="stylesheet" href="collection-header.css?v=diamond-blue-2">
-    <link rel="stylesheet" href="translation.css?v=diamond-blue-2">
-    <script src="translation-data.js?v=phone-tools-1" defer></script>
+    <link rel="stylesheet" href="translation.css?v=cleanup-1">
+    <script src="translation-data.js?v=cleanup-1" defer></script>
     <script src="translation.js?v=phone-2" defer></script>
-    <link rel="stylesheet" href="atelier.css?v=soft-hero-1">
-    <script src="atelier.js?v=finish-arrow-1" defer></script>
+    <link rel="stylesheet" href="atelier.css?v=cleanup-1">
+    <script src="atelier.js?v=cleanup-1" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="collections.css?v=diamond-blue-2">
     <script src="collections.js?v=phone-horizontal-1" defer></script>
     <link rel="stylesheet" href="cookie-consent.css?v=diamond-blue-2">
     <script src="cookie-consent.js?v=1" defer></script>
-    <link rel="stylesheet" href="theme.css?v=diamond-blue-2">
+    <link rel="stylesheet" href="theme.css?v=cleanup-1">
 <script src="product-image-revisions.js?v=iced-refresh-nov2-2" defer></script>
     <script src="product-catalog.js?v=iced-refresh-nov2-2" defer></script>
 <script src="catalog-collections.js?v=r2-catalog-nov2-1" defer></script>
-<link rel="stylesheet" href="product-customizer.css?v=pendant-options-1">
+<link rel="stylesheet" href="product-customizer.css?v=cleanup-1">
     <script src="opening-intro.js?v=home-film-2" defer></script>
     <link rel="stylesheet" href="navigation.css?v=current-page-2">
 </head>
@@ -475,25 +475,6 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Product item click redirection
-            const productItems = document.querySelectorAll('.product-item');
-            productItems.forEach(item => {
-                if (item.hasAttribute?.('data-catalog-product')) return;
-                item.style.cursor = 'pointer';
-                item.addEventListener('click', function() {
-                    const productName = window.OpiumI18n?.originalText(this.querySelector('h3')) || this.querySelector('h3').textContent;
-                    const productPrice = this.querySelector('.price').textContent;
-                    const productImg = this.querySelector('img').getAttribute('src');
-                    const category = 'opium';
-                    
-                    const url = `product.html?name=${encodeURIComponent(productName)}&price=${encodeURIComponent(productPrice)}&img=${encodeURIComponent(productImg)}&category=${encodeURIComponent(category)}`;
-                    window.location.href = url;
-                });
-            });
-        });
-    </script>
-    <script src="site-chrome.js?v=current-page-2" defer></script>
+    <script src="site-chrome.js?v=cleanup-1" defer></script>
 </body>
 </html>

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
-const source=readFileSync(new URL('../animations.js',import.meta.url),'utf8').split('// Typewriter effect function')[0];
+const source=readFileSync(new URL('../animations.js',import.meta.url),'utf8').split('// Enhanced scroll header functionality')[0];
 function filmEnvironment({rejectPlayback=false}={}){
     let writes=0,seeks=0,next=0,loads=0,plays=0;
     const events=new Map(),frames=new Map(),timers=new Map();
