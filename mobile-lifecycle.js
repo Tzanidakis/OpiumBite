@@ -34,7 +34,11 @@
         (restoredAfterDiscard || Date.now() - storedRestore.savedAt < RESTORE_TTL)
     );
 
-    if (hasPendingRestore) {
+    const navigationEntry = performance.getEntriesByType?.('navigation')[0];
+    const explicitMobileReload = isPhoneOrTablet && (navigationEntry?.type === 'reload' || (!navigationEntry && performance.navigation?.type === 1));
+    const isHomepage = /(?:^|\/)index\.html$/.test(window.location.pathname) || window.location.pathname === '/';
+
+    if (hasPendingRestore || (explicitMobileReload && !isHomepage)) {
         document.documentElement.classList.add('mobile-lifecycle-pending');
         if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     } else if (storedRestore) {
@@ -190,12 +194,15 @@
             screen = document.createElement('div');
             screen.id = 'loading-screen';
             screen.innerHTML = '<div class="device-loader" role="status" aria-label="Loading">' +
-                '<span class="device-loader__label">LOADING</span>' +
+                '<span class="device-loader__label">Loading</span>' +
                 '<span class="device-loader__track" aria-hidden="true"><span class="device-loader__bar"></span></span>' +
                 '</div>';
             document.body.insertBefore(screen, document.body.firstChild);
         }
 
+        document.getElementById('opening-video')?.pause?.();
+        const skip = document.getElementById('intro-skip');
+        if (skip) skip.hidden = true;
         screen.classList.remove('slide-up');
         screen.classList.add('device-loading', 'lifecycle-refresh-screen');
         screen.style.display = 'flex';
@@ -246,7 +253,7 @@
     function waitForLayout() {
         const fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready.catch(function () {}) : Promise.resolve();
         const imagesReady = Promise.allSettled(Array.prototype.map.call(document.images, function (image) {
-            if (image.complete) return Promise.resolve();
+            if (image.complete || image.loading === 'lazy') return Promise.resolve();
             if (typeof image.decode === 'function') return image.decode().catch(function () {});
             return new Promise(function (resolve) {
                 image.addEventListener('load', resolve, { once: true });
@@ -264,6 +271,9 @@
             screen.classList.add('slide-up');
             window.setTimeout(function () {
                 screen.style.display = 'none';
+                const content = document.getElementById('main-content') || document.querySelector('main');
+                if (content) content.style.visibility = 'visible';
+                document.body.style?.removeProperty('overflow');
                 document.body.classList.remove('mobile-lifecycle-locked');
                 window.dispatchEvent(new CustomEvent('opiumbite:loader-finished'));
             }, 550);
@@ -271,17 +281,47 @@
     }
 
     function initializeRestore() {
-        if (!hasPendingRestore) return;
+        if (!hasPendingRestore) {
+            // The homepage already owns its first-visit video and returning-mobile loader.
+            if (!explicitMobileReload || isHomepage) return;
+            const screen = ensureLoader();
+            const startedAt = performance.now();
+            document.documentElement.classList.remove('mobile-lifecycle-pending');
+            let finished = false;
+            const complete = () => { if (finished) return; finished = true; finishInjectedLoader(screen, startedAt); };
+            // Do not block refresh forever on a slow image, font or external resource.
+            window.setTimeout(complete, 5000);
+            waitForLayout().then(complete);
+            return;
+        }
         removeStorage(RESTORE_KEY);
         const screen = ensureLoader();
         const startedAt = performance.now();
         document.documentElement.classList.remove('mobile-lifecycle-pending');
 
+        let restoreFinished = false;
+        const completeRestore = function () {
+            if (restoreFinished) return;
+            restoreFinished = true;
+            restorePosition(storedRestore);
+            restoreFocus(storedRestore);
+            screen.dataset.restorePending = 'false';
+            if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
+            window.dispatchEvent(new CustomEvent('opiumbite:restore-complete'));
+            // This lifecycle flow owns the loader, even on pages with an intro video.
+            finishInjectedLoader(screen, startedAt);
+        };
+        // Load events and animation frames may be delayed after a phone unlock.
+        window.setTimeout(completeRestore, 6000);
+        let restoreStarted = false;
         const begin = function () {
+            if (restoreStarted || restoreFinished) return;
+            restoreStarted = true;
             waitForLayout().then(function () {
                 const restoreDelays = [0, 120, 350, 650];
 
                 function settlePosition(index) {
+                    if (restoreFinished) return;
                     restorePosition(storedRestore);
 
                     if (index < restoreDelays.length - 1) {
@@ -293,15 +333,7 @@
 
                     window.requestAnimationFrame(function () {
                         window.requestAnimationFrame(function () {
-                            restorePosition(storedRestore);
-                            restoreFocus(storedRestore);
-                            screen.dataset.restorePending = 'false';
-                            if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
-                            window.dispatchEvent(new CustomEvent('opiumbite:restore-complete'));
-
-                            if (!document.getElementById('opening-video')) {
-                                finishInjectedLoader(screen, startedAt);
-                            }
+                            completeRestore();
                         });
                     });
                 }
@@ -311,7 +343,10 @@
         };
 
         if (document.readyState === 'complete') begin();
-        else window.addEventListener('load', begin, { once: true });
+        else {
+            window.addEventListener('load', begin, { once: true });
+            window.setTimeout(begin, 2500);
+        }
     }
 
     function refreshAfterReturn() {
@@ -336,22 +371,22 @@
         const screen = ensureLoader();
         screen.dataset.restorePending = 'true';
 
-        // visibilitychange cannot distinguish a device unlock from returning
-        // from another app. Both are valid lifecycle returns for this feature.
-        // Two frames let the existing progress overlay paint before navigation.
-        window.requestAnimationFrame(function () {
-            window.requestAnimationFrame(function () {
-                window.setTimeout(function () {
-                    try {
-                        window.location.reload();
-                    } catch (error) {
-                        // Same-document replacement is a conservative fallback for
-                        // older WebKit builds that reject reload while resuming.
-                        window.location.replace(state.url || currentUrl);
-                    }
-                }, 80);
-            });
-        });
+        // Do not wait on animation frames: WebKit can suspend them during unlock.
+        window.setTimeout(function () {
+            try { window.location.reload(); }
+            catch (error) {
+                try { window.location.replace(state.url || currentUrl); }
+                catch (_) { finishInjectedLoader(screen, performance.now()); refreshStarted = false; }
+            }
+        }, 80);
+        // If the browser ignores navigation while resuming, release the old page.
+        window.setTimeout(function () {
+            if (document.visibilityState === 'hidden') return;
+            removeStorage(RESTORE_KEY);
+            screen.dataset.restorePending = 'false';
+            finishInjectedLoader(screen, performance.now());
+            refreshStarted = false;
+        }, 6500);
     }
 
     function scheduleReturnCheck() {

@@ -1,0 +1,17 @@
+# Recreated by npm run build
+/public/
+.DS_Store
+
+/node_modules/
+/.wrangler/
+
+# Local previews, reports, and scratch files
+/output/
+/tmp/
+
+# Local credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key

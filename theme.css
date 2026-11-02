@@ -1,0 +1,48 @@
+/* Light intentionally inherits the original site without recoloring it. */
+.theme-toggle { display:inline-flex; align-items:center; justify-content:center; gap:7px; flex-shrink:0; align-self:center; margin-left:14px; min-height:36px; padding:7px 11px; border:1px solid #a6dff370; border-radius:24px; background:#141414; color:#eeeae1; cursor:pointer; font:10px/1.4 Arial,sans-serif; letter-spacing:.03em; }
+.theme-toggle>span:first-child { font-size:18px; }
+.theme-toggle[aria-pressed="true"] { background:#a6dff3; color:#111111; }
+.theme-toggle:focus-visible { outline:2px solid #aad2e4; outline-offset:4px; }
+html[data-theme="dark"] { color-scheme:dark; background:#050706; }
+html[data-theme="dark"] body { --atelier-ink:#050706; --atelier-paper:#ede9df; --atelier-gold:#b8e8fa; --atelier-line:#b8e8fa30; --inside-muted:#b4b4b4; --collection-paper:#ede9df; background:#050706; color:#ede9df; }
+html[data-theme="dark"] #main-header,html[data-theme="dark"] #main-header.shrink { background:#050706f5; border-bottom-color:#b8e8fa30; }
+html[data-theme="dark"] footer { background:#050706; border-top:1px solid #b8e8fa30; }
+html[data-theme="dark"] :is(.campaign,.story-diptych,.inside-band,.atelier-ribbon) { background:#161616; color:#ede9df; border-block:1px solid #b8e8fa30; }
+html[data-theme="dark"] :is(.campaign,.story-diptych) :is(h2,.atelier-text-link) { color:#ede9df; }
+html[data-theme="dark"] :is(.campaign-copy,.story-diptych__copy)>p:not(.eyebrow) { color:#b4b4b4; }
+html[data-theme="dark"] :is(.campaign,.story-diptych) :is(em,.eyebrow,.campaign-signature,.story-signature) { color:#b8e8fa; }
+html[data-theme="dark"] .collections-editorial :is(.product-carousel,.grillz-page>.categories) { background:#0f0f0f; color:#ede9df; }
+html[data-theme="dark"] .collections-editorial :is(.product-carousel h2,.categories h2,.product-info h3,.product-item,.product-info) { color:#ede9df; }
+html[data-theme="dark"] .collections-editorial :is(.product-info .price,.collection-coming-soon>p:last-child,.collection-section-heading>a) { color:#bcbcbc; }
+html[data-theme="dark"] .collections-editorial .collection-section-heading .eyebrow { color:#b8e8fa; }
+html[data-theme="dark"] .collections-editorial .product-info { border-color:#b8e8fa30; }
+/* A neutral image stage preserves transparent silver and gold product edges. */
+html[data-theme="dark"] .collections-editorial .product-summary .product-image { background:radial-gradient(ellipse,#363636,#191919); }
+html[data-theme="dark"] .collections-editorial .product-summary .product-image img { mix-blend-mode:normal; }
+html[data-theme="dark"] :is(.finish-studio,.process-heading,.signature-selection,.atelier-faq,.contact-form-section,.story-intro,.inside-finale) { background-color:#050706; }
+html[data-theme="dark"] :is(.enquiry-form-panel,.craft-grid article,.location-card,.product-overview-container,.recently-viewed-section) { background-color:#141414; border-color:#b8e8fa35; }
+html[data-theme="dark"] :is(input,select,textarea) { color-scheme:dark; }
+html[data-theme="dark"] :is(.classic-customizer select,.contact-page .form-group input,.contact-page .form-group select,.contact-page .form-group textarea) { background:#0c0c0c; color:#ede9df; border-color:#81a3b380; }
+html[data-theme="dark"] .cookie-consent { background:#0c0c0cf5; }
+@media(max-width:768px) { .theme-toggle { position:fixed; right:76px; top:23px; margin:0; min-width:34px; min-height:34px; padding:4px 7px; z-index:110; } .theme-toggle-label { display:none; } }
+/* Keep language and theme controls separate on narrow headers. */
+@media(max-width:768px) {
+ .theme-toggle { right:100px; top:18px; min-width:44px; min-height:44px; }
+ #main-header.shrink .theme-toggle { top:8px; }
+}
+@media(max-width:400px) {
+ #main-header .logo { left:64px; right:auto; transform:none; }
+ #main-header .logo img { max-width:62px; object-fit:contain; }
+}
+/* Comfortable touch controls and no automatic input zoom in iOS Safari. */
+@media(max-width:768px) {
+ input,select,textarea,.classic-customizer select,
+ .contact-page .form-group input,.contact-page .form-group select,.contact-page .form-group textarea { font-size:16px; }
+ .gallery-arrows button,.detail-gallery-arrows button { min-width:44px;min-height:44px; }
+}
+#loading-screen { z-index:100001; }
+.intro-skip { z-index:100002; }
+@media(prefers-reduced-motion:reduce) {
+ html { scroll-behavior:auto; }
+ #loading-screen,.gallery-arrows button,.detail-gallery-arrows button { transition:none; }
+}

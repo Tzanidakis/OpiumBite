@@ -1,0 +1,9 @@
+/* Shared heading and paragraph typography, including localized copy. */
+body :is(h1,h2,h3,h4,h5,h6,p),
+body :is(h1,h2,h3,h4,h5,h6,p) :is(a,span,em,strong,small),
+body :is(.inside-note,.inside-lead,.production-lead,.collection-title,.product-title,.product-price,.eyebrow) {
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+}
+/* Preserve the dedicated icon font within text. */
+body .material-symbols-outlined { font-family: "Material Symbols Outlined" !important; }
+.about-page .production-workflow li::before { display:none; }

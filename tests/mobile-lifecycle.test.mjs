@@ -15,9 +15,10 @@ function classList() {
     };
 }
 
-function createEnvironment({ mobile = true, dirtyField = false, activeOperation = false, initialStorage = {} } = {}) {
+function createEnvironment({ mobile = true, dirtyField = false, activeOperation = false, initialStorage = {}, navigationType = 'navigate', openingVideo = false, stalledFrames = false, readyState = 'complete' } = {}) {
     let now = 1_000;
     let reloads = 0;
+    const longTimers = [];
     const documentListeners = new Map();
     const windowListeners = new Map();
     const storage = new Map(Object.entries(initialStorage));
@@ -39,13 +40,13 @@ function createEnvironment({ mobile = true, dirtyField = false, activeOperation 
         fonts: null,
         hidden: false,
         images: [],
-        readyState: 'complete',
+        readyState,
         visibilityState: 'visible',
         wasDiscarded: false,
         addEventListener(type, handler) { documentListeners.set(type, handler); },
         createElement() { return { classList: classList(), dataset: {}, style: {} }; },
         elementFromPoint: null,
-        getElementById(id) { return id === 'loading-screen' ? screen : null; },
+        getElementById(id) { return id === 'loading-screen' ? screen : id === 'opening-video' && openingVideo ? {} : null; },
         querySelector(selector) {
             if (activeOperation && selector.includes('[aria-busy="true"]')) return { nodeType: 1 };
             return null;
@@ -79,10 +80,10 @@ function createEnvironment({ mobile = true, dirtyField = false, activeOperation 
         matchMedia(query) {
             return { matches: mobile && (query.includes('pointer: coarse') || query.includes('max-width')) };
         },
-        requestAnimationFrame(callback) { callback(); return 1; },
+        requestAnimationFrame(callback) { if (!stalledFrames) callback(); return 1; },
         scrollBy(x, y) { this.scrollX += x; this.scrollY += y; },
         scrollTo(x, y) { this.scrollX = x; this.scrollY = y; },
-        setTimeout(callback) { callback(); return 1; },
+        setTimeout(callback, delay) { if (delay >= 2500) longTimers.push(callback); else callback(); return 1; },
         clearTimeout() {}
     };
 
@@ -113,7 +114,7 @@ function createEnvironment({ mobile = true, dirtyField = false, activeOperation 
             platform: mobile ? 'iPhone' : 'MacIntel',
             userAgent: mobile ? 'Mozilla/5.0 (iPhone)' : 'Mozilla/5.0 (Macintosh)'
         },
-        performance: { now: () => now },
+        performance: { now: () => now, getEntriesByType: () => [{type:navigationType}] },
         sessionStorage,
         window
     };
@@ -122,6 +123,7 @@ function createEnvironment({ mobile = true, dirtyField = false, activeOperation 
 
     return {
         document,
+        runWatchdogs() { longTimers.splice(0).forEach(fn => fn()); },
         documentListeners,
         reloads: () => reloads,
         screen,
@@ -218,4 +220,39 @@ test('a refreshed document consumes restore state and restores scroll after layo
     assert.equal(env.storage.has('opiumBiteLifecycleRestoreV1'), false);
     assert.equal(env.screen.style.display, 'none');
     assert.equal(env.document.body.classList.contains('mobile-lifecycle-locked'), false);
+});
+
+test('explicit mobile reload shows the shared loader without requiring a restore',()=>{
+ const env=createEnvironment({navigationType:'reload'});
+ assert.equal(env.document.documentElement.classList.contains('mobile-lifecycle-pending'),true);
+ env.documentListeners.get('DOMContentLoaded')();
+ assert.equal(env.screen.classList.contains('lifecycle-refresh-screen'),true);
+ assert.equal(env.document.documentElement.classList.contains('mobile-lifecycle-pending'),false);
+});
+test('ordinary mobile navigation does not show a refresh overlay',()=>{
+ const env=createEnvironment();env.documentListeners.get('DOMContentLoaded')();
+ assert.equal(env.screen.classList.contains('lifecycle-refresh-screen'),false);
+});
+
+test('homepage lifecycle restore dismisses its loader even with an opening video', async()=>{
+ const state={url:'https://example.test/about.html',y:700,savedAt:1000};
+ const env=createEnvironment({openingVideo:true,initialStorage:{opiumBiteLifecycleRestoreV1:JSON.stringify(state)}});
+ env.documentListeners.get('DOMContentLoaded')();
+ await new Promise(setImmediate);
+ assert.equal(env.screen.style.display,'none');
+ assert.equal(env.document.body.classList.contains('mobile-lifecycle-locked'),false);
+});
+test('stalled load and animation frames cannot trap a returning phone behind the loader',()=>{
+ const state={url:'https://example.test/about.html',y:700,savedAt:1000};
+ const env=createEnvironment({openingVideo:true,stalledFrames:true,readyState:'interactive',initialStorage:{opiumBiteLifecycleRestoreV1:JSON.stringify(state)}});
+ env.documentListeners.get('DOMContentLoaded')();env.runWatchdogs();
+ assert.equal(env.screen.style.display,'none');
+ assert.equal(env.screen.dataset.restorePending,'false');
+});
+test('unlock requests reload without relying on resumed animation frames',()=>{
+ const env=createEnvironment({stalledFrames:true});
+ env.document.visibilityState='hidden';env.documentListeners.get('visibilitychange')();
+ env.setNow(2000);env.document.visibilityState='visible';env.documentListeners.get('visibilitychange')();
+ assert.equal(env.reloads(),1);env.runWatchdogs();
+ assert.equal(env.screen.style.display,'none');
 });

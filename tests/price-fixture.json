@@ -1,0 +1,178 @@
+{
+  "earrings-ofi": {
+    "silver": 5000,
+    "gold": {
+      "9": 17000,
+      "14": 22000,
+      "18": 32000
+    }
+  },
+  "earrings-pussy": {
+    "silver": 5000,
+    "gold": {
+      "9": 17000,
+      "14": 22000,
+      "18": 32000
+    }
+  },
+  "grillz-classic-1-cap": {
+    "silver": 9000,
+    "gold": {
+      "9": 15000,
+      "14": 22000,
+      "18": 30000
+    }
+  },
+  "grillz-classic-1-window": {
+    "silver": 9000,
+    "gold": {
+      "9": 15000,
+      "14": 22000,
+      "18": 30000
+    }
+  },
+  "grillz-classic-6-window": {
+    "silver": 54000,
+    "gold": {
+      "9": 90000,
+      "14": 132000,
+      "18": 180000
+    }
+  },
+  "grillz-classic-cap-x-bar": {
+    "silver": 18000,
+    "gold": {
+      "9": 30000,
+      "14": 44000,
+      "18": 60000
+    }
+  },
+  "grillz-classic-down-bar": {
+    "silver": 36000,
+    "gold": {
+      "9": 60000,
+      "14": 88000,
+      "18": 120000
+    }
+  },
+  "grillz-classic-heart": {
+    "silver": 18000,
+    "gold": {
+      "9": 30000,
+      "14": 44000,
+      "18": 60000
+    }
+  },
+  "grillz-classic-rough-caps": {
+    "silver": 54000,
+    "gold": {
+      "9": 90000,
+      "14": 132000,
+      "18": 180000
+    }
+  },
+  "grillz-classic-set-window-x-vambire": {
+    "silver": 36000,
+    "gold": {
+      "9": 60000,
+      "14": 88000,
+      "18": 120000
+    }
+  },
+  "grillz-classic-window-x-bar": {
+    "silver": 18000,
+    "gold": {
+      "9": 30000,
+      "14": 44000,
+      "18": 60000
+    }
+  },
+  "grillz-classic-window-x-star": {
+    "silver": 18000,
+    "gold": {
+      "9": 30000,
+      "14": 44000,
+      "18": 60000
+    }
+  },
+  "grillz-iced-out-iced-out-window": {
+    "silver": 9000,
+    "gold": {
+      "9": 15000,
+      "14": 22000,
+      "18": 30000
+    }
+  },
+  "grillz-opium-6-cap": {
+    "silver": 27000,
+    "gold": {
+      "9": 45000,
+      "14": 66000,
+      "18": 90000
+    }
+  },
+  "grillz-opium-cross-grill": {
+    "silver": 54000,
+    "gold": {
+      "9": 90000,
+      "14": 132000,
+      "18": 180000
+    }
+  },
+  "grillz-opium-filter-cap": {
+    "silver": 27000,
+    "gold": {
+      "9": 45000,
+      "14": 66000,
+      "18": 90000
+    }
+  },
+  "grillz-opium-flame-x-cap": {
+    "silver": 18000,
+    "gold": {
+      "9": 30000,
+      "14": 44000,
+      "18": 160000
+    }
+  },
+  "grillz-opium-mak-traiball": {
+    "silver": 36000,
+    "gold": {
+      "9": 60000,
+      "14": 88000,
+      "18": 120000
+    }
+  },
+  "classic-six": {
+    "silver": 36000,
+    "gold": {
+      "9": 60000,
+      "14": 88000,
+      "18": 120000
+    }
+  },
+  "grillz-opium-xo": {
+    "silver": 54000,
+    "gold": {
+      "9": 90000,
+      "14": 132000,
+      "18": 180000
+    }
+  },
+  "grillz-opium-uzi": {
+    "silver": 36000,
+    "gold": {
+      "9": 60000,
+      "14": 88000,
+      "18": 120000
+    }
+  },
+  "grillz-opium-skull": {
+    "silver": 18000,
+    "gold": {
+      "9": 30000,
+      "14": 44000,
+      "18": 160000
+    }
+  }
+}

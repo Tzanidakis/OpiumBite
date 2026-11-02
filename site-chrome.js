@@ -5,8 +5,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!header || !hamburger || !navigation) return;
 
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const pageName = window.location.pathname.split('/').filter(Boolean).pop() || 'index';
+    const currentPage = pageName.endsWith('.html') ? pageName : pageName + '.html';
     const currentNavLinks = {
+        'index.html': 'home-link',
         'about.html': 'about-link',
         'contact.html': 'contact-link',
         'grillz.html': 'collections-link',
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             navigation.querySelectorAll('a, button, input, select, textarea').forEach(function (control) {
                 if (unavailable) {
-                    control.dataset.menuTabindex = control.getAttribute('tabindex') || '';
+                    if (control.dataset.menuTabindex === undefined) control.dataset.menuTabindex = control.getAttribute('tabindex') || '';
                     control.setAttribute('tabindex', '-1');
                 } else if (control.dataset.menuTabindex !== undefined) {
                     if (control.dataset.menuTabindex) control.setAttribute('tabindex', control.dataset.menuTabindex);
@@ -48,12 +50,104 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Move the existing controls so their settings and listeners stay intact.
+    const preferences = document.createElement('div');
+    preferences.className = 'mobile-menu-preferences';
+    preferences.setAttribute('role', 'group');
+    preferences.setAttribute('aria-label', 'Language and appearance');
+    navigation.appendChild(preferences);
+    const preferenceHomes = new Map();
+
+    function syncPreferenceLocation() {
+        const mobile = isMobileNavigation();
+        if (!mobile) syncNavigationAvailability(false);
+        [
+            '.language-toggle', '.theme-toggle'
+        ].forEach(function (selector) {
+            const control = header.querySelector(selector);
+            if (!control) return;
+            if (!preferenceHomes.has(control)) {
+                const home = document.createComment('preference control');
+                control.parentNode.insertBefore(home, control);
+                const row = document.createElement('div');
+                row.className = 'menu-preference-row';
+                preferences.appendChild(row);
+                preferenceHomes.set(control, { home, row });
+            }
+            const { home, row } = preferenceHomes.get(control);
+            if (mobile && control.parentNode !== row) row.appendChild(control);
+            else if (!mobile && control.parentNode !== home.parentNode) {
+                home.parentNode.insertBefore(control, home.nextSibling);
+            }
+        });
+        syncNavigationAvailability(navigation.classList.contains('active'));
+    }
+    // The language control initializes after this file's DOMContentLoaded handler.
+    window.addEventListener('opiumbite:language-change', syncPreferenceLocation);
+    window.addEventListener('load', syncPreferenceLocation, { once: true });
+    window.requestAnimationFrame(syncPreferenceLocation);
+
+    // On phones each collection group is a disclosure, not a hover-only menu.
+    const dropdowns = Array.from(navigation.querySelectorAll('.dropdown, .submenu')).map((group, index) => {
+        const trigger = group.querySelector(':scope > a');
+        const panel = group.querySelector(':scope > .dropdown-content, :scope > .submenu-content');
+        if (!trigger || !panel) return null;
+        panel.id = 'navigation-panel-' + index;
+        const viewAll = document.createElement('a');
+        viewAll.className = 'mobile-collection-overview';
+        viewAll.href = trigger.getAttribute('href');
+        const root = group.classList.contains('dropdown');
+        viewAll.textContent = root ? 'View all collections' : 'View collection';
+        viewAll.setAttribute('data-i18n-el', root ? 'Όλες οι συλλογές' : 'Προβολή συλλογής');
+        panel.prepend(viewAll);
+        const item = { group, trigger, panel, expanded: false };
+        trigger.addEventListener('click', event => {
+            if (!isMobileNavigation()) return;
+            event.preventDefault();
+            item.expanded = !item.expanded;
+            if (!item.expanded) dropdowns.forEach(child => {
+                if (child !== item && panel.contains(child.group)) child.expanded = false;
+            });
+            syncDropdowns();
+        });
+        trigger.addEventListener('keydown', event => {
+            if (isMobileNavigation() && event.key === ' ') {
+                event.preventDefault();
+                trigger.click();
+            }
+        });
+        return item;
+    }).filter(Boolean);
+
+    function syncDropdowns() {
+        const mobile = isMobileNavigation();
+        dropdowns.forEach(({ trigger, panel, expanded }) => {
+            panel.hidden = mobile && !expanded;
+            if ('inert' in panel) panel.inert = mobile && !expanded;
+            if (mobile) {
+                trigger.setAttribute('role', 'button');
+                trigger.setAttribute('aria-expanded', String(expanded));
+                trigger.setAttribute('aria-controls', panel.id);
+            } else {
+                trigger.removeAttribute('role');
+                trigger.removeAttribute('aria-expanded');
+                trigger.removeAttribute('aria-controls');
+            }
+        });
+    }
+    function collapseMobileDropdowns() {
+        dropdowns.forEach(item => { item.expanded = false; });
+        syncDropdowns();
+    }
+    syncDropdowns();
+
     function setMenuOpen(isOpen, returnFocus) {
         navigation.classList.toggle('active', isOpen);
         document.body.classList.toggle('menu-open', isOpen);
         hamburger.setAttribute('aria-expanded', String(isOpen));
         hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
         hamburger.textContent = isOpen ? 'close' : 'menu';
+        if (!isOpen) collapseMobileDropdowns();
         syncNavigationAvailability(isOpen);
 
         if (isOpen) {
@@ -69,7 +163,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     navigation.addEventListener('click', function (event) {
-        if (event.target.closest('a')) setMenuOpen(false, false);
+        if (event.defaultPrevented) return;
+        if (isMobileNavigation() && event.target.closest('a')) setMenuOpen(false, false);
     });
 
     document.addEventListener('click', function (event) {
@@ -98,6 +193,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     window.addEventListener('resize', function () {
+        syncPreferenceLocation();
+        syncDropdowns();
         if (window.innerWidth > 768) setMenuOpen(false, false);
         else syncNavigationAvailability(navigation.classList.contains('active'));
     });
@@ -121,6 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.querySelectorAll('.product-item').forEach(function (item) {
+        if (item.hasAttribute('data-catalog-product')) return;
         const name = item.querySelector('h3');
         item.setAttribute('role', 'link');
         item.setAttribute('tabindex', '0');
@@ -133,43 +231,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    document.querySelectorAll('.newsletter-form').forEach(function (container, index) {
-        const input = container.querySelector('input[type="email"]');
-        const button = container.querySelector('button');
-        if (!input || !button) return;
-
-        const status = document.createElement('p');
-        const statusId = 'newsletter-status-' + index;
-        status.id = statusId;
-        status.className = 'form-status';
-        status.setAttribute('role', 'status');
-        status.setAttribute('aria-live', 'polite');
-        container.insertAdjacentElement('afterend', status);
-
-        input.required = true;
-        input.autocomplete = 'email';
-        input.setAttribute('aria-describedby', statusId);
-        button.setAttribute('type', 'button');
-
-        function subscribe() {
-            if (!input.checkValidity()) {
-                status.textContent = 'Enter a valid email address.';
-                input.reportValidity();
-                return;
-            }
-
-            status.textContent = 'Opening your email app to confirm the subscription request.';
-            const subject = encodeURIComponent('Newsletter subscription request');
-            const body = encodeURIComponent('Please add ' + input.value.trim() + ' to the Opium Bite newsletter.');
-            window.location.href = 'mailto:opiumbite@gmail.com?subject=' + subject + '&body=' + body;
-        }
-
-        button.addEventListener('click', subscribe);
-        input.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                subscribe();
-            }
-        });
-    });
 });

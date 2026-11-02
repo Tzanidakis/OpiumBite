@@ -65,3 +65,29 @@ test('new-window links prevent opener access', () => {
         }
     }
 });
+
+test('same-site fragment links point to existing anchors',()=>{
+    for(const page of pages){
+        const html=readFileSync(join(root,page),'utf8');
+        for(const match of html.matchAll(/href=["']([^"']+#[^"']+)["']/g)){
+            const reference=match[1];if(/^(https?:|mailto:|tel:)/.test(reference))continue;
+            const [path,fragment]=reference.split('#');const target=join(root,path.split('?')[0]||page);
+            const ids=[...readFileSync(target,'utf8').matchAll(/\sid=["']([^"']+)["']/g)].map(m=>m[1]);
+            assert.ok(ids.includes(fragment),`${page}: missing anchor ${reference}`);
+        }
+    }
+});
+
+test('all standalone and inline browser scripts parse successfully',async()=>{
+    const {Script}=await import('node:vm');
+    for(const file of readdirSync(root).filter(f=>f.endsWith('.js')))assert.doesNotThrow(()=>new Script(readFileSync(join(root,file),'utf8'),{filename:file}));
+    for(const page of pages){for(const match of readFileSync(join(root,page),'utf8').matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)){assert.doesNotThrow(()=>new Script(match[1],{filename:page}));}}
+});
+
+test('About includes an accessible native FAQ in both languages',()=>{
+    const html=readFileSync(join(root,'about.html'),'utf8');
+    assert.match(html,/aria-labelledby="about-faq-title"/);
+    assert.match(html,/id="about-faq-title"/);
+    assert.equal([...html.matchAll(/<details>/g)].length,5);
+    assert.equal([...html.matchAll(/<summary>/g)].length,5);
+});

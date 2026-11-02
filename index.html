@@ -2,50 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="theme.js?v=2"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="mobile-lifecycle.css?v=4">
-    <script src="mobile-lifecycle.js?v=4"></script>
-    <title>Custom Grillz</title>
+    <script src="page-entry.js?v=1"></script>
+    <link rel="stylesheet" href="mobile-lifecycle.css?v=diamond-blue-2">
+    <script src="mobile-lifecycle.js?v=unlock-1"></script>
+    <title>Custom Grillz &amp; Jewelry in Greece | Opium Bite</title>
+    <meta name="description" content="Custom grillz and jewelry from Opium Bite in Heraklion, Crete. Explore our designs, choose your materials and discuss a piece made for you.">
+    <link rel="canonical" href="https://opiumbite.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Opium Bite">
+    <meta property="og:title" content="Custom Grillz &amp; Jewelry in Greece | Opium Bite">
+    <meta property="og:description" content="Custom grillz and jewelry from Opium Bite in Heraklion, Crete. Explore our designs, choose your materials and discuss a piece made for you.">
+    <meta property="og:url" content="https://opiumbite.com/">
+    <meta property="og:image" content="https://opiumbite.com/media/hero-gold-atelier.webp">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/x-icon" href="media/logo.png">
     <!-- Add Google Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
     <!-- Add Bebas Neue Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
     <!-- Link to external CSS file -->
-    <link rel="stylesheet" href="styles.css?v=23">
+    <link rel="stylesheet" href="styles.css?v=diamond-blue-2">
     <!-- Link to animations JavaScript file -->
-    <script src="site-chrome.js?v=4" defer></script>
-    <script src="animations.js?v=18" defer></script>
-    <link rel="stylesheet" href="translation.css?v=2">
-    <script src="translation.js?v=2" defer></script>
+    <script src="site-chrome.js?v=current-page-2" defer></script>
+    <script src="animations.js?v=current-page-2" defer></script>
+    <link rel="stylesheet" href="translation.css?v=diamond-blue-2">
+    <script src="translation-data.js?v=phone-tools-1" defer></script>
+    <script src="translation.js?v=phone-2" defer></script>
+    <link rel="stylesheet" href="atelier.css?v=scroll-white-text-1">
+    <script src="atelier.js?v=finish-arrow-1" defer></script>
+    <link rel="stylesheet" href="cookie-consent.css?v=diamond-blue-2">
+    <script src="cookie-consent.js?v=1" defer></script>
+    <link rel="stylesheet" href="theme.css?v=diamond-blue-2">
+    <script src="opening-intro.js?v=home-film-2" defer></script>
+    <link rel="stylesheet" href="navigation.css?v=current-page-2">
+    <link rel="stylesheet" href="typography.css?v=cormorant-1">
 </head>
-<body>
+<body class="atelier-home">
+    <a class="skip-link" href="#collections">Skip to collections</a>
     <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="device-loader" role="status" aria-label="Loading">
-            <span class="device-loader__label">LOADING</span>
+            <span class="device-loader__label">Loading</span>
             <span class="device-loader__track" aria-hidden="true">
                 <span class="device-loader__bar"></span>
             </span>
         </div>
-        <div class="opening-fog opening-fog-back" aria-hidden="true"></div>
-        <div class="opening-fog opening-fog-front" aria-hidden="true"></div>
-        <video id="opening-video" muted loop playsinline preload="metadata" aria-label="Opium Bite opening video">
-            <source src="media/openingvideo.m4v" type="video/mp4" media="(max-width: 680px)">
-            <source src="media/openingvideo_sharp.mp4" type="video/mp4" media="(min-width: 681px)">
-            <source src="media/openingvideo.m4v" type="video/mp4">
-            <source src="media/openingvideo.mov" type="video/quicktime">
-        </video>
-        <div class="opening-caption">
-            <button id="bite-button" aria-label="Enter the Opium Bite website"></button>
-        </div>
+        <div class="opening-fog opening-fog-back" aria-hidden="true"></div><div class="opening-fog opening-fog-front" aria-hidden="true"></div><img id="opening-logo" src="media/intro-logo.png" width="1254" height="1254" alt="Opium Bite silver grillz emblem" fetchpriority="high" decoding="async"><div class="opening-caption"><button id="bite-button" type="button" aria-label="Enter the Opium Bite website">make them bite your dust</button></div>
     </div>
 
+    <button class="intro-skip" id="intro-skip" type="button">Skip intro <span aria-hidden="true"><svg class="ui-symbol" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span></button>
     <!-- Main Content -->
     <div id="main-content">
-    <header id="main-header">
+    <header id="main-header" class="site-header">
         <button class="material-symbols-outlined hamburger" id="hamburger-menu" type="button" aria-label="Open navigation menu" aria-controls="primary-navigation" aria-expanded="false">menu</button>
         <div class="logo" id="logo">
             <a href="index.html#home" aria-label="Opium Bite home"><img src="media/logo.png" alt="Opium Bite logo"></a>
@@ -72,7 +84,7 @@
                                 <a href="earrings.html#opium">Opium</a>
                             </div>
                         </div>
-                        <a href="necklaces.html">Pentals</a>
+                        <a href="necklaces.html">Pendants</a>
                         <a href="rings.html">Rings</a>
                     </div>
                 </div>
@@ -85,19 +97,52 @@
     </header>
 
     <main>
-        <section class="hero-film" id="home" aria-label="How Opium Bite jewelry is made">
+        <section class="atelier-hero atelier-hero--smile" id="home" aria-labelledby="atelier-title">
+            <div class="hero-art" aria-hidden="true"><picture><source media="(max-width:768px)" srcset="media/hero-woman-lion-portrait.webp"><img src="media/hero-woman-lion-wide.webp" alt="" width="1672" height="941" fetchpriority="high"></picture><div class="hero-art__shade"></div></div>
+            <div class="atelier-hero__copy">
+                <h1 data-i18n-el="Φτιαγμένο για&lt;br&gt;το χαμόγελό &lt;span class=&quot;hero-your&quot;&gt;σου&lt;/span&gt;" id="atelier-title">Crafted for<br><span class="hero-your">your</span> smile</h1>
+                <div class="atelier-actions"><a class="atelier-button" href="contact.html" data-i18n-el="Κάν’ το μοναδικό">Make it one of one</a><a class="atelier-button atelier-button--outline" href="#collections" data-i18n-el="Βρες την εμμονή σου">Find your obsession</a></div>
+            </div>
+        </section>
+        <div class="atelier-ribbon" aria-label="Made to measure. Cast in precious metal. Finished by hand."><span>MADE TO MEASURE</span><span>CAST IN PRECIOUS METAL</span><span>FINISHED BY HAND</span><span>OPIUM BITE</span></div>
+        <section class="categories" id="collections">
+            <div class="atelier-section-heading"><div><p class="eyebrow">01 / Objects of expression</p><h2 data-i18n-el="ΚΑΘΕ ΚΟΜΜΑΤΙ ΦΤΙΑΓΜΕΝΟ ΓΙΑ ΣΕΝΑ">EVERY PIECE BUILT FOR YOU</h2></div></div>
+            <div class="grillz-grid">
+                <a href="grillz.html" class="grillz-item">
+                    <img src="media/grillz.webp?v=optimized-1" alt="Grillz collection">
+                    <span class="collection-index">01 / THE COLLECTION</span><h3>GRILLZ</h3><p class="collection-caption">A different kind of statement</p>
+                </a>
+                <a href="bracelets.html" class="grillz-item">
+                    <span class="collection-visual"><img src="media/bracelet.webp?v=optimized-1" alt="Bracelets"></span>
+                    <span class="collection-index">02 / THE COLLECTION</span><h3>BRACELETS</h3><p class="collection-caption">Presence in every movement</p>
+                </a>
+                <a href="earrings.html" class="grillz-item">
+                    <span class="collection-visual"><img src="media/earing.webp?v=optimized-1" alt="Earrings"></span>
+                    <span class="collection-index">03 / THE COLLECTION</span><h3>EARRINGS</h3><p class="collection-caption">Small details. Strong character.</p>
+                </a>
+                <a href="necklaces.html" class="grillz-item">
+                    <span class="collection-visual"><img src="media/necklace.webp?v=optimized-1" alt="Pendants"></span>
+                    <span class="collection-index">04 / THE COLLECTION</span><h3>PENDANTS</h3><p class="collection-caption">Keep it close</p>
+                </a>
+                <a href="rings.html" class="grillz-item">
+                    <span class="collection-visual"><img src="media/ring.webp?v=optimized-1" alt="Rings"></span>
+                    <span class="collection-index">05 / THE COLLECTION</span><h3>RINGS</h3><p class="collection-caption">Made for your hands</p>
+                </a>
+            </div>
+        </section>
+
+        <div class="process-heading"><p data-i18n-el="Δες &lt;span class=&quot;process-heading-detail&quot;&gt;πώς δημιουργείται ένα κόσμημα Opium&lt;/span&gt;">Scroll <span class="process-heading-detail">through the making of an Opium piece</span></p></div>
+        <section class="hero-film" id="process" aria-label="How Opium Bite jewelry is made">
             <div class="hero-film__stage">
-                <video class="hero-film__video hero-film__video--one" muted playsinline preload="metadata" aria-label="Digital measurement process">
-                    <source src="media/v1.mp4" type="video/mp4">
+                <button id="film-play" class="video-play-fallback" type="button" hidden data-i18n-el="Ενεργοποίηση βίντεο">Enable video</button>
+                <video class="hero-film__video hero-film__video--one" poster="media/v1-mobile-poster.jpg" muted playsinline webkit-playsinline preload="metadata" aria-label="Digital measurement process">
+                    <source src="https://media.opiumbite.com/website-video/phone-v1/v1-mobile.mp4" type="video/mp4">
                 </video>
-                <video class="hero-film__video hero-film__video--two" muted playsinline preload="metadata" aria-label="Digital design process">
-                    <source src="media/v2.mp4" type="video/mp4">
+                <video class="hero-film__video hero-film__video--two" poster="media/v2-mobile-poster.jpg?v=user-trim-1" muted playsinline webkit-playsinline preload="metadata" aria-label="Digital design process">
+                    <source src="media/v2-mobile.mp4?v=user-trim-1" type="video/mp4">
                 </video>
-                <video class="hero-film__video hero-film__video--three" muted playsinline preload="metadata" aria-label="Industrial wax printing process">
-                    <source src="media/v3.mp4" type="video/mp4">
-                </video>
-                <video class="hero-film__video hero-film__video--four" muted playsinline preload="metadata" aria-label="Casting and finishing process">
-                    <source src="media/v4.mp4" type="video/mp4">
+                <video class="hero-film__video hero-film__video--four" poster="media/v4-mobile-poster.jpg" muted playsinline webkit-playsinline preload="metadata" aria-label="Casting and finishing process">
+                    <source src="https://media.opiumbite.com/website-video/phone-v1/v4-mobile.mp4" type="video/mp4">
                 </video>
 
                 <div class="hero-film__veil" aria-hidden="true"></div>
@@ -106,105 +151,38 @@
                 <div class="hero-film__ui">
                     <div class="hero-film__copy-stack">
                         <div class="hero-film__copy hero-film__copy--one">
-                            <h1>Digital<br>measurements.</h1>
-                            <p>Every piece starts with a precise digital scan. We map the mouth, the bite and every contour at micron-level accuracy, turning anatomy into measurements the design can trust.</p>
+                            <h2 data-i18n-el="Ψηφιακές&lt;br&gt;μετρήσεις">Digital<br>measurements</h2>
+                            <p data-i18n-el="Κάθε κόσμημα ξεκινά με ένα ακριβές αποτύπωμα, μέσω τρισδιάστατης σάρωσης. Ψηφιοποιούμε το σχήμα των δοντιών σου για να δημιουργήσουμε τη βάση για προσωπική εφαρμογή.">Every piece starts with a precise impression, captured through 3D scanning. We digitize the shape of your teeth to create the foundation for a personal fit.</p>
                         </div>
                         <div class="hero-film__copy hero-film__copy--two">
-                            <h2>Digital<br>genesis.</h2>
-                            <p>Every piece begins as nothing but geometry. We sculpt it tooth by tooth, curve by curve, until the weight and the bite are exactly right.</p>
-                        </div>
-                        <div class="hero-film__copy hero-film__copy--three">
-                            <h2>Industrial<br>wax printing.</h2>
-                            <p><strong>The wax.</strong> The file becomes matter. A wax model is printed at micron precision, carrying the exact negative space of the piece that will replace it.</p>
+                            <h2 data-i18n-el="Ψηφιακή&lt;br&gt;δημιουργία">Digital<br>genesis</h2>
+                            <p data-i18n-el="Σχεδιάζουμε το κόσμημα δόντι προς δόντι και στη συνέχεια το εκτυπώνουμε σε 3D σε κερί και αλγινικό υλικό. Το κέρινο μοντέλο δίνει φυσική μορφή στο ψηφιακό σχέδιο, έτοιμο για χύτευση στο πολύτιμο μέταλλο που έχεις επιλέξει.">We sculpt the design tooth by tooth, then 3D-print it in wax and algin. This wax model brings the digital piece into physical form, ready for casting in your chosen precious metal.</p>
                         </div>
                         <div class="hero-film__copy hero-film__copy--four-fire">
-                            <h2>Specialized<br>casting.</h2>
+                            <h2 data-i18n-el="Εξειδικευμένη&lt;br&gt;χύτευση">Specialized<br>casting</h2>
                             <p><strong>The fire.</strong> Silver or gold is melted and forced into the mold under pressure. No bubbles, no shortcuts—only the shape we designed.</p>
                         </div>
                         <div class="hero-film__copy hero-film__copy--four-hand">
-                            <h2>Finishing.</h2>
+                            <h2 data-i18n-el="Φινίρισμα">Finishing</h2>
                             <p><strong>The hand.</strong> Filed, buffed, polished and set by hand. It only leaves the atelier when it looks inevitable.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        <section class="signature-selection" aria-labelledby="signature-title"><div class="atelier-section-heading"><div><p class="eyebrow">03 / Signature expressions</p><h2 id="signature-title">The usual suspects.</h2></div><div class="signature-controls"><button type="button" id="signature-prev" aria-label="Previous signature piece"><svg class="ui-symbol" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 12H4m7-7-7 7 7 7"/></svg></button><button type="button" id="signature-next" aria-label="Next signature piece"><svg class="ui-symbol" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></button></div></div><div class="signature-track" id="signature-track" tabindex="0" role="region" aria-label="Signature jewelry; swipe or use the arrow buttons">
+            <a class="signature-card" href="classic.html"><div><span>01 / CLASSIC</span><img src="media/ggz.webp?v=transparent-1" alt="Gold classic grillz" loading="lazy" width="540" height="405"></div><h3>The gold standard.</h3><p>Explore Classic</p></a>
+            <a class="signature-card" href="iced-out.html"><div><span>02 / ICED OUT</span><img src="media/dbbs.webp?v=transparent-1" alt="Iced out grillz" loading="lazy" width="540" height="405"></div><h3>All eyes on you.</h3><p>Explore Iced Out</p></a>
+            <a class="signature-card" href="capital-custom.html"><div><span>03 / OPIUM</span><img src="media/uggz.webp?v=transparent-1" alt="Sculptural silver grillz" loading="lazy" width="540" height="405"></div><h3>Beyond the expected.</h3><p>Explore Opium</p></a>
+        </div><div class="signature-track-line" aria-hidden="true"><span></span></div></section>
 
-        <section class="categories" id="collections">
-            <h2>OUR COLLECTIONS</h2>
-            <div class="grillz-grid">
-                <a href="grillz.html" class="grillz-item">
-                    <img src="media/grillz.png" alt="Grillz collection">
-                    <h3>GRILLZ</h3>
-                </a>
-                <a href="bracelets.html" class="grillz-item">
-                    <img src="media/bracelet.png" alt="Bracelets">
-                    <h3>BRACELETS</h3>
-                </a>
-                <a href="earrings.html" class="grillz-item">
-                    <img src="media/earing.png" alt="Earrings">
-                    <h3>EARRINGS</h3>
-                </a>
-                <a href="necklaces.html" class="grillz-item">
-                    <img src="media/necklace.png" alt="Pentals">
-                    <h3>PENTALS</h3>
-                </a>
-                <a href="rings.html" class="grillz-item">
-                    <img src="media/ring.png" alt="Rings">
-                    <h3>RINGS</h3>
-                </a>
-            </div>
-        </section>
-        
-        <section class="most-liked">
-            <h2>MOST LIKED</h2>
-            <div class="carousel-container">
-                <div class="carousel" id="carousel">
-                    <div class="carousel-item">
-                        <img src="media/ggz.png" alt="Popular Grillz 1">
-                        <h3>Golden Classic</h3>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="media/dbbs.png" alt="Popular Grillz 2">
-                        <h3>Diamond Bling</h3>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="media/uggz.png" alt="Popular Grillz 3">
-                        <h3>Silver Unicorn</h3>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="media/ggz.png" alt="Popular Grillz 4">
-                        <h3>Platinum Set</h3>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="media/dbbs.png" alt="Popular Grillz 5">
-                        <h3>Ruby Encrusted</h3>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="media/uggz.png" alt="Popular Grillz 3">
-                        <h3>Silver Unicorn</h3>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="media/ggz.png" alt="Popular Grillz 4">
-                        <h3>Platinum Set</h3>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="media/dbbs.png" alt="Popular Grillz 5">
-                        <h3>Ruby Encrusted</h3>
-                    </div>
-                </div>
-                <div class="carousel-nav">
-                    <button id="prevBtn" type="button" aria-label="Previous featured product"><span class="material-symbols-outlined" aria-hidden="true">arrow_back_ios</span></button>
-                    <button id="nextBtn" type="button" aria-label="Next featured product"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward_ios</span></button>
-                </div>
-            </div>
-        </section>
 
+        <section id="commission" class="atelier-commission atelier-commission--portrait atelier-commission--background" aria-labelledby="commission-title"><div class="commission-copy"><p class="eyebrow">One of one. Just like you.</p><h2 data-i18n-el="Μια ιδέα.&lt;br&gt;Λίγη &lt;em&gt;εμμονή.&lt;/em&gt;&lt;br&gt;Κάτι φτιαγμένο μόνο για σένα." id="commission-title">An idea.<br>A little <em>obsession.</em><br>Something only you can wear.</h2><a class="atelier-button" href="contact.html">Start your custom piece <span aria-hidden="true"><svg class="ui-symbol" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a></div><div class="commission-background" aria-hidden="true"><picture><source media="(max-width:768px)" srcset="media/commission-diamond-python.webp"><img src="media/commission-python-wide.webp" alt="" width="1672" height="941" loading="lazy" decoding="async"></picture><span></span></div><span class="commission-mark" aria-hidden="true">OB</span></section>
         <section class="luxury-hero" id="custom">
             <div class="measurement-section">
                 <!-- Top Row: Title -->
                 <div class="measurement-title-row">
-                    <h2>Partner Locations</h2>
+                    <p class="eyebrow">05 / A precise fit, a personal experience</p><h2 data-i18n-el="ΤΟ ΧΑΜΟΓΕΛΟ ΣΟΥ. Η ΠΟΛΗ ΣΟΥ.">YOUR BITE. YOUR CITY.</h2>
                 </div>
 
                 <!-- Middle Row: Cards and Image -->
@@ -242,7 +220,7 @@
                                     </div>
                                 </div>
 
-                                
+
                             </div>
                         </div>
 
@@ -277,7 +255,7 @@
                                     </div>
                                 </div>
 
-                                
+
                             </div>
                         </div>
 
@@ -312,7 +290,7 @@
                                     </div>
                                 </div>
 
-                               
+
                             </div>
                         </div>
 
@@ -337,44 +315,38 @@
                     </div>
 
                     <div class="measurement-image">
-                        <img src="media/sphynx.png" alt="Luxury Grillz">
+                        <img src="media/sphynx.webp?v=optimized-1" alt="Luxury Grillz">
                     </div>
                 </div>
             </div>
         </section>
 
+        <section class="atelier-faq" aria-labelledby="faq-title"><div><p class="eyebrow">Before you make your mark</p><h2 data-i18n-el="Μερικά πράγματα&lt;br&gt;που αξίζει να &lt;em&gt;γνωρίζεις.&lt;/em&gt;" id="faq-title">A few things<br>to <em>know.</em></h2><a class="atelier-text-link" href="contact.html">Ask us anything <span aria-hidden="true"><svg class="ui-symbol" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a></div><div class="faq-list"><details><summary>How does a custom piece begin?<span aria-hidden="true">+</span></summary><p>Send us your idea, a reference, or the style you have in mind. We’ll discuss the design, materials, fit, and next steps with you.</p></details><details><summary>Where can I get measured?<span aria-hidden="true">+</span></summary><p>Our partner locations are in Heraklion, Athens, and Thessaloniki. Contact the partner nearest you using the details above to arrange your visit.</p></details><details><summary>Can I choose my own design?<span aria-hidden="true">+</span></summary><p>Yes. A custom piece starts with your expression. Contact our team to discuss what can be made and get a personal quote.</p></details></div></section>
     </main>
     </div>
 
     <footer>
+        <a class="footer-wordmark" href="#home" aria-label="Opium Bite, back to top">OPIUM BITE</a>
         <div class="footer-content">
             <div class="footer-column">
                 <h3>About Us</h3>
                 <p>We craft premium custom grillz and jewelry for those who demand excellence. Each piece is handmade with precision and care.</p>
                 <div class="social-links">
-                    <a href="https://www.instagram.com/opium.bite/" aria-label="Instagram"><span class="material-symbols-outlined">photo_camera</span></a>
+                    <a href="https://www.instagram.com/opium.bite/" aria-label="Instagram"><svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
                 </div>
             </div>
             <div class="footer-column">
                 <h3>Quick Links</h3>
                 <a href="index.html">Home</a>
                 <a href="index.html#collections">Collections</a>
-                <a href="contact.html">Contact Us</a>
+                <a href="contact.html">Contact</a>
                 <a href="about.html">About Us</a>
             </div>
             <div class="footer-column">
                 <h3>Contact Info</h3>
-                <p><span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 10px;">location_on</span> Heraklion</p>
-                <p><span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 10px;">call</span> +30 6985071700</p>
+                <p><span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 10px;">location_on</span> Heraklion, Crete</p>
+                <p class="footer-phone"><svg class="footer-phone-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 3.1 5.2 2 2 0 0 1 5.1 3h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L9 11a16 16 0 0 0 4 4l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg><a href="tel:+306985071700">+30 698 507 1700</a></p>
                 <p><span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 10px;">mail</span> opiumbite@gmail.com</p>
-            </div>
-            <div class="footer-column">
-                <h3>Newsletter</h3>
-                <p>Subscribe to get updates on new products and special offers.</p>
-                <div class="newsletter-form">
-                    <input type="email" placeholder="Your email address" aria-label="Email address">
-                    <button type="button">Subscribe</button>
-                </div>
             </div>
         </div>
         <div class="footer-bottom">
