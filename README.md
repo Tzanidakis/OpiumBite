@@ -420,5 +420,5 @@ the silver gallery and keep the existing silver starting price.
 `readability.css` gives the floating custom enquiry bar two flexible columns,
 with wrapping captions and button text in English and Greek. Its contents fit
 inside a 12px screen margin at 320/390/430px. Product-detail photos now use
-`clamp(200px, 30svh, 260px)` on phones, preserving the full photo and nearby
-material options. Other viewport sizes keep their existing gallery dimensions.
+`clamp(210px, 34svh, 300px)` on phones, preserving the full photo and nearby
+material options. Compact phone titles, prices and descriptions keep the material selector visible alongside a larger photo. On phones, the material options precede the supporting description. Other viewport sizes keep their existing gallery dimensions.
