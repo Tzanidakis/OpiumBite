@@ -27,7 +27,7 @@ body[data-product-page="true"] main { margin-top:96px; }
  .site-header#main-header .logo img { width:60px; height:52px; }
  .site-header#main-header.shrink .logo img { width:54px; height:42px; }
  .site-header#main-header nav { width:auto; gap:8px; justify-self:end; }
- .site-header#main-header #primary-navigation { position:fixed; display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; top:var(--nav-height); left:0; width:min(86vw,360px); height:calc(100vh - var(--nav-height)); height:calc(100dvh - var(--nav-height)); margin:0; padding:22px 20px 40px; overflow-y:auto; overscroll-behavior:contain; background:#101010fa; border-right:1px solid #b58aff40; transform:translateX(-100%); visibility:hidden; pointer-events:none; gap:6px; }
+ .site-header#main-header #primary-navigation { position:fixed; display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; top:var(--nav-height); left:0; width:min(86vw,360px); height:calc(100vh - var(--nav-height)); height:calc(100dvh - var(--nav-height)); margin:0; padding:22px 20px 40px; overflow-y:auto; overscroll-behavior:contain; background:#101010fa; border-right:1px solid #6e8bff40; transform:translateX(-100%); visibility:hidden; pointer-events:none; gap:6px; }
  .site-header#main-header #primary-navigation.active { transform:none; visibility:visible; pointer-events:auto; }
  .site-header#main-header #primary-navigation a,.site-header#main-header.shrink #primary-navigation a { display:block; width:100%; min-height:44px; padding:12px 8px; font:14px/1.5 Arial,sans-serif; white-space:normal; letter-spacing:.05em; }
  .site-header#main-header #primary-navigation .dropdown-content,.site-header#main-header #primary-navigation .submenu-content { position:static; min-width:0; width:100%; background:transparent; box-shadow:none; }
@@ -37,7 +37,7 @@ body[data-product-page="true"] main { margin-top:96px; }
 .site-header#main-header .icons { display:flex; position:static; width:auto; margin:0; align-items:center; flex-shrink:0; order:2; }
 @media(max-width:768px) {
  .site-header#main-header #primary-navigation .dropdown-content { border:0; margin:0; padding:0; }
- .site-header#main-header #primary-navigation .submenu-content { border:0; border-left:1px solid #b58aff35; padding:0 0 0 12px; margin:0 0 8px 8px; }
+ .site-header#main-header #primary-navigation .submenu-content { border:0; border-left:1px solid #6e8bff35; padding:0 0 0 12px; margin:0 0 8px 8px; }
 }
 .site-header#main-header .language-toggle { min-width:48px; height:30px; min-height:30px; padding:0 6px; gap:4px; font-size:10px; }
 .site-header#main-header .language-toggle span[aria-hidden='true'] { font-size:12px; }
@@ -65,7 +65,7 @@ body[data-product-page="true"] main { margin-top:96px; }
  .site-header#main-header nav > .icons { display:none; }
  .site-header#main-header #hamburger-menu { grid-column:1; grid-row:1; justify-self:start; }
  .site-header#main-header .logo { grid-column:2; grid-row:1; justify-self:center; }
- .site-header#main-header #primary-navigation .mobile-menu-preferences { display:grid; gap:8px; margin-top:16px; padding:20px 8px 0; border-top:1px solid #b58aff40; flex-shrink:0; }
+ .site-header#main-header #primary-navigation .mobile-menu-preferences { display:grid; gap:8px; margin-top:16px; padding:20px 8px 0; border-top:1px solid #6e8bff40; flex-shrink:0; }
  .site-header#main-header .menu-preference-row { display:grid; grid-template-columns:minmax(0,1fr) 56px; align-items:center; gap:16px; min-height:52px; font:13px/1.5 Arial,sans-serif; letter-spacing:.03em; }
  .site-header#main-header #primary-navigation .mobile-menu-preferences button { justify-self:end; width:56px; min-width:56px; height:44px; min-height:44px; margin:0; padding:0 8px; border-radius:24px; }
  .site-header#main-header .mobile-menu-preferences .language-toggle { font-size:10px; gap:4px; }
@@ -76,7 +76,7 @@ body[data-product-page="true"] main { margin-top:96px; }
 footer .footer-phone { display:flex; align-items:center; justify-content:flex-start; gap:10px; }
 footer .footer-phone .footer-phone-icon { display:block; flex:0 0 18px; margin:0; }
 footer .footer-phone a { margin:0; line-height:1.5; white-space:nowrap; }
-.contact-page .contact-icon .instagram-icon { display:block; width:21px; height:21px; color:var(--atelier-gold,#b58aff); }
+.contact-page .contact-icon .instagram-icon { display:block; width:21px; height:21px; color:var(--atelier-gold,#6e8bff); }
 .atelier-dock a { display:inline-flex; align-items:center; gap:14px; }
 .atelier-dock a svg { flex:none; }
 
@@ -110,13 +110,13 @@ html[data-theme="dark"] body .site-header#main-header,
 html[data-theme="dark"] body .site-header#main-header.shrink {
  background:transparent; backdrop-filter:none; -webkit-backdrop-filter:none; isolation:isolate;
 }
-.site-header#main-header::before { content:''; position:absolute; inset:0; z-index:-1; pointer-events:none; background:rgba(16, 12, 21,.22); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid rgba(181, 138, 255,.06); }
+.site-header#main-header::before { content:''; position:absolute; inset:0; z-index:-1; pointer-events:none; background:rgba(12, 13, 21,.22); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid rgba(110, 139, 255,.06); }
 
 
 /* Keep the selected page visible on both full and compact navigation. */
 body .site-header#main-header #primary-navigation a.active,
-body .site-header#main-header #primary-navigation a[aria-current] { color:#b58aff !important; }
+body .site-header#main-header #primary-navigation a[aria-current] { color:#6e8bff !important; }
 body .site-header#main-header #primary-navigation a.active:not([aria-expanded])::after,
-body .site-header#main-header #primary-navigation a[aria-current]:not([aria-expanded])::after { width:100%; height:2px; background:#b58aff; }
+body .site-header#main-header #primary-navigation a[aria-current]:not([aria-expanded])::after { width:100%; height:2px; background:#6e8bff; }
 
 @media(max-width:768px) { body .site-header#main-header #primary-navigation a[aria-current] { text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:8px; } }

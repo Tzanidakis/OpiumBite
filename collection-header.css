@@ -14,7 +14,7 @@
 
 .collection-page :where(a, button, input, select, textarea):focus-visible,
 .collection-page .product-item[role='link']:focus-visible {
-    outline: 3px solid rgb(181, 138, 255);
+    outline: 3px solid rgb(110, 139, 255);
     outline-offset: 3px;
 }
 

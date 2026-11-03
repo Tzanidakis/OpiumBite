@@ -1,25 +1,31 @@
-/* One permanent dark appearance. Language remains the only preference control. */
-:root { color-scheme:dark; background:#08060d; }
-body { --atelier-ink:#08060d; --atelier-paper:#f0edf5; --atelier-gold:#b58aff; --atelier-line:#b58aff30; --inside-muted:#c2bdcc; --collection-paper:#f0edf5; background:#08060d; color:#f0edf5; }
-#main-header,#main-header.shrink { background:#08060df5; border-bottom-color:#b58aff30; }
-footer { background:#08060d; border-top:1px solid #b58aff30; }
-:is(.campaign,.story-diptych,.inside-band,.atelier-ribbon) { background:#16121d; color:#f0edf5; border-block:1px solid #b58aff30; }
+/* Blue UV palette: electric blue accents, cobalt glow and cyan highlights. */
+:root { --accent:#6e8bff; --accent-strong:#5275ff; --accent-glow:#304dff; --accent-highlight:#78dbff; color-scheme:dark; background:#06070d; }
+body { --atelier-ink:#06070d; --atelier-paper:#f0edf5; --atelier-gold:var(--accent); --atelier-line:#6e8bff30; --inside-muted:#c2bdcc; --collection-paper:#f0edf5; background:#06070d; color:#f0edf5; }
+#main-header,#main-header.shrink { background:#06070df5; border-bottom-color:#6e8bff30; }
+footer { background:#06070d; border-top:1px solid #6e8bff30; }
+:is(.campaign,.story-diptych,.inside-band,.atelier-ribbon) { background:#12131d; color:#f0edf5; border-block:1px solid #6e8bff30; }
 :is(.campaign,.story-diptych) :is(h2,.atelier-text-link) { color:#f0edf5; }
 :is(.campaign-copy,.story-diptych__copy)>p:not(.eyebrow) { color:#c2bdcc; }
-:is(.campaign,.story-diptych) :is(em,.eyebrow,.campaign-signature,.story-signature) { color:#b58aff; }
-.collections-editorial :is(.product-carousel,.grillz-page>.categories) { background:#100d16; color:#f0edf5; }
+:is(.campaign,.story-diptych) :is(em,.eyebrow,.campaign-signature,.story-signature) { color:#6e8bff; }
+.collections-editorial :is(.product-carousel,.grillz-page>.categories) { background:#0d0e16; color:#f0edf5; }
 .collections-editorial :is(.product-carousel h2,.categories h2,.product-info h3,.product-item,.product-info) { color:#f0edf5; }
 .collections-editorial :is(.product-info .price,.collection-coming-soon>p:last-child,.collection-section-heading>a) { color:#c9c2d6; }
-.collections-editorial .collection-section-heading .eyebrow { color:#b58aff; }
-.collections-editorial .product-info { border-color:#b58aff30; }
-.collections-editorial .product-summary .product-image { background:radial-gradient(ellipse,#31273e,#17111f); }
+.collections-editorial .collection-section-heading .eyebrow { color:#6e8bff; }
+.collections-editorial .product-info { border-color:#6e8bff30; }
+.collections-editorial .product-summary .product-image { background:radial-gradient(ellipse,#272a3e,#11131f); }
 .collections-editorial .product-summary .product-image img { mix-blend-mode:normal; }
-:is(.process-heading,.signature-selection,.atelier-faq,.contact-form-section,.story-intro,.inside-finale) { background-color:#08060d; }
-:is(.enquiry-form-panel,.craft-grid article,.location-card,.product-overview-container,.recently-viewed-section) { background-color:#141018; border-color:#b58aff35; }
+:is(.process-heading,.signature-selection,.atelier-faq,.contact-form-section,.story-intro,.inside-finale) { background-color:#06070d; }
+:is(.enquiry-form-panel,.craft-grid article,.location-card,.product-overview-container,.recently-viewed-section) { background-color:#101118; border-color:#6e8bff35; }
 :is(input,select,textarea) { color-scheme:dark; }
-:is(.classic-customizer select,.contact-page .form-group input,.contact-page .form-group select,.contact-page .form-group textarea) { background:#100b16; color:#f0edf5; border-color:#b58aff80; }
-.cookie-consent { background:#100b16f5; }
+:is(.classic-customizer select,.contact-page .form-group input,.contact-page .form-group select,.contact-page .form-group textarea) { background:#0b0c16; color:#f0edf5; border-color:#6e8bff80; }
+.cookie-consent { background:#0b0c16f5; }
 @media(max-width:768px) { input,select,textarea,.classic-customizer select,.contact-page .form-group input,.contact-page .form-group select,.contact-page .form-group textarea { font-size:16px; } }
 #loading-screen { z-index:100001; }
 .intro-skip { z-index:100002; }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } #loading-screen { transition:none; } }
+
+.atelier-home #atelier-title .hero-your { color:var(--accent); text-shadow:0 0 28px #304dff38; }
+body[data-product-page="true"] .product-right>.price { color:var(--accent-strong); }
+:where(a,button,input,select,textarea):focus-visible { outline-color:var(--accent-highlight); }
+html[data-theme="dark"] body .site-header#main-header #primary-navigation a.active:not([aria-expanded])::after,
+html[data-theme="dark"] body .site-header#main-header #primary-navigation a[aria-current]:not([aria-expanded])::after { background:linear-gradient(90deg,var(--accent-glow),var(--accent-highlight)); box-shadow:0 0 12px #304dff66; }

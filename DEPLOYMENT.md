@@ -161,3 +161,11 @@ are documented in media/nov4-artwork-prompts.md.
 Build: 75 public files, 32 sitemap URLs. Tests: 82 passing. Browser checks at
 320px, 390px and 820px confirmed product options and navigation. Source changes
 are pushed to GitHub; this update does not perform a Cloudflare/R2 deployment.
+
+
+## Blue UV palette refinement
+
+Refined the purple UI accents toward the user's blue UV-light reference:
+electric blue highlights, cobalt glow, and blue-black surfaces. Updated the
+CSS cache versions across all pages. This is a source update; hosting has not
+been redeployed by this change.
