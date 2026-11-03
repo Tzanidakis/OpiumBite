@@ -40,7 +40,7 @@ The build and test scripts use Node's built-in modules, so these commands do not
 
 Edit the HTML, CSS, and JavaScript files in the repository root, then rebuild and reload. There is no watch mode or automatic browser refresh. **Do not edit `public/` directly:** the next build deletes and recreates it. The local server does not emulate Cloudflare's extensionless redirects, custom response headers, or 404 handling; locally, use links such as `/classic.html` and `/product.html?id=classic-six`.
 
-The current build produces **75 files**, generates **32 sitemap URLs**, and passes **82 automated tests**. These counts describe this revision, not a permanent target.
+The current build produces **76 files**, generates **32 sitemap URLs**, and passes **82 automated tests**. These counts describe this revision, not a permanent target.
 
 ## How the project connects
 
@@ -146,7 +146,8 @@ CSS is layered through multiple `<link>` tags and inline `<style>` blocks. Later
 | [`translation.css`](translation.css) | Language button and layout adjustments for translated content. |
 | [`theme.css`](theme.css) | Permanent dark surfaces, readable colors, native dark form controls, and blue UV accents. No switch is created. |
 | [`cookie-consent.css`](cookie-consent.css) | Consent panel, action buttons, and footer preference control. |
-| [`readability.css`](readability.css) | Final shared type-size layer, three-category homepage layout, catalog carousel presentation, product back link, and compact phone/tablet product layout. All type-size selectors exclude the scroll-film text. |
+| [`homepage-collections.css`](homepage-collections.css) | Homepage-only equal card grid, shared image frames, aligned labels/titles/captions, and responsive image sizing. Loaded after shared styles. |
+| [`readability.css`](readability.css) | Final shared type-size layer, catalog carousel presentation, product back link, and compact phone/tablet product layout. All type-size selectors exclude the scroll-film text. |
 | [`typography.css`](typography.css) | Final shared Cormorant Garamond typography rules, including localized content; preserves the dedicated Material Symbols font. Some rules intentionally use `!important`. |
 
 Do not assume an older-looking rule is unused: inline styles and older shared rules still participate in the cascade. Keep script-dependent classes/IDs when restyling.
@@ -376,3 +377,13 @@ and cyan highlight `#78dbff`; the dark surfaces now have a blue-black tint.
 The four central tokens are in `theme.css`. Existing accent alpha values and
 contrast differences are preserved across the shared and inline styles.
 Photographic artwork retains its original colors.
+
+
+### Homepage collection card alignment
+
+All three collection links use the same markup: index label, 4:3 image frame,
+then a title/caption block. `homepage-collections.css` owns their geometry.
+Images fill an identical frame with a centered crop and no legacy masks or
+blend effects. Cards keep equal padding and caption space; hover does not
+move a card out of alignment. Desktop/tablet columns are equal, and phone
+cards stack at a shared width.

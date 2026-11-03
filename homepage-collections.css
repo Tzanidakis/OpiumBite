@@ -1,0 +1,85 @@
+/* One geometry for the three homepage collection cards. */
+body.atelier-home #collections .grillz-grid {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    align-items:stretch;
+    gap:24px;
+}
+body.atelier-home #collections .grillz-item:nth-child(n) {
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:auto auto 1fr;
+    align-content:start;
+    grid-column:auto;
+    box-sizing:border-box;
+    width:100%;
+    max-width:none;
+    min-width:0;
+    min-height:0;
+    padding:24px;
+    gap:20px;
+    background:radial-gradient(ellipse at 50% 25%,#18213a55,transparent 70%),#0c0e15;
+    border:1px solid #6e8bff25;
+}
+body.atelier-home #collections .grillz-item:hover { transform:none; border-color:#6e8bff90; }
+body.atelier-home #collections .collection-index {
+    position:static;
+    display:block;
+    margin:0;
+    line-height:1.5;
+}
+body.atelier-home #collections .grillz-item:nth-child(n) .collection-visual {
+    display:block;
+    position:relative;
+    box-sizing:border-box;
+    width:100%;
+    height:auto;
+    min-height:0;
+    aspect-ratio:4/3;
+    flex:none;
+    overflow:hidden;
+    border-radius:2px;
+}
+body.atelier-home #collections .grillz-item:nth-child(n) .collection-visual img {
+    display:block;
+    width:100%;
+    height:100%;
+    max-width:none;
+    min-height:0;
+    flex:none;
+    object-fit:cover;
+    object-position:center;
+    mix-blend-mode:normal;
+    mask-image:none;
+    -webkit-mask-image:none;
+    transform:none;
+    transition:transform .45s ease;
+}
+body.atelier-home #collections .grillz-item:hover .collection-visual img { transform:scale(1.035); }
+body.atelier-home #collections .collection-copy { display:grid; align-content:start; gap:10px; }
+body.atelier-home #collections .collection-copy h3 {
+    display:block;
+    width:auto;
+    margin:0;
+    text-align:left;
+    font-size:clamp(25px,2.5vw,32px)!important;
+    line-height:1.2;
+    letter-spacing:.04em;
+}
+body.atelier-home #collections .collection-copy .collection-caption {
+    margin:0;
+    max-width:none;
+    min-height:3em;
+    line-height:1.5;
+}
+@media(min-width:769px) and (max-width:1024px) {
+    body.atelier-home #collections .grillz-grid { gap:18px; }
+    body.atelier-home #collections .grillz-item:nth-child(n) { padding:18px; gap:16px; }
+}
+@media(max-width:768px) {
+    body.atelier-home #collections .grillz-grid { grid-template-columns:minmax(0,1fr); max-width:560px; margin-inline:auto; gap:24px; }
+    body.atelier-home #collections .grillz-item:nth-child(n) { padding:22px; gap:18px; }
+    body.atelier-home #collections .collection-copy h3 { font-size:30px!important; }
+}
+@media(max-width:360px) { body.atelier-home #collections .grillz-item:nth-child(n) { padding:18px; } }
+@media(prefers-reduced-motion:reduce) { body.atelier-home #collections .collection-visual img { transition:none!important; } }

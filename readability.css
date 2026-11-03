@@ -16,12 +16,6 @@ body .cookie-consent h2 { font-size:30px!important; }
 body .cookie-actions button,body .cookie-settings { font-size:15px; }
 body .site-header#main-header .language-toggle { min-width:48px; min-height:44px; font-size:13px; }
 /* Three remaining collections, followed by a carousel of actual grillz. */
-body.atelier-home .grillz-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; }
-body.atelier-home .grillz-item:nth-child(n) { grid-column:auto; min-height:430px; }
-body.atelier-home .grillz-item:nth-child(n) img { height:280px; }
-body.atelier-home .grillz-item .collection-visual,body.atelier-home .grillz-item:nth-child(2) .collection-visual { height:280px; }
-body.atelier-home .grillz-item .collection-visual img { transform:none; }
-body.atelier-home .grillz-item:hover .collection-visual img { transform:scale(1.04); }
 body .signature-card img { mix-blend-mode:normal; mask-image:none; -webkit-mask-image:none; object-fit:contain; }
 body .signature-track { grid-auto-columns:calc((100% - 48px)/3); gap:24px; }
 body .signature-card h3 { margin-block:18px 8px; }
@@ -48,8 +42,6 @@ body[data-product-page="true"] #product-img { object-fit:contain; }
  body .site-header#main-header #primary-navigation a,body .site-header#main-header.shrink #primary-navigation a { font-size:17px; }
  body .atelier-dock>span { font-size:11px; }
  body .atelier-dock a { font-size:14px; }
- body.atelier-home .grillz-grid { grid-template-columns:1fr; gap:24px; }
- body.atelier-home .grillz-item,body.atelier-home .grillz-item:nth-child(1),body.atelier-home .grillz-item:nth-child(2) { grid-column:auto; min-height:380px; }
  body .signature-track { grid-auto-columns:82%; gap:18px; }
  body .collection-caption { max-width:none; }
  body .atelier-commission--background .commission-copy { align-self:flex-end; }
