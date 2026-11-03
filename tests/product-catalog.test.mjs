@@ -146,3 +146,19 @@ test('product back links return to the matching collection with a safe unknown-c
  for(const product of catalog.products)assert.equal(catalog.collectionURL(product.category),routes[product.category]);
  for(const category of ['','unknown','__proto__','toString'])assert.equal(catalog.collectionURL(category),'grillz.html');
 });
+
+test('FILTER CAP uses only the current Cloudflare images with fresh cache versions',()=>{
+ const env={window:{},URL};
+ vm.runInNewContext(readFileSync(new URL('../product-image-revisions.js',import.meta.url),'utf8'),env);
+ vm.runInNewContext(readFileSync(new URL('../product-catalog.js',import.meta.url),'utf8'),env);
+ const api=env.window.OpiumProducts,product=api.get('grillz-opium-filter-cap');
+ const root='https://media.opiumbite.com/grillz/opium/FILTER%20CAP/';
+ for(const [material,color] of [['gold','yellow'],['rosegold','rose'],['silver','silver']]){
+  const expected=[material+'_right.webp','mouthpiece_'+material+'_right.webp','white-dental-cast-matched-angle-v2.webp'].map(name=>root+material+'/'+name);
+  assert.deepEqual(Array.from(product.images[color]),expected);
+  for(const url of expected){const refreshed=new URL(api.asset(url));assert.equal(refreshed.origin+refreshed.pathname,url);assert.match(refreshed.searchParams.get('v'),/^filter-cap-20261104-[a-f0-9]{20}$/);}
+ }
+ assert.equal(api.preview(product),root+'gold/gold_right.webp');
+ assert.equal(api.image({material:'silver'},product),root+'silver/silver_right.webp');
+ assert.equal(api.quote({material:'silver'},product),27000);
+});

@@ -40,7 +40,7 @@ The build and test scripts use Node's built-in modules, so these commands do not
 
 Edit the HTML, CSS, and JavaScript files in the repository root, then rebuild and reload. There is no watch mode or automatic browser refresh. **Do not edit `public/` directly:** the next build deletes and recreates it. The local server does not emulate Cloudflare's extensionless redirects, custom response headers, or 404 handling; locally, use links such as `/classic.html` and `/product.html?id=classic-six`.
 
-The current build produces **76 files**, generates **32 sitemap URLs**, and passes **86 automated tests**. These counts describe this revision, not a permanent target.
+The current build produces **76 files**, generates **32 sitemap URLs**, and passes **87 automated tests**. These counts describe this revision, not a permanent target.
 
 ## How the project connects
 
@@ -398,3 +398,18 @@ and at least one reference attachment. Native required/email validation and
 required file picker after selections, drops, and removals. Removing the last
 attachment makes the form invalid again. Existing file type/count/size limits
 remain in effect. The hidden spam honeypot is intentionally left empty.
+
+
+### FILTER CAP media refresh — 4 November 2026
+
+The actual Cloudflare R2 folders were checked at `grillz/opium/FILTER CAP/`.
+Each material now has only its `*_right.webp` product photo,
+`mouthpiece_*_right.webp`, and `white-dental-cast-matched-angle-v2.webp`.
+The deleted front/left and old cast paths were removed from the catalog,
+revision map and inventory snapshot. All nine current public files were
+downloaded and verified as valid WebP images; Last-Modified matches the new
+Cloudflare uploads around 01:29 (Europe/Sofia). Their cache versions include
+a refresh prefix plus a content fingerprint.
+
+The gold cover remains the listing/homepage preview, while product links open
+the silver gallery and keep the existing silver starting price.

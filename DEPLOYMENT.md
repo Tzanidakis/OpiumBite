@@ -179,3 +179,13 @@ block empty or whitespace-only entries. The attachment picker stays synchronized
 with selected/dropped files and becomes invalid when the final file is removed.
 English and Greek notices explain the requirement. Build succeeds; 86 tests pass.
 Browser validation was checked without sending a real email.
+
+
+## FILTER CAP paths and cache refresh
+
+Verified the three current material folders directly in Cloudflare R2. Replaced
+the removed front/left/old-cast references with the nine current right-side,
+mouthpiece and matched-angle-v2 cast images. Public downloads returned valid
+WebP images with matching upload timestamps. New content-based cache versions
+and new catalog/revision script query versions force browsers to load the
+current files. The media objects themselves were read, not modified.

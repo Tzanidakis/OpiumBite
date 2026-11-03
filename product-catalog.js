@@ -586,25 +586,19 @@ const products = [
     "category": "opium",
     "images": {
       "yellow": [
-        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/gold/gold_front.webp",
-        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/gold/gold_left.webp",
         "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/gold/gold_right.webp",
-        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/gold/white-dental-cast-without-grillz.webp",
-        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/gold/mouthpiece_gold_right.webp"
+        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/gold/mouthpiece_gold_right.webp",
+        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/gold/white-dental-cast-matched-angle-v2.webp"
       ],
       "rose": [
-        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/rosegold/rosegold_front.webp",
-        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/rosegold/rosegold_left.webp",
         "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/rosegold/rosegold_right.webp",
-        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/rosegold/white-dental-cast-without-grillz.webp",
-        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/rosegold/mouthpiece_rosegold_right.webp"
+        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/rosegold/mouthpiece_rosegold_right.webp",
+        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/rosegold/white-dental-cast-matched-angle-v2.webp"
       ],
       "silver": [
-        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/silver/silver_front.webp",
-        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/silver/silver_left.webp",
         "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/silver/silver_right.webp",
-        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/silver/white-dental-cast-without-grillz.webp",
-        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/silver/mouthpiece_silver_right.webp"
+        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/silver/mouthpiece_silver_right.webp",
+        "https://media.opiumbite.com/grillz/opium/FILTER%20CAP/silver/white-dental-cast-matched-angle-v2.webp"
       ]
     },
     "id": "grillz-opium-filter-cap",
