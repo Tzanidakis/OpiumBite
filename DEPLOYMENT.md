@@ -169,3 +169,13 @@ Refined the purple UI accents toward the user's blue UV-light reference:
 electric blue highlights, cobalt glow, and blue-black surfaces. Updated the
 CSS cache versions across all pages. This is a source update; hosting has not
 been redeployed by this change.
+
+
+## Mandatory enquiry fields
+
+All seven visitor fields are now required, including phone and at least one
+reference attachment. Native email/required checks and trimmed-text validation
+block empty or whitespace-only entries. The attachment picker stays synchronized
+with selected/dropped files and becomes invalid when the final file is removed.
+English and Greek notices explain the requirement. Build succeeds; 86 tests pass.
+Browser validation was checked without sending a real email.

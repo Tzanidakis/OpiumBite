@@ -8,6 +8,7 @@
     let selected = [];
 
     function validateFiles(files) {
+        if (!files.length) return 'Attach at least one reference file.';
         if (files.length > MAX_FILES) return 'Choose up to 5 files.';
         if (files.some(file => !allowedExtension.test(file.name))) return 'Choose an image, video, PDF, document, 3D file or ZIP.';
         if (files.some(file => file.size === 0)) return 'Empty files cannot be attached. Choose another file.';
@@ -28,6 +29,11 @@
         let lastError = '';
         const formatSize = size => size >= MB ? (size / MB).toFixed(1) + ' MB' : Math.max(1, Math.ceil(size / 1024)) + ' KB';
         const render = () => {
+            // Keep the native required picker in sync with additions, drops and removals.
+            const transfer = new DataTransfer();
+            selected.forEach(file => transfer.items.add(file));
+            input.files = transfer.files;
+            input.setCustomValidity(tr(validateFiles(selected)));
             list.replaceChildren();
             selected.forEach((file, index) => {
                 const item = document.createElement('li');
@@ -79,7 +85,8 @@
             }
             render();
         };
-        input.addEventListener('change', () => { addFiles(input.files); input.value = ''; });
+        input.addEventListener('change', () => { addFiles(input.files); });
+        input.addEventListener('invalid', () => { lastError = validateFiles(selected); render(); });
         ['dragenter', 'dragover'].forEach(event => dropzone.addEventListener(event, e => {
             e.preventDefault();
             dropzone.classList.add('is-dragging');
@@ -94,5 +101,6 @@
         });
         form.addEventListener('reset', () => { selected = []; lastError = ''; input.value = ''; render(); });
         window.addEventListener('opiumbite:language-change', render);
+        render();
     });
 })();

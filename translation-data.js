@@ -420,3 +420,9 @@ Object.assign(window.OPIUM_TRANSLATIONS_EL, {'Create your piece':'Δημιούρ
 Object.assign(window.OPIUM_TRANSLATIONS_EL, {'Heraklion, Crete':'Ηράκλειο, Κρήτη'});
 
 Object.assign(window.OPIUM_TRANSLATIONS_EL, {'Length (cm)':'Μήκος (εκ.)','Enter preferred length':'Συμπλήρωσε το επιθυμητό μήκος','Images coming soon':'Οι εικόνες έρχονται σύντομα','Diamond option':'Επιλογή πέτρας','Choose a stone':'Επίλεξε πέτρα'});
+
+Object.assign(window.OPIUM_TRANSLATIONS_EL, {
+ 'All fields, including phone and at least one attachment, are required.':'Όλα τα πεδία, μαζί με το τηλέφωνο και τουλάχιστον ένα συνημμένο, είναι υποχρεωτικά.',
+ 'Attach at least one reference file.':'Επισύναψε τουλάχιστον ένα αρχείο αναφοράς.',
+ 'Please complete this field.':'Συμπλήρωσε αυτό το πεδίο.'
+});

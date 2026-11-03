@@ -18,7 +18,7 @@ test('attachment limits reject excess count, individual size and total size',()=
 test('supported references including Unicode filenames are accepted while executables are rejected',()=>{
     assert.equal(validateFiles([file('σχέδιο.png'),file('reference.PDF'),file('scan.stl'),file('model.obj'),file('references.zip')]),'');
     assert.equal(validateFiles([file('clip.mov',10*1024*1024)]),'');
-    assert.equal(validateFiles([]),'');
+    assert.equal(validateFiles([]),'Attach at least one reference file.');
     assert.notEqual(validateFiles([file('run.exe')]),'');
     assert.notEqual(validateFiles([file('image.png.exe')]),'');
 });

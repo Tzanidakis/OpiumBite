@@ -40,7 +40,7 @@ The build and test scripts use Node's built-in modules, so these commands do not
 
 Edit the HTML, CSS, and JavaScript files in the repository root, then rebuild and reload. There is no watch mode or automatic browser refresh. **Do not edit `public/` directly:** the next build deletes and recreates it. The local server does not emulate Cloudflare's extensionless redirects, custom response headers, or 404 handling; locally, use links such as `/classic.html` and `/product.html?id=classic-six`.
 
-The current build produces **76 files**, generates **32 sitemap URLs**, and passes **82 automated tests**. These counts describe this revision, not a permanent target.
+The current build produces **76 files**, generates **32 sitemap URLs**, and passes **86 automated tests**. These counts describe this revision, not a permanent target.
 
 ## How the project connects
 
@@ -387,3 +387,14 @@ Images fill an identical frame with a centered crop and no legacy masks or
 blend effects. Cards keep equal padding and caption space; hover does not
 move a card out of alignment. Desktop/tablet columns are equal, and phone
 cards stack at a shared width.
+
+
+### Mandatory contact fields
+
+The enquiry form requires first name, last name, email, phone, subject, message,
+and at least one reference attachment. Native required/email validation and
+`contact-send.js` block incomplete submissions, including whitespace-only text.
+`contact-attachments.js` synchronizes its selected-file list with the actual
+required file picker after selections, drops, and removals. Removing the last
+attachment makes the form invalid again. Existing file type/count/size limits
+remain in effect. The hidden spam honeypot is intentionally left empty.

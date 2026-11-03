@@ -27,14 +27,14 @@
     <link rel="stylesheet" href="styles.css?v=uv-blue-2">
     <link rel="stylesheet" href="contact-styles.css?v=uv-blue-2">
     <link rel="stylesheet" href="translation.css?v=uv-blue-2">
-    <script src="translation-data.js?v=uv-nov4-1" defer></script>
+    <script src="translation-data.js?v=required-fields-1" defer></script>
     <script src="translation.js?v=uv-nov4-1" defer></script>
     <link rel="stylesheet" href="atelier.css?v=uv-blue-2">
     <script src="atelier.js?v=uv-nov4-1" defer></script>
     <link rel="stylesheet" href="inside-pages.css?v=uv-blue-2">
     <script src="inside-pages.js?v=uv-nov4-1" defer></script>
-    <script src="contact-attachments.js?v=uv-nov4-1" defer></script>
-    <script src="contact-send.js?v=uv-nov4-1" defer></script>
+    <script src="contact-attachments.js?v=required-fields-1" defer></script>
+    <script src="contact-send.js?v=required-fields-1" defer></script>
     <link rel="stylesheet" href="cookie-consent.css?v=uv-blue-2">
     <script src="cookie-consent.js?v=uv-nov4-1" defer></script>
     <link rel="stylesheet" href="theme.css?v=uv-blue-2">
@@ -91,7 +91,8 @@
         <section class="contact-form-section">
             <div class="contact-container">
                 <div class="enquiry-layout"><aside class="enquiry-aside" data-reveal><p class="eyebrow">01 / A blank canvas</p><h2 data-i18n-el="Λάμψε&lt;br&gt;με τον τρόπο&lt;br&gt;&lt;em&gt;του Opium.&lt;/em&gt;">Get your shine<br><em>the Opium way</em></h2><p>Share the idea. We’ll help you work out the details.</p><ol class="enquiry-steps"><li><span>01</span><div><strong>The conversation</strong><p>Tell us about your style, ideas, and the piece you have in mind.</p></div></li><li><span>02</span><div><strong>The details</strong><p>We’ll discuss design, materials, measurements, and your quote.</p></div></li><li><span>03</span><div><strong>Your expression</strong><p>A personal design, developed around you.</p></div></li></ol><a class="atelier-text-link" href="about.html">Get to know the atelier <span aria-hidden="true"><svg class="ui-symbol" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span></a></aside><div class="enquiry-form-panel" data-reveal><div class="form-panel-heading"><span class="inside-note">THE FIRST STEP TO ONE OF ONE</span><span aria-hidden="true"><svg class="ui-symbol" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span></div><fieldset class="enquiry-topics"><legend>I’m here for</legend><div class="topic-options"><button type="button" data-topic="custom-order" aria-pressed="false">A custom piece</button><button type="button" data-topic="existing-order" aria-pressed="false">My order</button><button type="button" data-topic="collaboration" aria-pressed="false">A collaboration</button></div></fieldset>
-                <form class="contact-form" id="contact-form" action="https://formsubmit.co/opiumbite@gmail.com" method="POST" enctype="multipart/form-data" aria-describedby="contact-form-status">
+                <form class="contact-form" id="contact-form" action="https://formsubmit.co/opiumbite@gmail.com" method="POST" enctype="multipart/form-data" aria-describedby="contact-required-note contact-form-status">
+                    <p class="form-required-note" id="contact-required-note">All fields, including phone and at least one attachment, are required.</p>
                     <input type="hidden" name="_subject" value="Opium Bite website enquiry">
                     <input type="hidden" name="_template" value="table">
                     <div hidden><label>Leave this field empty<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
@@ -112,8 +113,8 @@
                             <input type="email" id="email" name="email" autocomplete="email" required>
                         </div>
                         <div class="form-group">
-                            <label for="phone">Phone <span class="optional-label">(optional)</span></label>
-                            <input type="tel" id="phone" name="phone" autocomplete="tel">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" autocomplete="tel" required>
                         </div>
                     </div>
 
@@ -133,7 +134,7 @@
                         <textarea id="message" name="message" rows="6" maxlength="3000" aria-describedby="message-count" placeholder="Tell us about your vision, requirements, or any questions you have..." required></textarea><span id="message-count" class="message-count">0 / 3000</span>
                     </div>
 
-                    <fieldset class="attachment-fieldset"><legend>Attachments <span class="optional-label">(optional)</span></legend><div class="attachment-dropzone" id="attachment-dropzone"><input type="file" id="attachments" name="attachments" class="attachment-input" accept=".jpg,.jpeg,.png,.webp,.gif,.avif,.heic,.heif,.bmp,.tif,.tiff,.mp4,.mov,.m4v,.webm,.pdf,.doc,.docx,.stl,.obj,.zip" multiple aria-describedby="attachment-help attachment-status"><label for="attachments" class="attachment-picker"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m8 12 6-6a3 3 0 0 1 4 4l-8 8a5 5 0 0 1-7-7l9-9"/><path d="m6 14 8-8a1 1 0 0 1 2 2l-8 8"/></svg><span><strong>Attach reference files</strong><span>Choose files or drop them here</span></span><span class="attachment-plus" aria-hidden="true">+</span></label></div><p id="attachment-help" class="attachment-help">Images, videos, PDFs, documents, 3D files or ZIPs. Up to 5 files, 10 MB each, 10 MB total.</p><ul id="attachment-list" class="attachment-list" aria-label="Selected attachments"></ul><p id="attachment-status" class="attachment-status" role="status" aria-live="polite"></p></fieldset>
+                    <fieldset class="attachment-fieldset"><legend>Attachments</legend><div class="attachment-dropzone" id="attachment-dropzone"><input type="file" id="attachments" name="attachments" class="attachment-input" accept=".jpg,.jpeg,.png,.webp,.gif,.avif,.heic,.heif,.bmp,.tif,.tiff,.mp4,.mov,.m4v,.webm,.pdf,.doc,.docx,.stl,.obj,.zip" multiple required aria-required="true" aria-describedby="attachment-help attachment-status"><label for="attachments" class="attachment-picker"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m8 12 6-6a3 3 0 0 1 4 4l-8 8a5 5 0 0 1-7-7l9-9"/><path d="m6 14 8-8a1 1 0 0 1 2 2l-8 8"/></svg><span><strong>Attach reference files</strong><span>Choose files or drop them here</span></span><span class="attachment-plus" aria-hidden="true">+</span></label></div><p id="attachment-help" class="attachment-help">Images, videos, PDFs, documents, 3D files or ZIPs. Up to 5 files, 10 MB each, 10 MB total.</p><ul id="attachment-list" class="attachment-list" aria-label="Selected attachments"></ul><p id="attachment-status" class="attachment-status" role="status" aria-live="polite"></p></fieldset>
                     <button type="submit" class="submit-btn">Send message <span aria-hidden="true"><svg class="ui-symbol" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 19 19 5M5 5h14v14"/></svg></span></button>
                     <p id="contact-form-status" class="form-status" role="status" aria-live="polite">Your message and attachments are sent securely through FormSubmit. You may be asked to complete a spam check.</p>
                 </form></div></div>

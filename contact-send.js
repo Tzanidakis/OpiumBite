@@ -23,13 +23,24 @@
     document.addEventListener('DOMContentLoaded', () => {
         const form = document.getElementById('contact-form');
         if (!form) return;
+        const tr = text => window.OpiumI18n?.t(text) || text;
+        const requiredFields = Array.from(form.querySelectorAll('input[required]:not([type="file"]), textarea[required], select[required]'));
+        function validateRequiredFields() {
+            requiredFields.forEach(field => {
+                field.setCustomValidity(field.value.trim() ? '' : tr('Please complete this field.'));
+            });
+        }
+        form.addEventListener('input', validateRequiredFields);
+        form.addEventListener('change', validateRequiredFields);
+        window.addEventListener('opiumbite:language-change', validateRequiredFields);
         form.addEventListener('submit', event => {
             event.preventDefault();
-            if (form.getAttribute('aria-busy') === 'true' || !form.reportValidity()) return;
+            if (form.getAttribute('aria-busy') === 'true') return;
+            validateRequiredFields();
+            if (!form.reportValidity()) return;
             const status = document.getElementById('contact-form-status');
             const button = form.querySelector('button[type="submit"]');
             const picker = document.getElementById('attachments');
-            const tr = text => window.OpiumI18n?.t(text) || text;
             try {
                 prepareAttachments(form, window.OpiumAttachments.files);
                 picker.disabled = true;
