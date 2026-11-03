@@ -40,8 +40,11 @@ body[data-product-page="true"] #product-img { object-fit:contain; }
 }
 @media(max-width:768px) {
  body .site-header#main-header #primary-navigation a,body .site-header#main-header.shrink #primary-navigation a { font-size:17px; }
- body .atelier-dock>span { font-size:11px; }
- body .atelier-dock a { font-size:14px; }
+ body nav.atelier-dock,html[lang="el"] body nav.atelier-dock { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); box-sizing:border-box; width:calc(100vw - 24px); max-width:440px; gap:12px; padding:8px 10px; }
+ body nav.atelier-dock>span,html[lang="el"] body nav.atelier-dock>span { min-width:0; max-width:none; white-space:normal; font-size:11px; line-height:1.45; }
+ body nav.atelier-dock a,html[lang="el"] body nav.atelier-dock a { box-sizing:border-box; min-width:0; max-width:none; min-height:44px; gap:10px; padding:12px; white-space:normal; font-size:14px; line-height:1.35; }
+ body nav.atelier-dock a>span { min-width:0; }
+ body nav.atelier-dock a>svg { width:18px; height:18px; flex:0 0 18px; }
  body .signature-track { grid-auto-columns:82%; gap:18px; }
  body .collection-caption { max-width:none; }
  body .atelier-commission--background .commission-copy { align-self:flex-end; }
@@ -51,7 +54,7 @@ body[data-product-page="true"] #product-img { object-fit:contain; }
 @media(max-width:600px) {
  body[data-product-page="true"] .product-overview-container { display:flex; flex-direction:column; gap:10px; padding:6px 18px 35px; min-height:0; }
  body[data-product-page="true"] .product-left { width:100%; flex:none; }
- body[data-product-page="true"] #product-img { width:100%; max-width:100%; height:clamp(145px,23svh,200px); max-height:200px; box-shadow:none; }
+ body[data-product-page="true"] #product-img { width:100%; max-width:100%; height:clamp(200px,30svh,260px); max-height:260px; box-shadow:none; }
  body[data-product-page="true"] .variant-image-empty { min-height:140px; max-height:180px; }
  body[data-product-page="true"] .variant-thumbnails:not([hidden]) { justify-content:flex-start; margin-top:4px; }
  body[data-product-page="true"] .variant-thumbnails button { width:44px; height:44px; }

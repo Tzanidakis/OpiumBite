@@ -413,3 +413,12 @@ a refresh prefix plus a content fingerprint.
 
 The gold cover remains the listing/homepage preview, while product links open
 the silver gallery and keep the existing silver starting price.
+
+
+### Phone layout refinement
+
+`readability.css` gives the floating custom enquiry bar two flexible columns,
+with wrapping captions and button text in English and Greek. Its contents fit
+inside a 12px screen margin at 320/390/430px. Product-detail photos now use
+`clamp(200px, 30svh, 260px)` on phones, preserving the full photo and nearby
+material options. Other viewport sizes keep their existing gallery dimensions.
