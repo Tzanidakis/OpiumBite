@@ -205,3 +205,16 @@ HTTP checks pass. Ten key deployed files match the local build byte for byte.
 Browser verification confirmed the new silver FILTER CAP photo and all three
 gallery images loaded, with the silver starting price still €270. No production
 domain or R2 objects were changed.
+
+
+## Published staging preview — phone text and product photos
+
+Published source commit `0b85984` to the existing `staging` preview. The floating
+custom enquiry caption and button fit inside their box in English and Greek at
+320/390/430px without horizontal overflow. Product-detail images are now
+200–260px tall on phones (253px at 390×844), with the material selector close
+below. Updated stylesheet query versions refresh the layout on every page.
+
+All 87 automated tests and 82 live HTTP checks pass. Deployed homepage, product
+page and readability stylesheet match the local build byte for byte. A live
+390px product preview confirmed the larger image loaded.
