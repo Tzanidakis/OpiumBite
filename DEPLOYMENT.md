@@ -189,3 +189,19 @@ mouthpiece and matched-angle-v2 cast images. Public downloads returned valid
 WebP images with matching upload timestamps. New content-based cache versions
 and new catalog/revision script query versions force browsers to load the
 current files. The media objects themselves were read, not modified.
+
+
+## Published staging preview — 4 November 2026
+
+Published source commit `9ec6430` to
+https://staging.opium-bite-preview.pages.dev using the existing Direct Upload
+project and `staging` preview environment. This includes the latest homepage,
+blue UV palette, dark appearance, collection changes, mandatory enquiry fields,
+and refreshed FILTER CAP galleries.
+
+The fresh build contains 76 public files; the preview upload adds only a
+noindex/nofollow/noarchive response header. All 87 automated tests and 82 live
+HTTP checks pass. Ten key deployed files match the local build byte for byte.
+Browser verification confirmed the new silver FILTER CAP photo and all three
+gallery images loaded, with the silver starting price still €270. No production
+domain or R2 objects were changed.
