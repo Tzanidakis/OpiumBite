@@ -38,3 +38,12 @@ test('scroll clips use the R2 media host and are not duplicated in Pages output'
   assert.ok(!publicFiles.includes(join(output,'media','v'+i+'.mp4')));
  }
 });
+
+test('retired collection pages are absent from output, navigation and sitemap',()=>{
+ for(const name of ['rings','bracelets']){
+  assert.ok(!files(output).includes(join(output,name+'.html')));
+  const sitemap=readFileSync(join(output,'sitemap.xml'),'utf8');
+  assert.ok(!sitemap.includes('/'+name));
+  for(const page of readdirSync(output).filter(x=>x.endsWith('.html')))assert.ok(!readFileSync(join(output,page),'utf8').includes('href="'+name+'.html"'),page);
+ }
+});

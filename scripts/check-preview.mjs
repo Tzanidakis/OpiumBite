@@ -3,7 +3,7 @@ import {resolve,relative} from 'node:path';
 const origin=process.argv[2]||'https://staging.opium-bite-preview.pages.dev';
 if(!/^https:\/\/[a-z0-9.-]+\.pages\.dev$/.test(origin))throw Error('Use an HTTPS Pages preview URL');
 const root=resolve(import.meta.dirname,'..'),out=resolve(root,'public');
-const paths=['/','/about','/contact','/grillz','/classic','/iced-out','/capital-custom','/earrings','/necklaces','/rings','/bracelets','/product?id=classic-six&material=gold&color=white&karat=18','/this-page-does-not-exist'];
+const paths=['/','/about','/contact','/grillz','/classic','/iced-out','/capital-custom','/earrings','/necklaces','/product?id=classic-six&material=gold&color=white&karat=18','/this-page-does-not-exist'];
 const tasks=paths.map(path=>({url:origin+path,expected:path.endsWith('does-not-exist')?404:200}));
 async function walk(dir){for(const entry of await readdir(dir,{withFileTypes:true})){const full=resolve(dir,entry.name);if(entry.isDirectory())await walk(full);else if(!full.endsWith('.html')&&!entry.name.startsWith('_'))tasks.push({url:origin+'/'+relative(out,full),expected:200});}}
 await walk(out);

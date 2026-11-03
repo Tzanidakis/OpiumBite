@@ -15,10 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
         'classic.html': 'collections-link',
         'iced-out.html': 'collections-link',
         'capital-custom.html': 'collections-link',
-        'bracelets.html': 'collections-link',
         'earrings.html': 'collections-link',
         'necklaces.html': 'collections-link',
-        'rings.html': 'collections-link',
         'product.html': 'collections-link'
     };
     const currentNavLink = document.getElementById(currentNavLinks[currentPage]);
@@ -54,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const preferences = document.createElement('div');
     preferences.className = 'mobile-menu-preferences';
     preferences.setAttribute('role', 'group');
-    preferences.setAttribute('aria-label', 'Language and appearance');
+    preferences.setAttribute('aria-label', 'Language');
     navigation.appendChild(preferences);
     const preferenceHomes = new Map();
 
@@ -62,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const mobile = isMobileNavigation();
         if (!mobile) syncNavigationAvailability(false);
         [
-            '.language-toggle', '.theme-toggle'
+            '.language-toggle'
         ].forEach(function (selector) {
             const control = header.querySelector(selector);
             if (!control) return;

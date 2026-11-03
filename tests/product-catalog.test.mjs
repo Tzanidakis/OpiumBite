@@ -122,3 +122,27 @@ test('XO starting prices exclude diamonds and offer stone selection',()=>{
  assert.equal(xo.diamondOptions,true);
  assert.equal(catalog.quote({material:'silver'},xo),54000);
 });
+
+test('Classic sorts by ascending silver price and Opium by descending price without mutating records',()=>{
+ const original=Array.from(catalog.products,p=>p.id);
+ for(const category of ['classic','opium']){
+  const values=Array.from(catalog.listing(category),p=>p.startingPriceMinor);
+  assert.ok(values.length>3);
+  assert.deepEqual(values,[...values].sort((a,b)=>category==='classic'?a-b:b-a));
+ }
+ assert.deepEqual(Array.from(catalog.products,p=>p.id),original);
+});
+test('specified gold listing covers retain the silver gallery and quote used by product links',()=>{
+ const requested=['grillz-classic-window-x-star','grillz-classic-down-bar','grillz-classic-1-cap','grillz-opium-cross-grill','grillz-opium-filter-cap','grillz-opium-uzi','grillz-opium-xo','earrings-pussy'];
+ for(const product of catalog.products){
+  const silver=catalog.selection('silver','','');
+  assert.equal(catalog.preview(product),catalog.image(requested.includes(product.id)?catalog.selection('gold','yellow','9'):silver,product),product.id);
+  assert.equal(catalog.quote(silver,product),product.startingPriceMinor,product.id);
+  assert.equal(catalog.gallery(silver,product)[0],product.images.silver[0],product.id);
+ }
+});
+test('product back links return to the matching collection with a safe unknown-category fallback',()=>{
+ const routes={classic:'classic.html',opium:'capital-custom.html',earrings:'earrings.html',necklaces:'necklaces.html'};
+ for(const product of catalog.products)assert.equal(catalog.collectionURL(product.category),routes[product.category]);
+ for(const category of ['','unknown','__proto__','toString'])assert.equal(catalog.collectionURL(category),'grillz.html');
+});

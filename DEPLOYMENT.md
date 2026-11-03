@@ -140,3 +140,24 @@ SVG after every selection. Browser QA exercised Silver and Iced Out selections
 in Greek and confirmed one SVG and no text arrow in the explore link. Published
 atelier.js?v=finish-arrow-1 was verified on the live preview. 78 tests and 75
 preview HTTP checks pass.
+
+
+## Source update — 4 November 2026
+
+The repository now uses permanent dark appearance and electric UV-purple accents,
+larger readable text outside the unchanged scroll-film text, and only Grillz,
+Earrings and Pendants. Rings and Bracelets routes are removed from the build.
+Grillz groups are ordered Opium, Classic, Iced Out. Collection products sort by
+silver starting price: Classic ascending and Opium descending. Eight selected
+products use gold cover previews while links open silver detail and silver prices.
+The signature section is an eight-product grillz carousel. Product pages have
+collection-return arrows and compact phone/tablet galleries.
+
+Regenerated assets: OPIUM/BITE skull grillz, Black man with the python in the
+original campaign composition, and the skeleton wearing the real Opium Bite
+pendant. Masters and WebP variants are in media/; prompts and source references
+are documented in media/nov4-artwork-prompts.md.
+
+Build: 75 public files, 32 sitemap URLs. Tests: 82 passing. Browser checks at
+320px, 390px and 820px confirmed product options and navigation. Source changes
+are pushed to GitHub; this update does not perform a Cloudflare/R2 deployment.

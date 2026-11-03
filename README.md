@@ -4,7 +4,7 @@ This is the source code for the Opium Bite custom jewelry website. This guide ex
 
 **Repository:** [Tzanidakis/OpiumBite](https://github.com/Tzanidakis/OpiumBite)  
 **Source folder used for this handoff:** `testOpium`  
-**Documentation reviewed:** 2 November 2026; updated after the unused-code cleanup (original handoff baseline: `3ca48bf`).
+**Documentation reviewed:** 4 November 2026, after the UV-purple design and catalog update.
 
 The project is a static, multi-page website built with plain HTML, CSS, and browser JavaScript. There is no React application, application server, database, account system, shopping cart, or checkout in this repository. Visitors browse products, select options, and send an enquiry through an external form service. Node.js is used for building and testing, not for serving production requests.
 
@@ -40,7 +40,7 @@ The build and test scripts use Node's built-in modules, so these commands do not
 
 Edit the HTML, CSS, and JavaScript files in the repository root, then rebuild and reload. There is no watch mode or automatic browser refresh. **Do not edit `public/` directly:** the next build deletes and recreates it. The local server does not emulate Cloudflare's extensionless redirects, custom response headers, or 404 handling; locally, use links such as `/classic.html` and `/product.html?id=classic-six`.
 
-After the unused-code cleanup, the build produces **81 files** and all **80 automated tests pass**. Three draft-generator tests were retired with that unused feature; attachment validation and direct-send coverage remain. These counts describe this revision, not a permanent target.
+The current build produces **75 files**, generates **32 sitemap URLs**, and passes **82 automated tests**. These counts describe this revision, not a permanent target.
 
 ## How the project connects
 
@@ -49,7 +49,7 @@ Each HTML file is a separate page. Shared scripts attach behavior to IDs, classe
 ```mermaid
 flowchart TD
     HTML[HTML pages] --> CSS[Shared and page-specific CSS]
-    HTML --> Shared[Menus, theme, translation, intro, mobile restore]
+    HTML --> Shared[Menus, dark appearance, translation, intro, mobile restore]
     Revisions[product-image-revisions.js] --> Catalog[product-catalog.js]
     Catalog --> Cards[catalog-collections.js]
     Cards --> Collections[Collection page cards]
@@ -67,7 +67,7 @@ flowchart TD
 
 Typical dependency order:
 
-1. `theme.js`, `page-entry.js`, and `mobile-lifecycle.js` run early in the document head to prepare appearance and navigation/restore behavior.
+1. Every page declares `data-theme="dark"` directly on `<html>`. `page-entry.js` and `mobile-lifecycle.js` run early in the document head to prepare navigation/restore behavior. There is no theme switch or saved-theme dependency.
 2. Deferred scripts run after HTML parsing. Load `translation-data.js` before `translation.js`.
 3. Load `product-image-revisions.js` and `product-catalog.js` before catalog consumers such as `catalog-collections.js` and `product-customizer.js`.
 4. On contact, load `contact-attachments.js` before `contact-send.js`.
@@ -83,13 +83,11 @@ Many files intentionally return without doing anything when their target element
 | [`about.html`](about.html) | Brand, process, and FAQ content. Uses the inside-page styling and reveal behavior. |
 | [`contact.html`](contact.html) | Enquiry form, topic controls, attachment picker, contact details, and FAQ. Inline JavaScript reads product information from the query string and prefills the message. Uses both contact scripts and `inside-pages.js`. |
 | [`grillz.html`](grillz.html) | Grillz overview with links to the Classic, Iced Out, and Opium collections. |
-| [`classic.html`](classic.html) | Catalog listing with `data-catalog-category="classic"`; cards come from `catalog-collections.js`. |
-| [`capital-custom.html`](capital-custom.html) | Publicly labeled **Opium**, despite its older filename. Lists catalog products with category `opium`. |
+| [`classic.html`](classic.html) | Catalog listing with `data-catalog-category="classic"`; cards come from `catalog-collections.js`, sorted by ascending silver starting price. |
+| [`capital-custom.html`](capital-custom.html) | Publicly labeled **Opium**, despite its older filename. Lists catalog products with category `opium`, sorted by descending silver starting price. |
 | [`earrings.html`](earrings.html) | Catalog listing with category `earrings`. Existing anchor IDs also support older links. |
 | [`necklaces.html`](necklaces.html) | Publicly labeled **Pendants**; its catalog category is still `necklaces`. |
 | [`iced-out.html`](iced-out.html) | Currently a Coming soon collection page. It includes catalog-related scripts, but has no active `data-catalog-category` listing. Iced Window currently belongs to the Opium catalog group. |
-| [`bracelets.html`](bracelets.html) | Currently a Coming soon collection page with shared navigation and enquiry link. |
-| [`rings.html`](rings.html) | Currently a Coming soon collection page with shared navigation and enquiry link. |
 | [`product.html`](product.html) | Shared product-detail shell. A recognized `id` is handled by the catalog customizer. An inline legacy fallback handles older name/price/image/category query links. Includes the photo zoom viewer. |
 | [`404.html`](404.html) | Explicit missing-page document, with `noindex`. Included in the build to avoid Cloudflare Pages treating missing paths as an SPA route. |
 
@@ -99,16 +97,16 @@ Header, footer, links, and some styles/behavior are repeated in HTML files. Ther
 
 | File | What it does and what depends on it |
 | --- | --- |
-| [`site-chrome.js`](site-chrome.js) | Shared header/menu behavior: current-page highlighting, shrinking header, mobile drawer, focus handling and Escape, nested collection disclosures, and language/theme control placement. Protects new-window links; catalog cards use native accessible anchors. Uses the header/nav markup and reacts to language changes. |
-| [`theme.js`](theme.js) | Applies saved light/dark appearance before the page paints, creates the theme button, persists the choice, and synchronizes changes between tabs. Sets `data-theme` on `<html>`; `theme.css` uses it. Default is light. |
+| [`site-chrome.js`](site-chrome.js) | Shared header/menu behavior: current-page highlighting, shrinking header, mobile drawer, focus handling and Escape, nested collection disclosures, and language control placement. Protects new-window links; catalog cards use native accessible anchors. Uses the header/nav markup and reacts to language changes. |
 | [`page-entry.js`](page-entry.js) | Explicit browser refresh starts at the top and removes the fragment anchor. A valid mobile lifecycle return is exempt, so its saved position can be restored. Does not force ordinary links or cached back navigation to the top. |
 | [`mobile-lifecycle.js`](mobile-lifecycle.js) | Handles phone/tablet suspension, lock/unlock, visibility changes, and discarded pages. Saves position, scroll containers, open details, and focus; can reload after return and restore the page. Avoids automatic reload when unsaved form work or an active operation is detected. Owns its recovery loader and bounded completion timers. |
 | [`opening-intro.js`](opening-intro.js) | Opening logo image, smoke/caption interaction, dismissal and automatic exit. Creates an intro for direct inner-page openings when needed. Uses visit state to skip repeat internal navigation/reload intros and coordinates mobile loading with lifecycle restore. The intro is an image animation, not video. |
 | [`animations.js`](animations.js) | Homepage scroll-controlled film: translates scroll position into video seeking and copy transitions; pauses work offscreen/while hidden; primes and recovers suspended media and provides a user playback fallback. Also handles homepage section highlighting and same-page navigation. The unused typewriter and old carousel were removed. |
+| [`featured-products.js`](featured-products.js) | Populates the homepage signature carousel with eight real grillz, catalog preview covers, silver starting prices, and silver-selected product links; updates price labels when language changes. Load before the DOMContentLoaded track controls in `atelier.js`. |
 | [`atelier.js`](atelier.js) | Editorial homepage enhancements: reveal effects, signature-card track controls, pointer effects, intro skip hookup when present, and the floating Create your piece link. The unused finish-selector component was removed; the current homepage has no finish-selector markup. |
 | [`inside-pages.js`](inside-pages.js) | About/contact reveal effects and pointer spotlights. On contact, keeps topic buttons synchronized with the subject field and updates the message character count. |
 | [`collections.js`](collections.js) | Centers the current item in the phone collection navigation strip, adds optional collection reveal effects, and reveals focused cards for keyboard users. Does not provide product data. |
-| [`product-catalog.js`](product-catalog.js) | Main product records, prices, categories, material photo lists, option normalization, quote lookup, cover/gallery lookup, and versioned asset URLs. Exposes `window.OpiumProducts`; consumed by collection cards, product detail, tests, and build-time sitemap generation. |
+| [`product-catalog.js`](product-catalog.js) | Main product records, prices, categories, material photo lists, option normalization, quote lookup, cover/gallery lookup, listing order, preview covers, collection return routes, and versioned asset URLs. Exposes `window.OpiumProducts`; consumed by collection cards, product detail, tests, and build-time sitemap generation. |
 | [`product-image-revisions.js`](product-image-revisions.js) | Maps original remote image URLs to revision values. `OpiumProducts.asset()` adds `?v=...` so replacement images can refresh without changing their object paths. Does not upload or change any remote image. |
 | [`catalog-collections.js`](catalog-collections.js) | Finds a section with `data-catalog-category`, filters the catalog, and creates product cards with covers, starting prices, and product links. Refreshes labels on language changes. No matching section means no cards are created. |
 | [`product-customizer.js`](product-customizer.js) | Resolves catalog `id`, builds material/color/karat and supported stone/length controls, renders prices and material galleries, updates the product URL and metadata, and creates the enquiry URL. Handles thumbnail selection and prevents a late image response from showing the wrong material. Runs only for recognized catalog product detail; the unreachable collection-summary branch was removed. |
@@ -146,8 +144,9 @@ CSS is layered through multiple `<link>` tags and inline `<style>` blocks. Later
 | [`product-image-viewer.css`](product-image-viewer.css) | Modal photo stage, zoom controls, panning interaction states, and viewer layout. |
 | [`mobile-lifecycle.css`](mobile-lifecycle.css) | Refresh/restore overlay, loading states, and rules that prevent overlapping intro/restore UI. |
 | [`translation.css`](translation.css) | Language button and layout adjustments for translated content. |
-| [`theme.css`](theme.css) | Theme button and light/dark presentation overrides selected by `html[data-theme]`. |
+| [`theme.css`](theme.css) | Permanent dark surfaces, readable colors, native dark form controls, and UV-purple accents. No switch is created. |
 | [`cookie-consent.css`](cookie-consent.css) | Consent panel, action buttons, and footer preference control. |
+| [`readability.css`](readability.css) | Final shared type-size layer, three-category homepage layout, catalog carousel presentation, product back link, and compact phone/tablet product layout. All type-size selectors exclude the scroll-film text. |
 | [`typography.css`](typography.css) | Final shared Cormorant Garamond typography rules, including localized content; preserves the dedicated Material Symbols font. Some rules intentionally use `!important`. |
 
 Do not assume an older-looking rule is unused: inline styles and older shared rules still participate in the cascade. Keep script-dependent classes/IDs when restyling.
@@ -177,7 +176,7 @@ The source of truth for recognized products is the `products` array in `product-
 ### From collection to contact
 
 1. A collection's `data-catalog-category` selects catalog records.
-2. `catalog-collections.js` renders cards, initially using silver covers, with links such as `product.html?id=classic-six&material=silver`.
+2. `catalog-collections.js` renders cards, using independent listing covers, with links such as `product.html?id=classic-six&material=silver`.
 3. `product-customizer.js` reads the recognized ID and supported options, displays the correct gallery and starting price, and uses `history.replaceState` to keep selected options in the URL.
 4. The enquiry button builds a `contact.html` URL carrying product identity, price, details, and supported options, followed by `#contact-form`.
 5. Contact's inline script turns the display fields into an initial message. Visitors can edit it and add attachments.
@@ -187,7 +186,7 @@ Query strings are visitor-controlled. The contact prefill is descriptive informa
 
 ### Public product API
 
-`window.OpiumProducts` exposes `products`, `classic`, `get(id)`, `selection(material, color, karat)`, `quote(state, product)`, `gallery(state, product)`, `image(state, product)`, and `asset(url)`. The `classic` record is a compatibility default for helper calls that omit a product.
+`window.OpiumProducts` exposes `products`, `classic`, `get(id)`, `selection(material, color, karat)`, `quote(state, product)`, `gallery(state, product)`, `image(state, product)`, `asset(url)`, `listing(category)`, `preview(product)`, and `collectionURL(category)`. The `classic` record is a compatibility default for helper calls that omit a product.
 
 Use `asset()` when assigning catalog photo URLs so revision-based cache refresh continues to work. The build evaluates the catalog inside a minimal JavaScript sandbox with `window: {}`. Keep catalog initialization independent of the DOM, network calls, and browser-only work at load time, or update the build accordingly.
 
@@ -212,7 +211,6 @@ Use `asset()` when assigning catalog photo URLs so revision-based cache refresh 
 | Storage | Key | Purpose |
 | --- | --- | --- |
 | `localStorage` | `opiumBiteLanguage` | Saved English/Greek choice. |
-| `localStorage` | `opiumBiteTheme` | Saved light/dark choice. |
 | `localStorage` | `opiumBiteCookieConsent` | Versioned optional-cookie preference. |
 | `sessionStorage` | `opiumBiteIntroVisitV3` | Intro visit state within a tab. |
 | `sessionStorage` | `opiumBiteLifecycleStateV1` | Captured page state before suspension. |
@@ -284,7 +282,7 @@ The audit still probes some older remote video filenames as compatibility checks
 | [`tests/film-performance.test.mjs`](tests/film-performance.test.mjs) | Offscreen/hidden rendering limits, decoder recovery, playback priming/tap fallback, and film chapter structure. |
 | [`tests/phone-ui.test.mjs`](tests/phone-ui.test.mjs) | Phone collection layout, thumbnail/no-arrow expectations, icon presentation, and current image-intro/video-film separation. |
 | [`tests/translations.test.mjs`](tests/translations.test.mjs) | Greek/English switching, attribute/dynamic text translation, input preservation, blocked storage, category navigation, and contact prefill. |
-| [`tests/theme.test.mjs`](tests/theme.test.mjs) | Default and saved theme, toggling, cross-tab updates, and unavailable storage. |
+| [`tests/theme.test.mjs`](tests/theme.test.mjs) | Every page starts dark with no theme-switch script; CSS declares native dark controls. |
 | [`tests/contact-attachments.test.mjs`](tests/contact-attachments.test.mjs) | File limits/type validation, accepted Unicode filenames and reference formats, and rejection of executable files. Actual multipart attachment preservation is checked in the direct-send tests. |
 | [`tests/contact-send.test.mjs`](tests/contact-send.test.mjs) | Real attachment preparation, single native submission, invalid-input preservation, and controls after returning from the provider. |
 
@@ -314,7 +312,7 @@ For local campaign art, update the referenced media file or path in HTML/CSS. Ke
 
 ### Change navigation or mobile behavior
 
-Read `site-chrome.js`, `navigation.css`, `collection-header.css`, and the repeated HTML header markup together. Check phone drawer disclosures, focus/keyboard behavior, current-page state, and placement of language/theme controls. The navigation breakpoint is 768px; lifecycle device detection also covers tablets/coarse pointers and is a different decision.
+Read `site-chrome.js`, `navigation.css`, `collection-header.css`, and the repeated HTML header markup together. Check phone drawer disclosures, focus/keyboard behavior, current-page state, and placement of the language control. The navigation breakpoint is 768px; lifecycle device detection also covers tablets/coarse pointers and is a different decision.
 
 For refresh/lock-unlock behavior, review `page-entry.js`, `mobile-lifecycle.js`, `opening-intro.js`, and film listeners in `animations.js` together. Preserve the loader ownership and bounded recovery paths so a stalled resource cannot trap the visitor behind the overlay.
 
@@ -323,6 +321,20 @@ For refresh/lock-unlock behavior, review `page-entry.js`, `mobile-lifecycle.js`,
 Copy a suitable existing page, keep required shared hooks and load order, set unique metadata/canonical, update shared navigation where appropriate, and add it to build/test page lists. Build and inspect `public/`, run tests, then verify the intended Pages preview. Hosting configuration and R2 uploads are separate from committing source changes to GitHub.
 
 Asset `<script>`/`<link>` URLs often have `?v=...` suffixes. Keep all relevant page references consistent when bumping a shared asset version; the build removes query strings when locating source files, while browsers use them for cache identity.
+
+## Current design and catalog behavior — 4 November 2026
+
+- The homepage action is **Make it custom**. Only Grillz, Earrings, and Pendants appear in its category cards. The old Rings and Bracelets pages and their unreferenced category images were deleted and their routes removed from the build, menus, collection navigation, copy, and sitemap. Stored recently-viewed entries from those categories are filtered out.
+- Grillz subcategories are ordered **Opium → Classic → Iced Out** in both the overview cards and menus. `listing('classic')` returns prices ascending; `listing('opium')` returns prices descending. Equal-price records retain their source order. Null/unknown prices sort last.
+- `preview(product)` selects the gold cover only for WINDOW x STAR, DOWN BAR, 1 CAP, CROSS GRILL, FILTER CAP, UZI, XO, and PUSSY. Other products retain silver covers. Both collection cards and the homepage carousel still show silver starting prices and link with `material=silver`. The material galleries and price data themselves are unchanged.
+- The homepage signature section contains eight real grillz links generated by `featured-products.js`; arrows, keyboard controls, and swipe scrolling are provided by the existing track in `atelier.js`. Keep its progress indicator synchronized if the curated product count changes.
+- Every product has a real **Back to products** arrow. Catalog products use `collectionURL(category)`, with a safe Grillz fallback for unknown/legacy categories. No browser-history assumption is required.
+- `readability.css` loads last on every page. Phones use a smaller product image and a single horizontal thumbnail row. Tablets use an image/options split. The old 180px product header gap is overridden with the actual navigation height.
+- All pages use dark appearance with electric UV-purple accents. `theme.js` and the theme button were removed. Old saved light preferences have no effect. The language toggle remains.
+- Text sizes were increased across pages while excluding `.hero-film` descendants. A browser comparison with the previous source confirmed unchanged scroll-film wording, font sizes, and line heights at desktop and phone widths.
+- The three regenerated image masters and optimized WebP assets are recorded in [the artwork prompts](media/nov4-artwork-prompts.md). The man-and-python image preserves the original right-side portrait/left-side copy composition. The pendant card uses the actual silver Opium Bite product design as reference.
+
+Validation included 320px/390px phones and an 820px tablet: material controls were visible without scrolling; the 390px gold color and karat controls fit after choosing Gold. Classic and Opium ordering, gold-preview/silver-detail behavior, carousel navigation, collection return links, Greek labels, and absence of horizontal page overflow were checked. Physical-device lock/unlock and real email delivery remain separate acceptance work.
 
 ## Unused-code cleanup record
 
@@ -353,4 +365,4 @@ Uncertain shared CSS, external integrations, source media, development tools, an
 - **Deployment history:** `DEPLOYMENT.md` contains accumulated snapshots, including older counts and superseded UI decisions. Use the current source and tests for present behavior and verify live state separately. Local `output/` screenshots/reports mentioned there are intentionally absent from a normal clone.
 - **External access:** continuing development may require owner-provided access to Cloudflare Pages, the R2 media library, and the receiving email inbox. The repository contains code and media references, not those account permissions.
 
-Before handing over a release, check all collection routes, at least one full product/material/gallery/enquiry flow, both languages/themes, phone navigation, intro dismissal, refresh and lock/unlock, keyboard access, missing-page status, and the generated deployment contents. Record any remaining acceptance work with the change.
+Before handing over a release, check all collection routes, at least one full product/material/gallery/enquiry flow, both languages and the fixed dark appearance, phone navigation, intro dismissal, refresh and lock/unlock, keyboard access, missing-page status, and the generated deployment contents. Record any remaining acceptance work with the change.

@@ -2,7 +2,7 @@ import {readFile,writeFile,mkdir,rm,stat,copyFile} from 'node:fs/promises';
 import {resolve,dirname,relative} from 'node:path';
 import vm from 'node:vm';
 const root=resolve(import.meta.dirname,'..'),out=resolve(root,'public');
-const pages=['index','about','contact','grillz','classic','iced-out','capital-custom','earrings','necklaces','rings','bracelets','product','404'];
+const pages=['index','about','contact','grillz','classic','iced-out','capital-custom','earrings','necklaces','product','404'];
 const sandbox={window:{}};vm.runInNewContext(await readFile(resolve(root,'product-catalog.js'),'utf8'),sandbox);
 const origin='https://opiumbite.com';
 const urls=pages.filter(p=>!['404','product'].includes(p)).map(p=>origin+(p==='index'?'/':'/'+p));

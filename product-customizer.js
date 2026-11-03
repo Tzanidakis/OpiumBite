@@ -9,6 +9,7 @@
     const params = new URLSearchParams(window.location.search);
     const detail = document.body.dataset.productPage === 'true' && params.get('id') === product.id;
     if (!detail) return;
+    document.querySelector('.product-back').href = sourceCatalog.collectionURL(product.category);
     const root = document.querySelector('.product-right');
     const picture = document.getElementById('product-img');
     const price = root.querySelector('.price');

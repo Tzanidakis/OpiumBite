@@ -71,7 +71,7 @@ test('catalog card links keep product IDs and material choices when labels becom
         context.document={documentElement:{lang:'en'},querySelector:()=>section,createElement:tag=>new Element(tag)};
         language='en';
         vm.runInNewContext(readFileSync(new URL('../catalog-collections.js',import.meta.url),'utf8'),context);
-        const products=window.OpiumProducts.products.filter(p=>p.category===category);
+        const products=window.OpiumProducts.listing(category);
         assert.equal(container.children.length,products.length);
         const links=container.children.map(card=>card.children[1]);
         const original=links.map(link=>link.href);

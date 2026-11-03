@@ -872,5 +872,18 @@ function asset(url) {
  const versioned=new URL(url);versioned.searchParams.set('v',revision);return versioned.href;
 }
 const get=id=>products.find(p=>p.id===id);
-window.OpiumProducts={products,classic,get,selection,quote,gallery,image,asset};
+const goldPreviewIds=new Set(['grillz-classic-window-x-star','grillz-classic-down-bar','grillz-classic-1-cap','grillz-opium-cross-grill','grillz-opium-filter-cap','grillz-opium-uzi','grillz-opium-xo','earrings-pussy']);
+function listing(category) {
+ const result=products.filter(p=>p.category===category);
+ if(category==='classic'||category==='opium')result.sort((a,b)=>{
+  if(a.startingPriceMinor==null)return b.startingPriceMinor==null?0:1;
+  if(b.startingPriceMinor==null)return -1;
+  return category==='classic'?a.startingPriceMinor-b.startingPriceMinor:b.startingPriceMinor-a.startingPriceMinor;
+ });
+ return result;
+}
+function preview(product) {return image(selection(goldPreviewIds.has(product.id)?'gold':'silver','yellow','9'),product);}
+const collectionRoutes=Object.freeze({classic:'classic.html',opium:'capital-custom.html','iced-out':'iced-out.html',earrings:'earrings.html',necklaces:'necklaces.html'});
+function collectionURL(category) {return Object.hasOwn(collectionRoutes,category)?collectionRoutes[category]:'grillz.html';}
+window.OpiumProducts={products,classic,get,selection,quote,gallery,image,asset,listing,preview,collectionURL};
 })();

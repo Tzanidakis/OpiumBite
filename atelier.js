@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const max = track.scrollWidth - track.clientWidth;
             previous.disabled = track.scrollLeft <= 2;
             next.disabled = track.scrollLeft >= max - 2;
-            document.querySelector('.signature-track-line').style.setProperty('--track-progress', `${max > 0 ? (track.scrollLeft / max) * 200 : 0}%`);
+            document.querySelector('.signature-track-line').style.setProperty('--track-progress', `${max > 0 ? (track.scrollLeft / max) * 700 : 0}%`);
         };
         const move = direction => {
             const card = track.querySelector('.signature-card');
