@@ -233,3 +233,24 @@ material selector fits without scrolling and no horizontal overflow. The longest
 product title was also checked at 320×568. All 87 automated tests and 82 live
 HTTP checks pass. Published Grillz HTML, product HTML and readability CSS match
 the local build byte for byte.
+
+
+## Published staging preview — tablet menu, product sorting and photo arrows
+
+Published source commit `cbd0fc8` to the existing `staging` preview. Compact
+navigation now applies through 1100px and to coarse-pointer devices without
+hover, covering large touch tablets in landscape. It retains nested collection
+disclosures, language controls, Escape closing and focus handling.
+
+Opium products now sort by ascending silver starting price (€90–€540 for the
+current catalog). Product details and the zoom viewer have subtle 44px SVG
+photo arrows that wrap between gallery ends, follow the selected material, and
+hide for one-photo galleries. Changing the photo resets zoom. Both the product
+return text and arrow use the shared electric-blue accent `#6e8bff`.
+
+Browser QA checked 820/1024/1100px compact navigation and 1280px desktop
+navigation, nested tablet menus, gallery navigation and wrapping, modal zoom
+reset, keyboard navigation, material changes, Greek labels and single-photo
+hiding. Phone material controls still fit without scrolling. All 87 automated
+tests and 82 live HTTP checks pass. Nine key deployed files match the local
+build byte for byte.
