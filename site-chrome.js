@@ -25,9 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
         currentNavLink.setAttribute('aria-current', 'page');
     }
 
-    function isMobileNavigation() {
-        return window.matchMedia('(max-width: 768px)').matches;
-    }
+    const compactNavigation = window.matchMedia('(max-width: 1100px), (hover: none) and (pointer: coarse)');
+    function isMobileNavigation() { return compactNavigation.matches; }
 
     function syncNavigationAvailability(isOpen) {
         const unavailable = isMobileNavigation() && !isOpen;
@@ -85,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('load', syncPreferenceLocation, { once: true });
     window.requestAnimationFrame(syncPreferenceLocation);
 
-    // On phones each collection group is a disclosure, not a hover-only menu.
+    // Phones and tablets use tap-to-open collection groups.
     const dropdowns = Array.from(navigation.querySelectorAll('.dropdown, .submenu')).map((group, index) => {
         const trigger = group.querySelector(':scope > a');
         const panel = group.querySelector(':scope > .dropdown-content, :scope > .submenu-content');
@@ -190,12 +189,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    window.addEventListener('resize', function () {
+    function syncNavigationMode() {
         syncPreferenceLocation();
         syncDropdowns();
-        if (window.innerWidth > 768) setMenuOpen(false, false);
+        if (!isMobileNavigation()) setMenuOpen(false, false);
         else syncNavigationAvailability(navigation.classList.contains('active'));
-    });
+    }
+    window.addEventListener('resize', syncNavigationMode);
+    compactNavigation.addEventListener('change', syncNavigationMode);
 
     let headerFrame = 0;
     function updateHeader() {

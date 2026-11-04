@@ -872,7 +872,7 @@ function listing(category) {
  if(category==='classic'||category==='opium')result.sort((a,b)=>{
   if(a.startingPriceMinor==null)return b.startingPriceMinor==null?0:1;
   if(b.startingPriceMinor==null)return -1;
-  return category==='classic'?a.startingPriceMinor-b.startingPriceMinor:b.startingPriceMinor-a.startingPriceMinor;
+  return a.startingPriceMinor-b.startingPriceMinor;
  });
  return result;
 }

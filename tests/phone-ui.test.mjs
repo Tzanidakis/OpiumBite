@@ -4,9 +4,9 @@ import {readFileSync,readdirSync} from 'node:fs';
 import {resolve} from 'node:path';
 const root=resolve(import.meta.dirname,'..');
 const read=name=>readFileSync(resolve(root,name),'utf8');
-test('collection cards and product galleries have no arrows while thumbnails remain',()=>{
+test('collection cards stay clean while product detail provides arrows and thumbnails',()=>{
  assert.doesNotMatch(read('catalog-collections.js'),/gallery-arrows|Previous photo|Next photo/);
- assert.doesNotMatch(read('product-customizer.js'),/detail-gallery-arrows|Previous photo|Next photo/);
+ assert.match(read('product-customizer.js'),/detail-gallery-arrows/);
  assert.match(read('product-customizer.js'),/variant-thumbnails/);
 });
 test('phone collection grid uses a single full-width column',()=>{

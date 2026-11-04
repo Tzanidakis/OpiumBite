@@ -84,7 +84,7 @@ Many files intentionally return without doing anything when their target element
 | [`contact.html`](contact.html) | Enquiry form, topic controls, attachment picker, contact details, and FAQ. Inline JavaScript reads product information from the query string and prefills the message. Uses both contact scripts and `inside-pages.js`. |
 | [`grillz.html`](grillz.html) | Grillz overview with links to the Classic, Iced Out, and Opium collections. |
 | [`classic.html`](classic.html) | Catalog listing with `data-catalog-category="classic"`; cards come from `catalog-collections.js`, sorted by ascending silver starting price. |
-| [`capital-custom.html`](capital-custom.html) | Publicly labeled **Opium**, despite its older filename. Lists catalog products with category `opium`, sorted by descending silver starting price. |
+| [`capital-custom.html`](capital-custom.html) | Publicly labeled **Opium**, despite its older filename. Lists catalog products with category `opium`, sorted by ascending silver starting price. |
 | [`earrings.html`](earrings.html) | Catalog listing with category `earrings`. Existing anchor IDs also support older links. |
 | [`necklaces.html`](necklaces.html) | Publicly labeled **Pendants**; its catalog category is still `necklaces`. |
 | [`iced-out.html`](iced-out.html) | Currently a Coming soon collection page. It includes catalog-related scripts, but has no active `data-catalog-category` listing. Iced Window currently belongs to the Opium catalog group. |
@@ -281,7 +281,7 @@ The audit still probes some older remote video filenames as compatibility checks
 | [`tests/mobile-lifecycle.test.mjs`](tests/mobile-lifecycle.test.mjs) | Suspension/return reloads and restore, unsaved-work/active-operation guards, desktop exemption, and stalled-loader recovery. |
 | [`tests/page-entry.test.mjs`](tests/page-entry.test.mjs) | Explicit refresh starts at top, valid automatic restore survives, stale restore is discarded, and normal/back navigation stays usable. |
 | [`tests/film-performance.test.mjs`](tests/film-performance.test.mjs) | Offscreen/hidden rendering limits, decoder recovery, playback priming/tap fallback, and film chapter structure. |
-| [`tests/phone-ui.test.mjs`](tests/phone-ui.test.mjs) | Phone collection layout, thumbnail/no-arrow expectations, icon presentation, and current image-intro/video-film separation. |
+| [`tests/phone-ui.test.mjs`](tests/phone-ui.test.mjs) | Phone collection layout, clean collection cards and product gallery controls, icon presentation, and current image-intro/video-film separation. |
 | [`tests/translations.test.mjs`](tests/translations.test.mjs) | Greek/English switching, attribute/dynamic text translation, input preservation, blocked storage, category navigation, and contact prefill. |
 | [`tests/theme.test.mjs`](tests/theme.test.mjs) | Every page starts dark with no theme-switch script; CSS declares native dark controls. |
 | [`tests/contact-attachments.test.mjs`](tests/contact-attachments.test.mjs) | File limits/type validation, accepted Unicode filenames and reference formats, and rejection of executable files. Actual multipart attachment preservation is checked in the direct-send tests. |
@@ -313,7 +313,7 @@ For local campaign art, update the referenced media file or path in HTML/CSS. Ke
 
 ### Change navigation or mobile behavior
 
-Read `site-chrome.js`, `navigation.css`, `collection-header.css`, and the repeated HTML header markup together. Check phone drawer disclosures, focus/keyboard behavior, current-page state, and placement of the language control. The navigation breakpoint is 768px; lifecycle device detection also covers tablets/coarse pointers and is a different decision.
+Read `site-chrome.js`, `navigation.css`, `collection-header.css`, and the repeated HTML header markup together. Check phone drawer disclosures, focus/keyboard behavior, current-page state, and placement of the language control. Compact navigation uses widths up to 1100px plus touch devices with a coarse pointer and no hover, including large tablets in landscape. CSS and JavaScript use the same query. Lifecycle device detection is a separate decision.
 
 For refresh/lock-unlock behavior, review `page-entry.js`, `mobile-lifecycle.js`, `opening-intro.js`, and film listeners in `animations.js` together. Preserve the loader ownership and bounded recovery paths so a stalled resource cannot trap the visitor behind the overlay.
 
@@ -326,7 +326,7 @@ Asset `<script>`/`<link>` URLs often have `?v=...` suffixes. Keep all relevant p
 ## Current design and catalog behavior — 4 November 2026
 
 - The homepage action is **Make it custom**. Only Grillz, Earrings, and Pendants appear in its category cards. The old Rings and Bracelets pages and their unreferenced category images were deleted and their routes removed from the build, menus, collection navigation, copy, and sitemap. Stored recently-viewed entries from those categories are filtered out.
-- Grillz subcategories are ordered **Opium → Classic → Iced Out** in both the overview cards and menus. `listing('classic')` returns prices ascending; `listing('opium')` returns prices descending. Equal-price records retain their source order. Null/unknown prices sort last.
+- Grillz subcategories are ordered **Opium → Classic → Iced Out** in both the overview cards and menus. `listing('classic')` returns prices ascending; `listing('opium')` returns prices ascending. Equal-price records retain their source order. Null/unknown prices sort last.
 - `preview(product)` selects the gold cover only for WINDOW x STAR, DOWN BAR, 1 CAP, CROSS GRILL, FILTER CAP, UZI, XO, and PUSSY. Other products retain silver covers. Both collection cards and the homepage carousel still show silver starting prices and link with `material=silver`. The material galleries and price data themselves are unchanged.
 - The homepage signature section contains eight real grillz links generated by `featured-products.js`; arrows, keyboard controls, and swipe scrolling are provided by the existing track in `atelier.js`. Keep its progress indicator synchronized if the curated product count changes.
 - Every product has a real **Back to products** arrow. Catalog products use `collectionURL(category)`, with a safe Grillz fallback for unknown/legacy categories. No browser-history assumption is required.
@@ -349,7 +349,7 @@ The following removals were traced against every current source page and browser
 | MIME email-draft generator and retired status translations | No production caller; `contact-send.js` submits real multipart attachments to FormSubmit. Tests that only exercised the retired generator were removed. |
 | Seven collection inline click handlers and shared legacy card key handler | Every current generated product card carries `data-catalog-product` and bypassed these handlers; Coming soon pages have no product cards. Native catalog links remain keyboard accessible. |
 | Product-customizer collection-summary branch | The script is loaded only on product detail, which contains no collection summary card. The recognized-ID detail flow remains. |
-| Old gallery-arrow/material-label and obsolete card-control styles | No current markup or script creates those controls. Thumbnail navigation and photo zoom remain. |
+| Old gallery-arrow/material-label and obsolete card-control styles (historical cleanup) | The retired card controls remain removed. Product detail now has its own subtle gallery arrows, thumbnails and photo zoom. |
 | Opening-video pause calls and styles | The intro uses `#opening-logo`; no runtime source creates `#opening-video`. The homepage scroll-film videos remain. |
 | Catalog script includes on the Iced Out placeholder page | The page has no `data-catalog-category` target or product cards. Its Coming soon content remains. |
 
@@ -422,3 +422,22 @@ with wrapping captions and button text in English and Greek. Its contents fit
 inside a 12px screen margin at 320/390/430px. Product-detail photos now use
 `clamp(210px, 34svh, 300px)` on phones, preserving the full photo and nearby
 material options. Compact phone titles, prices and descriptions keep the material selector visible alongside a larger photo. On phones, the material options precede the supporting description. Other viewport sizes keep their existing gallery dimensions.
+
+
+### Tablet navigation and product photo arrows
+
+`site-chrome.js` and `navigation.css` share the compact-menu query:
+`(max-width: 1100px), (hover: none) and (pointer: coarse)`. Tablets use the same
+hamburger drawer, collection disclosures, language control and keyboard/focus
+handling as phones. Wide devices with fine pointers keep the desktop navigation.
+
+Both Classic and Opium listings sort by ascending silver starting price.
+`product-customizer.js` owns photo selection, wraps at both gallery ends and
+updates thumbnails and the selected material's photos. Subtle 44px SVG arrow
+buttons appear only when multiple photos are available. The zoom viewer shares
+the same selection through `opiumbite:photo-step` and `opiumbite:photo-change`
+events; changing photos resets zoom. At normal zoom, left/right keys navigate
+photos; at higher zoom they retain their existing pan behavior.
+
+The product return link uses `var(--accent)` for both its text and the SVG
+arrow's inherited stroke, keeping it matched to the site's electric blue.

@@ -22,7 +22,7 @@ body .signature-card h3 { margin-block:18px 8px; }
 body .signature-track-line>span { width:12.5%; transform:translateX(var(--track-progress,0%)); }
 body.collections-editorial .grillz-page .collection-section-heading h2 { color:#fff; }
 /* Back navigation is a real collection link, including direct product openings. */
-.product-back { display:flex; align-items:center; gap:12px; width:fit-content; max-width:1200px; margin:0 auto 0 max(20px,calc((100% - 1160px)/2)); min-height:48px; padding:14px 0; color:#a3cfff; text-decoration:none; font:16px/1.4 Arial,sans-serif; }
+.product-back { display:flex; align-items:center; gap:12px; width:fit-content; max-width:1200px; margin:0 auto 0 max(20px,calc((100% - 1160px)/2)); min-height:48px; padding:14px 0; color:var(--accent,#6e8bff); text-decoration:none; font:16px/1.4 Arial,sans-serif; }
 .product-back svg { width:24px; height:24px; }
 body[data-product-page="true"] .product-overview-container { padding-top:14px; }
 body[data-product-page="true"] .product-right h1 { font-size:44px; }

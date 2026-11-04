@@ -123,12 +123,12 @@ test('XO starting prices exclude diamonds and offer stone selection',()=>{
  assert.equal(catalog.quote({material:'silver'},xo),54000);
 });
 
-test('Classic sorts by ascending silver price and Opium by descending price without mutating records',()=>{
+test('Classic and Opium sort by ascending silver price without mutating records',()=>{
  const original=Array.from(catalog.products,p=>p.id);
  for(const category of ['classic','opium']){
   const values=Array.from(catalog.listing(category),p=>p.startingPriceMinor);
   assert.ok(values.length>3);
-  assert.deepEqual(values,[...values].sort((a,b)=>category==='classic'?a-b:b-a));
+  assert.deepEqual(values,[...values].sort((a,b)=>a-b));
  }
  assert.deepEqual(Array.from(catalog.products,p=>p.id),original);
 });

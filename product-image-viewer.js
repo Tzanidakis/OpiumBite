@@ -9,7 +9,7 @@
     const dialog = document.createElement('dialog');
     dialog.className = 'product-image-viewer';
     dialog.setAttribute('aria-labelledby', 'image-viewer-title');
-    dialog.innerHTML = `<div class="image-viewer-toolbar"><h2 id="image-viewer-title"></h2><div class="image-viewer-controls"><button type="button" data-zoom="out">−</button><button type="button" data-zoom="reset">100%</button><button type="button" data-zoom="in">+</button><button type="button" data-close>×</button></div></div><p id="image-viewer-help"></p><div class="image-viewer-stage"><img alt="" draggable="false"><p class="image-viewer-error" hidden></p></div>`;
+    dialog.innerHTML = `<div class="image-viewer-toolbar"><h2 id="image-viewer-title"></h2><div class="image-viewer-controls"><button type="button" data-zoom="out">−</button><button type="button" data-zoom="reset">100%</button><button type="button" data-zoom="in">+</button><button type="button" data-close>×</button></div></div><p id="image-viewer-help"></p><div class="image-viewer-stage"><img alt="" draggable="false"><button type="button" class="product-gallery-arrow is-previous" data-photo-step="-1" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><button type="button" class="product-gallery-arrow is-next" data-photo-step="1" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button><p class="image-viewer-error" hidden></p></div>`;
     document.body.append(dialog);
     const stage = dialog.querySelector('.image-viewer-stage');
     const image = stage.querySelector('img');
@@ -17,6 +17,16 @@
     const reset = dialog.querySelector('[data-zoom="reset"]');
     let scale = 1, x = 0, y = 0, previousOverflow = '', returnFocus;
     const pointers = new Map();
+    const galleryButtons = Array.from(dialog.querySelectorAll('[data-photo-step]'));
+    const photoCount = () => Number(source.dataset.photoCount) || 1;
+    const stepPhoto = step => source.dispatchEvent(new CustomEvent('opiumbite:photo-step', {detail:{step}}));
+    galleryButtons.forEach(button => button.addEventListener('click', () => stepPhoto(Number(button.dataset.photoStep))));
+    source.addEventListener('opiumbite:photo-change', event => {
+        galleryButtons.forEach(button => { button.hidden = event.detail.total < 2; });
+        if (!dialog.open) return;
+        image.src = event.detail.src; image.alt = event.detail.alt;
+        error.hidden = true; scale = 1; x = y = 0; pointers.clear(); paint();
+    });
     function paint() {
         const bounds = stage.getBoundingClientRect();
         const fit = Math.min(bounds.width / (image.naturalWidth || 1), bounds.height / (image.naturalHeight || 1));
@@ -43,12 +53,15 @@
         dialog.querySelector('#image-viewer-help').textContent = tr('Pinch or scroll to zoom. Drag to explore. Double-tap to zoom or reset.', 'Άνοιξε δύο δάχτυλα ή κύλησε για μεγέθυνση. Σύρε για μετακίνηση. Διπλό πάτημα για μεγέθυνση ή επαναφορά.');
         for (const [selector, en, el] of [['in','Zoom in','Μεγέθυνση'],['out','Zoom out','Σμίκρυνση'],['reset','Reset zoom','Επαναφορά μεγέθυνσης']]) dialog.querySelector(`[data-zoom="${selector}"]`).setAttribute('aria-label', tr(en,el));
         dialog.querySelector('[data-close]').setAttribute('aria-label', tr('Close photo', 'Κλείσιμο φωτογραφίας'));
+        dialog.querySelector('[data-photo-step="-1"]').setAttribute('aria-label', tr('Previous photo', 'Προηγούμενη φωτογραφία'));
+        dialog.querySelector('[data-photo-step="1"]').setAttribute('aria-label', tr('Next photo', 'Επόμενη φωτογραφία'));
     }
     function open() {
         if (dialog.open || source.hidden || !source.complete || !source.naturalWidth) return;
         returnFocus = document.activeElement;
         image.src = source.currentSrc || source.src; image.alt = source.alt;
         error.hidden = true; scale = 1; x = y = 0; pointers.clear(); labels();
+        galleryButtons.forEach(button => { button.hidden = photoCount() < 2; });
         previousOverflow = document.body.style.overflow;
         dialog.showModal(); document.body.style.overflow = 'hidden'; paint();
         dialog.querySelector('[data-close]').focus();
@@ -67,6 +80,9 @@
         if (button) zoom(button.dataset.zoom === 'reset' ? 1 : scale + (button.dataset.zoom === 'in' ? .5 : -.5));
     });
     dialog.addEventListener('keydown', event => {
+        if (scale === 1 && photoCount() > 1 && ['ArrowLeft','ArrowRight'].includes(event.key)) {
+            event.preventDefault(); stepPhoto(event.key === 'ArrowRight' ? 1 : -1); return;
+        }
         if (['+','=','-','0','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)) {
             event.preventDefault();
             if (event.key === '0') zoom(1);
@@ -77,6 +93,7 @@
     stage.addEventListener('wheel', event => { event.preventDefault(); zoom(scale * Math.exp(-event.deltaY * .002), event.clientX, event.clientY); }, {passive:false});
     let lastTap = 0, tapStart;
     stage.addEventListener('pointerdown', event => {
+        if (event.target.closest('button')) return;
         pointers.set(event.pointerId, {x:event.clientX,y:event.clientY});
         stage.setPointerCapture(event.pointerId);
         if(pointers.size > 1) lastTap=0;

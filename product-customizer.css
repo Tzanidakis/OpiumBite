@@ -30,3 +30,14 @@
 
 .classic-customizer .variant-field input { width:100%; padding:12px; background:transparent; color:inherit; border:1px solid #8b9aa0; box-sizing:border-box; }
 .catalog-image-empty { display:block; padding:40% 15px; text-align:center; color:inherit; }
+
+/* Visible at rest, discreet over the photo, and clearer on hover or keyboard focus. */
+.product-photo-stage { position:relative; display:grid; place-items:center; width:100%; max-width:500px; }
+.detail-gallery-arrows { position:absolute; inset:0; pointer-events:none; }
+.product-gallery-arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:2; display:grid; place-items:center; width:44px; height:44px; padding:10px; border:1px solid #ffffff38; border-radius:50%; background:#10111880; color:#fff; opacity:.55; cursor:pointer; pointer-events:auto; touch-action:manipulation; transition:opacity .2s,background .2s; }
+.product-gallery-arrow.is-previous { left:8px; }
+.product-gallery-arrow.is-next { right:8px; }
+.product-gallery-arrow svg { display:block; width:22px; height:22px; }
+.product-gallery-arrow:hover,.product-gallery-arrow:focus-visible { opacity:1; background:#101118d9; }
+.product-gallery-arrow:focus-visible { outline:2px solid #78dbff; outline-offset:3px; }
+.product-gallery-arrow[hidden],.detail-gallery-arrows[hidden] { display:none; }

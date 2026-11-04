@@ -19,7 +19,7 @@ body[data-product-page="true"] main { margin-top:96px; }
  .site-header#main-header nav { gap:9px; }
  .site-header#main-header .nav-links { gap:16px; margin-right:2px; }
 }
-@media(max-width:768px) {
+@media(max-width:1100px), (hover:none) and (pointer:coarse) {
  body { --nav-height:80px; } body.header-shrunk { --nav-height:60px; }
  .site-header#main-header,.site-header#main-header.shrink { grid-template-columns:44px minmax(50px,1fr) auto; gap:12px; padding:8px 16px; }
  .site-header#main-header #hamburger-menu { position:static; display:flex!important; align-items:center; justify-content:center; transform:none; margin:0; width:44px; height:44px; padding:0; font-size:25px; }
@@ -27,7 +27,7 @@ body[data-product-page="true"] main { margin-top:96px; }
  .site-header#main-header .logo img { width:60px; height:52px; }
  .site-header#main-header.shrink .logo img { width:54px; height:42px; }
  .site-header#main-header nav { width:auto; gap:8px; justify-self:end; }
- .site-header#main-header #primary-navigation { position:fixed; display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; top:var(--nav-height); left:0; width:min(86vw,360px); height:calc(100vh - var(--nav-height)); height:calc(100dvh - var(--nav-height)); margin:0; padding:22px 20px 40px; overflow-y:auto; overscroll-behavior:contain; background:#101010fa; border-right:1px solid #6e8bff40; transform:translateX(-100%); visibility:hidden; pointer-events:none; gap:6px; }
+ .site-header#main-header #primary-navigation { position:fixed; display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; top:var(--nav-height); left:0; width:min(86vw,360px); height:calc(100vh - var(--nav-height)); height:calc(100dvh - var(--nav-height)); margin:0; padding:22px 20px 40px; overflow-y:auto; overscroll-behavior:contain; background:#101010fa; border-right:1px solid #6e8bff40; transform:translateX(-100%); visibility:hidden; pointer-events:none; gap:6px; z-index:102; box-sizing:border-box; }
  .site-header#main-header #primary-navigation.active { transform:none; visibility:visible; pointer-events:auto; }
  .site-header#main-header #primary-navigation a,.site-header#main-header.shrink #primary-navigation a { display:block; width:100%; min-height:44px; padding:12px 8px; font:14px/1.5 Arial,sans-serif; white-space:normal; letter-spacing:.05em; }
  .site-header#main-header #primary-navigation .dropdown-content,.site-header#main-header #primary-navigation .submenu-content { position:static; min-width:0; width:100%; background:transparent; box-shadow:none; }
@@ -35,7 +35,7 @@ body[data-product-page="true"] main { margin-top:96px; }
 }
 @media(prefers-reduced-motion:reduce) { .site-header#main-header { transition:none; } }
 .site-header#main-header .icons { display:flex; position:static; width:auto; margin:0; align-items:center; flex-shrink:0; order:2; }
-@media(max-width:768px) {
+@media(max-width:1100px), (hover:none) and (pointer:coarse) {
  .site-header#main-header #primary-navigation .dropdown-content { border:0; margin:0; padding:0; }
  .site-header#main-header #primary-navigation .submenu-content { border:0; border-left:1px solid #6e8bff35; padding:0 0 0 12px; margin:0 0 8px 8px; }
 }
@@ -44,7 +44,7 @@ body[data-product-page="true"] main { margin-top:96px; }
 @media(pointer:coarse) {.site-header#main-header .language-toggle { position:relative; }.site-header#main-header .language-toggle::after { content:''; position:absolute; inset:-7px -4px; }
 }
 /* Direct links and the Collections trigger share one baseline and hit box. */
-@media(min-width:769px) {
+@media(min-width:1101px) and (hover:hover) {
  .site-header#main-header #primary-navigation > a,
  .site-header#main-header #primary-navigation > .dropdown > a {
     display:flex; align-items:center; justify-content:center;
@@ -57,9 +57,9 @@ body[data-product-page="true"] main { margin-top:96px; }
 
 .ui-symbol{display:inline-block;vertical-align:middle;flex:none;width:1em;height:1em}.language-toggle svg{display:block;flex:none;width:12px;height:12px}
 
-/* Phone preferences share aligned label and control columns inside the drawer. */
+/* Phone and tablet preferences share aligned label and control columns inside the drawer. */
 .site-header#main-header .mobile-menu-preferences { display:none; }
-@media(max-width:768px) {
+@media(max-width:1100px), (hover:none) and (pointer:coarse) {
  .site-header#main-header,.site-header#main-header.shrink { grid-template-columns:minmax(44px,1fr) auto minmax(44px,1fr); }
  .site-header#main-header nav { display:contents; }
  .site-header#main-header nav > .icons { display:none; }
@@ -81,7 +81,7 @@ footer .footer-phone a { margin:0; line-height:1.5; white-space:nowrap; }
 .atelier-dock a svg { flex:none; }
 
 .mobile-collection-overview { display:none!important; }
-@media(max-width:768px) {
+@media(max-width:1100px), (hover:none) and (pointer:coarse) {
  .site-header#main-header #primary-navigation .mobile-menu-preferences { display:flex; align-items:center; justify-content:flex-start; gap:12px; }
  .site-header#main-header .menu-preference-row { display:contents; }
  .site-header#main-header #primary-navigation .dropdown-content[hidden],
@@ -95,7 +95,7 @@ footer .footer-phone a { margin:0; line-height:1.5; white-space:nowrap; }
  .site-header#main-header #primary-navigation a[aria-expanded="true"]::after { transform:rotate(225deg); margin-bottom:-3px; }
 }
 
-@media(max-width:768px) {
+@media(max-width:1100px), (hover:none) and (pointer:coarse) {
  .site-header#main-header #primary-navigation .mobile-menu-preferences { justify-content:center; gap:16px; width:100%; }
  .site-header#main-header #primary-navigation .menu-preference-row { display:flex; flex:0 0 auto; align-items:center; justify-content:center; min-height:44px; gap:0; }
  .site-header#main-header #primary-navigation .mobile-menu-preferences .language-toggle { position:relative; inset:auto; transform:none; flex:0 0 56px; }
@@ -104,7 +104,7 @@ footer .footer-phone a { margin:0; line-height:1.5; white-space:nowrap; }
 /* Genuine cutouts keep metal detail without black-background blending tricks. */
 body img[src*="media/ggz."],body img[src*="media/dbbs."],body img[src*="media/uggz."] { mix-blend-mode:normal; mask-image:none; -webkit-mask-image:none; }
 
-/* Blur only the navbar's backdrop, keeping the phone drawer viewport-bound. */
+/* Blur only the navbar's backdrop, keeping the compact drawer viewport-bound. */
 body .site-header#main-header,body .site-header#main-header.shrink,
 html[data-theme="dark"] body .site-header#main-header,
 html[data-theme="dark"] body .site-header#main-header.shrink {
@@ -119,4 +119,13 @@ body .site-header#main-header #primary-navigation a[aria-current] { color:#6e8bf
 body .site-header#main-header #primary-navigation a.active:not([aria-expanded])::after,
 body .site-header#main-header #primary-navigation a[aria-current]:not([aria-expanded])::after { width:100%; height:2px; background:#6e8bff; }
 
-@media(max-width:768px) { body .site-header#main-header #primary-navigation a[aria-current] { text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:8px; } }
+@media(max-width:1100px), (hover:none) and (pointer:coarse) { body .site-header#main-header #primary-navigation a[aria-current] { text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:8px; } }
+
+/* Compact navigation also covers large touch tablets in landscape. */
+@media(max-width:1100px), (hover:none) and (pointer:coarse) {
+ body.menu-open { overflow:hidden; }
+ body.menu-open::after { content:''; position:fixed; inset:var(--nav-height) 0 0; background:#0008; z-index:99; }
+ .site-header#main-header #hamburger-menu { z-index:103; }
+ body .site-header#main-header #primary-navigation a,body .site-header#main-header.shrink #primary-navigation a { font-size:17px; }
+ .collections-editorial .collection-nav,.header-shrunk .collections-editorial .collection-nav { top:var(--nav-height); }
+}

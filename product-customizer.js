@@ -19,7 +19,15 @@
     const empty = document.createElement('p');
     empty.className = 'variant-image-empty';
     empty.hidden = true;
-    imageContainer.append(empty);
+    const photoStage = document.createElement('div');
+    photoStage.className = 'product-photo-stage';
+    imageContainer.insertBefore(photoStage, picture);
+    photoStage.append(picture, empty);
+    const arrows = document.createElement('div');
+    arrows.className = 'detail-gallery-arrows';
+    arrows.hidden = true;
+    arrows.innerHTML = '<button type="button" class="product-gallery-arrow is-previous" data-step="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><button type="button" class="product-gallery-arrow is-next" data-step="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button>';
+    photoStage.append(arrows);
     const caption = document.createElement('p');
     caption.className = 'variant-caption';
     imageContainer.append(caption);
@@ -30,6 +38,20 @@
     let photos = [];
     let photoIndex = 0;
     let galleryKey = '';
+    function stepPhoto(step) {
+        if (photos.length > 1) showPhoto((photoIndex + step + photos.length) % photos.length);
+    }
+    arrows.addEventListener('click', event => {
+        const button = event.target.closest('[data-step]');
+        if (button) stepPhoto(Number(button.dataset.step));
+    });
+    picture.addEventListener('opiumbite:photo-step', event => stepPhoto(event.detail.step));
+    picture.addEventListener('keydown', event => {
+        if (photos.length > 1 && ['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+            event.preventDefault();
+            stepPhoto(event.key === 'ArrowRight' ? 1 : -1);
+        }
+    });
 
 
     if (detail) {
@@ -101,6 +123,10 @@
     const colorLabel = () => state.color === 'white' ? 'White gold' : state.color === 'rose' ? 'Rose gold' : 'Yellow gold';
     function showPhoto(index) {
         photoIndex = index;
+        picture.dataset.photoCount = String(photos.length);
+        arrows.hidden = photos.length < 2;
+        arrows.querySelector('[data-step="-1"]').setAttribute('aria-label', tr('Previous photo'));
+        arrows.querySelector('[data-step="1"]').setAttribute('aria-label', tr('Next photo'));
         const current = ++revision;
         const requestedPhoto = photos[index];
         const alreadyVisible = requestedPhoto && picture.getAttribute('src') === requestedPhoto && picture.complete && picture.naturalWidth > 0;
@@ -116,6 +142,7 @@
         const src = photos[photoIndex];
         const label = state.material === 'silver' ? 'Silver' : colorLabel();
         const alt = tr(product.name) + ' - ' + tr(label) + ' - ' + tr('Photo') + ' ' + (photoIndex + 1);
+        picture.dispatchEvent(new CustomEvent('opiumbite:photo-change', {detail:{src,alt,total:photos.length,index:photoIndex}}));
         caption.textContent = (!state.material || (state.material === 'gold' && state.color === 'yellow'))
             ? tr('Yellow gold reference image. Exact color may vary by karat.') : state.color === 'white' ? tr('Silver photos shown as a reference for white gold.') : '';
         if (alreadyVisible) {
