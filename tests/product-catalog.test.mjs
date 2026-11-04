@@ -74,7 +74,7 @@ test('R2 import accounts for every image once and encodes case-sensitive object 
  }
 });
 
-test('OFI gold uses its verified cover object without changing silver or white gold',()=>{const p=catalog.get('earrings-ofi');assert.equal(catalog.image({material:'gold',color:'yellow'},p),'https://media.opiumbite.com/earrings/OFI/gold/earring_pair_gold_first.webp');assert.match(catalog.image({material:'silver'},p),/silver_first\.webp$/);assert.equal(catalog.image({material:'gold',color:'white'},p),catalog.image({material:'silver'},p));});
+test('OFI uses current front-angle covers after the previous first images were removed',()=>{const p=catalog.get('earrings-ofi');assert.equal(catalog.image({material:'gold',color:'yellow'},p),'https://media.opiumbite.com/earrings/OFI/gold/earring_pair_gold_exact_front_0deg_elev2.webp');assert.match(catalog.image({material:'silver'},p),/silver_exact_front_0deg_elev2\.webp$/);assert.equal(catalog.image({material:'gold',color:'white'},p),catalog.image({material:'silver'},p));});
 
 test('every material and gold karat matches the supplied price document',()=>{
  const fixture=JSON.parse(readFileSync(new URL('./price-fixture.json',import.meta.url),'utf8'));
@@ -161,4 +161,28 @@ test('FILTER CAP uses only the current Cloudflare images with fresh cache versio
  assert.equal(api.preview(product),root+'gold/gold_right.webp');
  assert.equal(api.image({material:'silver'},product),root+'silver/silver_right.webp');
  assert.equal(api.quote({material:'silver'},product),27000);
+});
+
+test('five refreshed R2 product galleries drop deleted covers and version every current image',()=>{
+ const env={window:{},URL};
+ vm.runInNewContext(readFileSync(new URL('../product-image-revisions.js',import.meta.url),'utf8'),env);
+ vm.runInNewContext(readFileSync(new URL('../product-catalog.js',import.meta.url),'utf8'),env);
+ const api=env.window.OpiumProducts;
+ const counts={'grillz-opium-xo':18,'grillz-opium-uzi':3,'earrings-ofi':12,'earrings-pussy':8,'grillz-opium-skull':3};
+ for(const [id,count] of Object.entries(counts)){
+  const product=api.get(id),images=Object.values(product.images).flat();
+  assert.equal(images.length,count,id);
+  for(const image of images){
+   assert.doesNotMatch(image,/_first\.webp$/);
+   assert.match(new URL(api.asset(image)).searchParams.get('v'),/^r2-refresh-20261104-[a-f0-9]{20}$/);
+  }
+ }
+ const pussy=api.get('earrings-pussy');
+ assert.match(api.preview(pussy),/gold\/earrings-gold-v2\.webp$/);
+ assert.match(api.image({material:'gold',color:'rose'},pussy),/rosegold\/earrings-rosegold-v2\.webp$/);
+ assert.match(api.image({material:'silver'},pussy),/silver\/earring_pair_silver_front\.webp$/);
+ assert.equal(api.quote({material:'silver'},pussy),5000);
+ for(const url of Object.keys(env.window.OpiumImageRevisions)){
+  if(/\/earrings\/(OFI|PUSSY)\//.test(url))assert.doesNotMatch(url,/_first\.webp$/);
+ }
 });

@@ -6,23 +6,20 @@ const products = [
     "category": "earrings",
     "images": {
       "yellow": [
-        "https://media.opiumbite.com/earrings/OFI/gold/earring_pair_gold_first.webp",
-        "https://media.opiumbite.com/earrings/OFI/gold/earring_pair_gold_above.webp",
         "https://media.opiumbite.com/earrings/OFI/gold/earring_pair_gold_exact_front_0deg_elev2.webp",
+        "https://media.opiumbite.com/earrings/OFI/gold/earring_pair_gold_above.webp",
         "https://media.opiumbite.com/earrings/OFI/gold/earring_pair_gold_exact_left_minus35deg_elev2.webp",
         "https://media.opiumbite.com/earrings/OFI/gold/earring_pair_gold_exact_right_35deg_elev2.webp"
       ],
       "rose": [
-        "https://media.opiumbite.com/earrings/OFI/rosegold/earring_pair_rose_gold_first.webp",
-        "https://media.opiumbite.com/earrings/OFI/rosegold/earring_pair_rosegold_above.webp",
         "https://media.opiumbite.com/earrings/OFI/rosegold/earring_pair_rosegold_exact_front_0deg_elev2.webp",
+        "https://media.opiumbite.com/earrings/OFI/rosegold/earring_pair_rosegold_above.webp",
         "https://media.opiumbite.com/earrings/OFI/rosegold/earring_pair_rosegold_exact_left_minus35deg_elev2.webp",
         "https://media.opiumbite.com/earrings/OFI/rosegold/earring_pair_rosegold_exact_right_35deg_elev2.webp"
       ],
       "silver": [
-        "https://media.opiumbite.com/earrings/OFI/silver/earring_pair_silver_first.webp",
-        "https://media.opiumbite.com/earrings/OFI/silver/earring_pair_silver_above.webp",
         "https://media.opiumbite.com/earrings/OFI/silver/earring_pair_silver_exact_front_0deg_elev2.webp",
+        "https://media.opiumbite.com/earrings/OFI/silver/earring_pair_silver_above.webp",
         "https://media.opiumbite.com/earrings/OFI/silver/earring_pair_silver_exact_left_minus35deg_elev2.webp",
         "https://media.opiumbite.com/earrings/OFI/silver/earring_pair_silver_exact_right_35deg_elev2.webp"
       ]
@@ -44,16 +41,15 @@ const products = [
     "category": "earrings",
     "images": {
       "yellow": [
-        "https://media.opiumbite.com/earrings/PUSSY/gold/earring_pair_gold_first.webp",
+        "https://media.opiumbite.com/earrings/PUSSY/gold/earrings-gold-v2.webp",
         "https://media.opiumbite.com/earrings/PUSSY/gold/earring_pair_gold_right.webp"
       ],
       "rose": [
-        "https://media.opiumbite.com/earrings/PUSSY/rosegold/earring_pair_rose_gold_first.webp",
+        "https://media.opiumbite.com/earrings/PUSSY/rosegold/earrings-rosegold-v2.webp",
         "https://media.opiumbite.com/earrings/PUSSY/rosegold/earring_pair_rosegold_front.webp",
         "https://media.opiumbite.com/earrings/PUSSY/rosegold/earring_pair_rosegold_right.webp"
       ],
       "silver": [
-        "https://media.opiumbite.com/earrings/PUSSY/silver/earring_pair_silver_first.webp",
         "https://media.opiumbite.com/earrings/PUSSY/silver/earring_pair_silver_front.webp",
         "https://media.opiumbite.com/earrings/PUSSY/silver/earring_pair_silver_left.webp",
         "https://media.opiumbite.com/earrings/PUSSY/silver/earring_pair_silver_up.webp"

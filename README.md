@@ -40,7 +40,7 @@ The build and test scripts use Node's built-in modules, so these commands do not
 
 Edit the HTML, CSS, and JavaScript files in the repository root, then rebuild and reload. There is no watch mode or automatic browser refresh. **Do not edit `public/` directly:** the next build deletes and recreates it. The local server does not emulate Cloudflare's extensionless redirects, custom response headers, or 404 handling; locally, use links such as `/classic.html` and `/product.html?id=classic-six`.
 
-The current build produces **76 files**, generates **32 sitemap URLs**, and passes **87 automated tests**. These counts describe this revision, not a permanent target.
+The current build produces **76 files**, generates **32 sitemap URLs**, and passes **88 automated tests**. These counts describe this revision, not a permanent target.
 
 ## How the project connects
 
@@ -441,3 +441,20 @@ photos; at higher zoom they retain their existing pan behavior.
 
 The product return link uses `var(--accent)` for both its text and the SVG
 arrow's inherited stroke, keeping it matched to the site's electric blue.
+
+
+### Current R2 refresh — XO, UZI, OFI, PUSSY and SKULL
+
+Verified all five folders in Cloudflare R2 and downloaded all 44 current WebP
+objects to check their contents. XO (18), UZI (3) and SKULL (3) retain their
+object paths but now have new content-based cache versions. OFI (12) uses the
+remaining exact-front-angle photos after all three old first-image covers were
+removed. PUSSY (8) uses `earrings-gold-v2.webp` and
+`earrings-rosegold-v2.webp` as its gold covers and the existing silver front
+image, replacing the removed first-image paths.
+
+`product-catalog.js`, `product-image-revisions.js` and `r2-inventory.json` stay
+synchronized. Fresh script query versions load the updated catalog and image
+revision map. Pricing, material defaults and gold listing-preview choices are
+unchanged. Downloaded verification copies and folder audits remain in ignored
+`output/r2-five-products-refresh/`; only catalog/path updates belong in GitHub.
