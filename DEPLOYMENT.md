@@ -218,3 +218,18 @@ below. Updated stylesheet query versions refresh the layout on every page.
 All 87 automated tests and 82 live HTTP checks pass. Deployed homepage, product
 page and readability stylesheet match the local build byte for byte. A live
 390px product preview confirmed the larger image loaded.
+
+
+## Published staging preview — Grillz heading and compact product details
+
+Published source commit `c2a57c1` to the existing `staging` preview. Removed the
+Ask the atelier link from the Grillz collection heading and set Choose your
+expression to white. Phone product images now use `clamp(210px, 34svh, 300px)`;
+smaller titles, prices, descriptions and labels accompany the larger image.
+Material choices appear before the supporting description on phone layouts.
+
+Browser checks at 320×568, 320×640, 375×667, 390×844 and 430×932 confirmed the
+material selector fits without scrolling and no horizontal overflow. The longest
+product title was also checked at 320×568. All 87 automated tests and 82 live
+HTTP checks pass. Published Grillz HTML, product HTML and readability CSS match
+the local build byte for byte.
