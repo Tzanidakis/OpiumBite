@@ -254,3 +254,23 @@ reset, keyboard navigation, material changes, Greek labels and single-photo
 hiding. Phone material controls still fit without scrolling. All 87 automated
 tests and 82 live HTTP checks pass. Nine key deployed files match the local
 build byte for byte.
+
+
+## Published staging preview — five refreshed R2 product galleries
+
+Published source commit `eb4baae` to the existing `staging` preview. Verified
+current XO, UZI, OFI, PUSSY and SKULL folders directly in Cloudflare R2, then
+downloaded and decoded all 44 current WebP objects. XO/UZI/SKULL keep their
+existing object paths with new content-based cache versions. PUSSY uses the
+new gold/rose-gold v2 cover names; its deleted silver first-image reference was
+removed. OFI's three deleted first-image covers were replaced by the remaining
+exact-front-angle photos; those remaining files retain their 1 November upload
+timestamps. No replacement cover names were guessed.
+
+All 88 automated tests and 82 live HTTP checks pass. Six key deployed files
+match the local build byte for byte. Browser checks confirmed all five product
+images load with fresh revisions; PUSSY material switching and gallery arrows
+work, with silver still starting at €50. Prices, silver detail defaults and gold
+listing previews are preserved. Verification downloads and folder/HTTP audits
+are kept in ignored `output/r2-five-products-refresh/`. No R2 objects were
+modified or deleted by this update.
