@@ -42,12 +42,18 @@ The top-level 404.html prevents the automatic SPA fallback. Test an invented pat
 4. Publish the production build and connect `opiumbite.com`. Verify HTTPS, the preferred hostname, canonical URLs, redirects, the 404 response and public `robots.txt` and `sitemap.xml`. Public pages should be indexable. Staging and the unfinished Iced Out collection should return `noindex`.
 5. Submit `https://opiumbite.com/sitemap.xml` in Search Console. Use URL Inspection on the homepage, an active collection and a product page to confirm Google can read the rendered content and its canonical URL.
 
-The launch build is deployed to the staging preview and `opiumbite.com` is verified as a Domain property in Google Search Console. The sitemap contains 31 URLs, including 23 product pages. All 31 were checked on staging for matching canonicals and the preview `noindex` header. The 89 automated tests, 105 preview HTTP checks, and 319 catalog image URL checks passed. The real-phone test and inbox delivery check still need confirmation before production publication.
+## Production launch
+
+On 17 November 2026, the build from `7d2735c` went live at https://opiumbite.com/ on Cloudflare Pages. The apex redirects HTTP to HTTPS. The `www` hostname redirects to the apex over HTTPS and preserves paths and query strings.
+
+All 89 automated tests passed. All 31 production sitemap URLs, including 23 product pages, returned HTTP 200 over HTTPS with matching canonicals and no indexing block. The live `robots.txt`, XML sitemap and 404 response were verified. Iced Out remains excluded from the sitemap and is marked `noindex`.
+
+The domain is verified in Google Search Console, and https://opiumbite.com/sitemap.xml was submitted on launch day. Search Console initially reported that it could not fetch the sitemap, and its live homepage test reported a DNS error while the domain was already resolving and responding publicly. Sitemap processing and Google indexing remain pending.
 
 
 ## Current staging preview
 
-https://staging.opium-bite-preview.pages.dev is deployed to the `opium-bite-preview` Direct Upload project on branch `staging`. No production domain is attached. The preview ZIP contains an additional noindex response header; the normal production `_headers` source does not. After every edit, rebuild and test before uploading. Git auto-deployment has not been connected. Physical-phone acceptance testing is still pending; see output/pages-preview-checklist.md.
+https://staging.opium-bite-preview.pages.dev is deployed to the `opium-bite-preview` Direct Upload project on branch `staging`. The preview ZIP contains an additional `noindex` response header. After every edit, rebuild and test before uploading. This project uses manual uploads from the build output.
 
 ## Published preview update — phone unlock and contact sending
 
