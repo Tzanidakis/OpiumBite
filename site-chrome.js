@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!header || !hamburger || !navigation) return;
 
     const pageName = window.location.pathname.split('/').filter(Boolean).pop() || 'index';
-    const currentPage = pageName.endsWith('.html') ? pageName : pageName + '.html';
+    const currentPage = document.body.dataset.productPage ? 'product.html' : pageName.endsWith('.html') ? pageName : pageName + '.html';
     const currentNavLinks = {
         'index.html': 'home-link',
         'about.html': 'about-link',

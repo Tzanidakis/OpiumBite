@@ -1,13 +1,14 @@
 (function () {
     'use strict';
     const sourceCatalog = window.OpiumProducts;
-    const requestedId = new URLSearchParams(window.location.search).get('id');
+    const params = new URLSearchParams(window.location.search);
+    const staticId = document.body.dataset.productId;
+    const requestedId = staticId || params.get('id');
     const selectedProduct = sourceCatalog?.get(requestedId);
     const catalog = sourceCatalog && { ...sourceCatalog, classic: selectedProduct || sourceCatalog.classic, quote: state => sourceCatalog.quote(state, selectedProduct || sourceCatalog.classic), gallery: state => sourceCatalog.gallery(state, selectedProduct || sourceCatalog.classic) };
     if (!catalog) return;
     const product = catalog.classic;
-    const params = new URLSearchParams(window.location.search);
-    const detail = document.body.dataset.productPage === 'true' && params.get('id') === product.id;
+    const detail = document.body.dataset.productPage === 'true' && requestedId === product.id;
     if (!detail) return;
     document.querySelector('.product-back').href = sourceCatalog.collectionURL(product.category);
     const root = document.querySelector('.product-right');
@@ -56,16 +57,18 @@
 
     if (detail) {
         document.getElementById('product-name').textContent = product.name;
-        document.title = product.name + ' - Opium Bite';
+        document.title = sourceCatalog.productTitle(product);
         // Keep variant choices on one product canonical, independent of selected metal.
-        const canonical = 'https://opiumbite.com/product?id=' + encodeURIComponent(product.id);
-        const description = 'Explore ' + product.name + ' by Opium Bite. Choose silver or gold, browse material photos and contact our atelier for your final quote.';
+        const canonical = 'https://opiumbite.com' + sourceCatalog.productPath(product);
+        const description = product.description;
         document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonical);
         document.querySelector('meta[name="description"]')?.setAttribute('content', description);
-        for (const [property, content] of Object.entries({ 'og:title': document.title, 'og:description': description, 'og:url': canonical, 'og:image': sourceCatalog.image(catalog.selection('', '', ''), product) })) {
+        for (const [property, content] of Object.entries({ 'og:title': document.title, 'og:description': description, 'og:url': canonical, 'og:image': sourceCatalog.asset(sourceCatalog.image(catalog.selection('silver'), product)) })) {
             if (content) document.querySelector('meta[property="' + property + '"]')?.setAttribute('content', content);
         }
-        document.getElementById('product-desc').textContent = 'Choose your material, gold color and karat. Contact us for availability and your final quote.';
+        const descriptionElement = document.getElementById('product-desc');
+        descriptionElement.textContent = description;
+        descriptionElement.dataset.i18nEl = product.descriptionEl;
     }
     const panel = document.createElement('div');
     panel.className = 'classic-customizer';
@@ -111,7 +114,7 @@
     const color = panel.querySelector('[name="gold-color"]');
     const karat = panel.querySelector('[name="karat"]');
     const goldOptions = panel.querySelector('.gold-options');
-    let state = catalog.selection(params.get('material'), params.get('color'), params.get('karat'));
+    let state = catalog.selection(params.get('material') ?? (staticId ? 'silver' : ''), params.get('color'), params.get('karat'));
     material.value = state.material;
     color.value = state.color || 'yellow';
     karat.value = state.karat || '9';
@@ -204,13 +207,14 @@
         if (product.teeth) result.push('Number of teeth: ' + product.teeth);
         return result.join(', ');
     }
-    function productURL() {
-        const query = new URLSearchParams({ id: product.id });
-        if (state.material) query.set('material', state.material);
+    function productQuery() {
+        const query = new URLSearchParams();
+        if (!staticId) query.set('id', product.id);
+        if (staticId ? state.material !== 'silver' : state.material) query.set('material', state.material);
         if (state.material === 'gold') { query.set('color', state.color); query.set('karat', state.karat); }
         if (diamond?.value) query.set('diamond',diamond.value);
         if (lengthValue()) query.set('length',lengthValue());
-        return 'product.html?' + query.toString();
+        return query.toString();
     }
     function render() {
         const language = document.documentElement.lang === 'el' ? 'el-GR' : 'en-IE';
@@ -226,8 +230,8 @@
         contact.href = 'contact.html?' + enquiry.toString() + '#contact-form';
         if (detail) {
             const url = new URL(window.location.href);
-            url.search = new URLSearchParams(productURL().split('?')[1]).toString();
-            window.history.replaceState(null, '', url);
+            url.search = productQuery();
+            if (url.href !== window.location.href) window.history.replaceState(null, '', url);
         }
         renderGallery();
         window.OpiumI18n?.refresh();

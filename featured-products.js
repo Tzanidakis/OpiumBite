@@ -11,7 +11,9 @@
         if(!product)continue;
         const link=document.createElement('a');
         link.className='signature-card';
-        link.href='product.html?'+new URLSearchParams({id,material:'silver'});
+        link.href = document.documentElement.dataset?.staticCatalog === 'true'
+            ? catalog.productPath(product)
+            : 'product.html?' + new URLSearchParams({id,material:'silver'});
         const art=document.createElement('div');
         const image=document.createElement('img');
         image.src=catalog.asset(catalog.preview(product));image.alt=product.name;image.loading='lazy';image.decoding='async';image.width=image.height=600;

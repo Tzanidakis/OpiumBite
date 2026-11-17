@@ -30,15 +30,19 @@ Open http://localhost:8081/. This basic server does not emulate Cloudflare's ext
 - Production branch: select the actual intended branch
 - Node version: 22 or newer
 
-Pages redirects .html routes to extensionless routes. Canonicals and the generated sitemap use those extensionless paths. Product canonicals keep only the validated product ID; material/color/karat choices share that canonical. Product content and metadata still use JavaScript; separately generated product HTML and Greek/English URL routes remain future work. The language toggle alone does not provide separate indexed Greek pages.
+Pages redirects .html routes to extensionless routes. The build generates a static page at `/products/<id>/` for each catalog item. Its initial HTML contains the product title, description, silver image, starting price, canonical URL and Product structured data. Material and karat options still run in the browser and share the product's canonical. Existing `/product?id=…` links continue to work. The language toggle translates product descriptions in place. Separate Greek search URLs would require localized pages and `hreflang`.
 
 The top-level 404.html prevents the automatic SPA fallback. Test an invented path on Pages and require HTTP 404. `_headers` provides basic static-response protections. A Content Security Policy is deferred until external/inline script requirements are reviewed and tested. HTTP-to-HTTPS and www redirects are zone/domain setup work, not performed by this build.
 
 ## Before publication
 
-Test the Pages preview, including all products, pricing, material images, language switching, intro and scroll video, real-phone browsing and the email-draft contact flow. Verify no preview URL appears in the sitemap. Confirm preview noindex headers. Attach the production domain only after checks pass, then verify HTTPS, redirects, headers, missing-page status and sitemap access. Submit the production sitemap to Search Console after launch.
+1. Build and test the site. Check product routes, pricing, galleries, language switching and the intro and scroll videos on the Pages preview. Check the video and lock/unlock recovery on a real phone.
+2. Submit a test enquiry with a sample attachment. Confirm delivery and the attachment in the atelier inbox. Complete the provider's activation first if requested.
+3. Add `opiumbite.com` as a Domain property in Google Search Console and verify the DNS TXT record. This step can run in parallel with preview checks.
+4. Publish the production build and connect `opiumbite.com`. Verify HTTPS, the preferred hostname, canonical URLs, redirects, the 404 response and public `robots.txt` and `sitemap.xml`. Public pages should be indexable. Staging and the unfinished Iced Out collection should return `noindex`.
+5. Submit `https://opiumbite.com/sitemap.xml` in Search Console. Use URL Inspection on the homepage, an active collection and a product page to confirm Google can read the rendered content and its canonical URL.
 
-No analytics tag, Search Console token or Cloudflare account changes are included in this step. Privacy notices and any future automatic contact delivery remain separate work.
+The launch build is deployed to the staging preview and `opiumbite.com` is verified as a Domain property in Google Search Console. The sitemap contains 31 URLs, including 23 product pages. All 31 were checked on staging for matching canonicals and the preview `noindex` header. The 89 automated tests, 105 preview HTTP checks, and 319 catalog image URL checks passed. The real-phone test and inbox delivery check still need confirmation before production publication.
 
 
 ## Current staging preview

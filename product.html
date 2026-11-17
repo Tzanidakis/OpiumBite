@@ -18,8 +18,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="product-customizer.css?v=tablet-gallery-20261104-1">
     <script src="product-image-revisions.js?v=r2-five-products-20261104-1" defer></script>
-    <script src="product-catalog.js?v=r2-five-products-20261104-1" defer></script>
-    <script src="product-customizer.js?v=tablet-gallery-20261104-1" defer></script>
+    <script src="product-catalog.js?v=launch-seo-1" defer></script>
+    <script src="product-customizer.js?v=launch-seo-1" defer></script>
     <link rel="stylesheet" href="product-image-viewer.css?v=uv-blue-2">
     <script src="product-image-viewer.js?v=tablet-gallery-20261104-1" defer></script>
     <link rel="icon" type="image/png" href="media/logo.png">
@@ -379,7 +379,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Parse URL parameters
             const urlParams = new URLSearchParams(window.location.search);
-            if (window.OpiumProducts?.get(urlParams.get('id'))) return;
+            if (document.body.dataset.productId || window.OpiumProducts?.get(urlParams.get('id'))) return;
             const safeText = (value, fallback, maxLength) => {
                 const normalized = (typeof value === 'string' ? value : '').trim().replace(/[\u0000-\u001f\u007f]/g, '');
                 return (normalized || fallback).slice(0, maxLength);
@@ -520,6 +520,6 @@
                 });
             }        });
     </script>
-    <script src="site-chrome.js?v=tablet-gallery-20261104-1" defer></script>
+    <script src="site-chrome.js?v=launch-seo-1" defer></script>
 </body>
 </html>

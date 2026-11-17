@@ -34,7 +34,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "earrings/OFI",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "The OFI earrings pair textured lettering with a serpent motif. View the front and side angles in silver or gold.",
+    "descriptionEl": "Τα σκουλαρίκια OFI συνδυάζουν ανάγλυφα γράμματα με μοτίβο φιδιού. Δες τα από μπροστά και στο πλάι σε ασήμι ή χρυσό."
   },
   {
     "name": "PUSSY",
@@ -65,7 +67,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "earrings/PUSSY",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "These sculptural stud earrings feature a hand motif. Browse photos in silver, yellow gold and rose gold.",
+    "descriptionEl": "Αυτά τα γλυπτά καρφωτά σκουλαρίκια έχουν μοτίβο χεριού. Δες φωτογραφίες σε ασήμι, κίτρινο και ροζ χρυσό."
   },
   {
     "name": "1 CAP",
@@ -105,7 +109,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/classic/1 CAP",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "A single fitted tooth cap with a solid surface. Choose silver or gold for your custom fit.",
+    "descriptionEl": "Ένα καπάκι με ενιαία επιφάνεια για ένα δόντι. Επίλεξε ασήμι ή χρυσό για τη δική σου εφαρμογή."
   },
   {
     "name": "1 WINDOW",
@@ -143,7 +149,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/classic/1 WINDOW",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "A single open-frame grill that leaves part of the tooth visible. Compare the silver and gold finishes.",
+    "descriptionEl": "Ένα grill με ανοιχτό πλαίσιο που αφήνει μέρος του δοντιού ορατό. Σύγκρινε τις επιλογές σε ασήμι και χρυσό."
   },
   {
     "name": "6 WINDOW",
@@ -184,7 +192,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/classic/6 WINDOW",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "A six-tooth grill with open frames that show the teeth beneath. View the design in silver and gold.",
+    "descriptionEl": "Ένα grill έξι δοντιών με ανοιχτά πλαίσια που αφήνουν τα δόντια ορατά. Δες το σχέδιο σε ασήμι και χρυσό."
   },
   {
     "name": "CAP x BAR",
@@ -222,7 +232,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/classic/CAP x BAR",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "A fitted cap paired with a bar for a mix of solid coverage and open space. Compare the available metals.",
+    "descriptionEl": "Ένα καπάκι μαζί με μπάρα, με καλυμμένα και ανοιχτά σημεία. Σύγκρινε τα διαθέσιμα μέταλλα."
   },
   {
     "name": "DOWN BAR",
@@ -263,7 +275,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/classic/DOWN BAR",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "A bar designed for the lower teeth. See how its shape looks on the dental cast and compare silver and gold.",
+    "descriptionEl": "Μια μπάρα σχεδιασμένη για τα κάτω δόντια. Δες το σχήμα της στο οδοντικό εκμαγείο και σύγκρινε ασήμι και χρυσό."
   },
   {
     "name": "HEART",
@@ -301,7 +315,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/classic/HEART",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "A custom grill with a heart motif. Browse the material photos to see how the design sits on the tooth.",
+    "descriptionEl": "Ένα custom grill με μοτίβο καρδιάς. Δες τις φωτογραφίες για να δεις πώς εφαρμόζει το σχέδιο στο δόντι."
   },
   {
     "name": "ROUGH CAPS",
@@ -342,7 +358,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/classic/ROUGH CAPS",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "Fitted caps with an irregular, textured surface. Compare the details across silver and gold photos.",
+    "descriptionEl": "Καπάκια με ακανόνιστη, ανάγλυφη επιφάνεια. Σύγκρινε τις λεπτομέρειες στις φωτογραφίες σε ασήμι και χρυσό."
   },
   {
     "name": "SET WINDOW x VAMBIRE",
@@ -383,7 +401,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/classic/SET WINDOW x VAMBIRE",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "A set combining an open window with a pointed fang. Browse the close-ups and dental cast views for each finish.",
+    "descriptionEl": "Ένα σετ που συνδυάζει ανοιχτό πλαίσιο και μυτερό κυνόδοντα. Δες τις κοντινές φωτογραφίες και τα εκμαγεία για κάθε φινίρισμα."
   },
   {
     "name": "WINDOW x BAR",
@@ -421,7 +441,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/classic/WINDOW x BAR",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "An open window paired with a bar. Browse the silver and gold views to see how the two elements sit together.",
+    "descriptionEl": "Ένα ανοιχτό πλαίσιο σε συνδυασμό με μπάρα. Δες σε ασήμι και χρυσό πώς ταιριάζουν τα δύο στοιχεία."
   },
   {
     "name": "WINDOW x STAR",
@@ -457,7 +479,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/classic/WINDOW x STAR",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "This design combines an open window and a star motif. Compare the silver and gold photos before enquiring.",
+    "descriptionEl": "Το σχέδιο συνδυάζει ανοιχτό πλαίσιο και μοτίβο αστεριού. Σύγκρινε τις φωτογραφίες σε ασήμι και χρυσό πριν επικοινωνήσεις."
   },
   {
     "name": "ICED OUT WINDOW",
@@ -496,7 +520,9 @@ const products = [
     "teeth": null,
     "sourceFolder": "grillz/opium/ICED  WINDOW",
     "priceExcludesDiamonds": true,
-    "diamondOptions": true
+    "diamondOptions": true,
+    "description": "An open-frame grill with a choice of stones. The starting price covers the metalwork, and stones are quoted separately.",
+    "descriptionEl": "Ένα grill με ανοιχτό πλαίσιο και επιλογή πετρών. Η τιμή εκκίνησης καλύπτει τη μεταλλική κατασκευή. Οι πέτρες κοστολογούνται ξεχωριστά."
   },
   {
     "name": "6 CAP+",
@@ -537,7 +563,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/opium/6 CAP+",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "An Opium design spanning six teeth. Browse the standalone and dental cast photos to see its profile.",
+    "descriptionEl": "Ένα σχέδιο Opium για έξι δόντια. Δες το προφίλ του στις φωτογραφίες του κοσμήματος και του εκμαγείου."
   },
   {
     "name": "CROSS GRILL",
@@ -575,7 +603,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/opium/CROSS GRILL",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "A sculptural grill with a prominent cross motif. View the form and details in silver and gold.",
+    "descriptionEl": "Ένα γλυπτό grill με έντονο μοτίβο σταυρού. Δες τη μορφή και τις λεπτομέρειες σε ασήμι και χρυσό."
   },
   {
     "name": "FILTER CAP",
@@ -607,7 +637,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/opium/FILTER CAP",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "A two-tooth cap with a raised emblem beside a smooth cap. Compare the standalone photo with the fitted cast view.",
+    "descriptionEl": "Ένα καπάκι δύο δοντιών με ανάγλυφο έμβλημα δίπλα σε λεία επιφάνεια. Σύγκρινε τις φωτογραφίες με και χωρίς εκμαγείο."
   },
   {
     "name": "FLAME x CAP",
@@ -645,7 +677,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/opium/FLAME x CAP",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "A flame motif paired with a fitted cap. Compare the silver and gold views to see the outline and fit.",
+    "descriptionEl": "Ένα μοτίβο φλόγας μαζί με καπάκι. Σύγκρινε τις φωτογραφίες σε ασήμι και χρυσό για να δεις το περίγραμμα και την εφαρμογή."
   },
   {
     "name": "MAK TRAIBALL",
@@ -691,7 +725,9 @@ const products = [
     },
     "teeth": null,
     "sourceFolder": "grillz/opium/MAK TRAIBALL",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "A sculptural design from the Opium collection. The gallery includes different Tribal configurations and dental cast views.",
+    "descriptionEl": "Ένα γλυπτό σχέδιο της συλλογής Opium. Η συλλογή φωτογραφιών περιλαμβάνει διαφορετικές εκδοχές Tribal και όψεις σε εκμαγείο."
   },
   {
     "name": "Tribal",
@@ -723,7 +759,9 @@ const products = [
     },
     "teeth": 6,
     "sourceFolder": "grillz/opium/TRAIBALL",
-    "priceExcludesDiamonds": false
+    "priceExcludesDiamonds": false,
+    "description": "A six-tooth Opium grill with a sculpted Tribal pattern. View the shape on the dental cast in silver or gold.",
+    "descriptionEl": "Ένα grill έξι δοντιών της συλλογής Opium με γλυπτό μοτίβο Tribal. Δες το σχήμα στο εκμαγείο σε ασήμι ή χρυσό."
   },
   {
     "name": "PENDAL OB",
@@ -752,7 +790,9 @@ const products = [
     "teeth": null,
     "sourceFolder": "pendants/PENDAL OB",
     "diamondOptions": true,
-    "lengthOption": true
+    "lengthOption": true,
+    "description": "The PENDAL OB pendant features the Opium Bite design. Choose the metal, stone and preferred length for your quote.",
+    "descriptionEl": "Το μενταγιόν PENDAL OB φέρει το σχέδιο Opium Bite. Επίλεξε μέταλλο, πέτρα και μήκος για την προσφορά σου."
   },
   {
     "name": "XO",
@@ -794,7 +834,9 @@ const products = [
       "18": 180000
     },
     "teeth": null,
-    "sourceFolder": "grillz/opium/XO"
+    "sourceFolder": "grillz/opium/XO",
+    "description": "Repeating XO motifs run across a sculpted bar. Choose the metal and stone for your quote. Stones are priced separately.",
+    "descriptionEl": "Επαναλαμβανόμενα μοτίβα XO διατρέχουν μια γλυπτή μπάρα. Επίλεξε μέταλλο και πέτρα για την προσφορά σου. Οι πέτρες κοστολογούνται ξεχωριστά."
   },
   {
     "name": "UZI",
@@ -819,7 +861,9 @@ const products = [
       "18": 120000
     },
     "teeth": null,
-    "sourceFolder": "grillz/opium/UZI"
+    "sourceFolder": "grillz/opium/UZI",
+    "description": "Miniature UZI motifs sit on fitted tooth caps. View the design on a dental cast in silver, yellow gold and rose gold.",
+    "descriptionEl": "Μικρά μοτίβα UZI τοποθετούνται σε καπάκια δοντιών. Δες το σχέδιο σε εκμαγείο, σε ασήμι, κίτρινο ή ροζ χρυσό."
   },
   {
     "name": "SKULL",
@@ -844,7 +888,9 @@ const products = [
       "18": 160000
     },
     "teeth": null,
-    "sourceFolder": "grillz/opium/SKULL"
+    "sourceFolder": "grillz/opium/SKULL",
+    "description": "A sculpted skull sits on a fitted single-tooth cap. The dental cast photos show its scale and placement.",
+    "descriptionEl": "Ένα γλυπτό κρανίο κοσμεί καπάκι για ένα δόντι. Οι φωτογραφίες του εκμαγείου δείχνουν το μέγεθος και τη θέση του."
   }
 ];
 const classic = products.find(p=>p.id==='classic-six');
@@ -875,5 +921,10 @@ function listing(category) {
 function preview(product) {return image(selection(goldPreviewIds.has(product.id)?'gold':'silver','yellow','9'),product);}
 const collectionRoutes=Object.freeze({classic:'classic.html',opium:'capital-custom.html','iced-out':'iced-out.html',earrings:'earrings.html',necklaces:'necklaces.html'});
 function collectionURL(category) {return Object.hasOwn(collectionRoutes,category)?collectionRoutes[category]:'grillz.html';}
-window.OpiumProducts={products,classic,get,selection,quote,gallery,image,asset,listing,preview,collectionURL};
+function productPath(product) { return '/products/' + encodeURIComponent(product.id) + '/'; }
+function productTitle(product) {
+ const type = {earrings:'earrings',necklaces:'pendant'}[product.category] ?? 'custom grillz';
+ return product.name + ' ' + type + ' | Opium Bite';
+}
+window.OpiumProducts={products,classic,get,selection,quote,gallery,image,asset,listing,preview,collectionURL,productPath,productTitle};
 })();

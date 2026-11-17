@@ -30,7 +30,9 @@
             if(!source&&!placeholder){placeholder=document.createElement('span');placeholder.className='catalog-image-empty';imageLink.append(placeholder);}
             if(placeholder){placeholder.hidden=!!source;placeholder.textContent=tr('Images coming soon');}
             image.alt=product.name+' — '+tr(catalog.preview(product)===catalog.image(catalog.selection('silver','',''),product)?'Silver':'Yellow gold');
-            link.href='product.html?'+new URLSearchParams({id:product.id,material:state.material,color:state.color,karat:state.karat});
+            link.href = document.documentElement.dataset?.staticCatalog === 'true'
+                ? catalog.productPath(product)
+                : 'product.html?' + new URLSearchParams({id:product.id,material:state.material});
             link.setAttribute('aria-label',tr('View')+' '+product.name);
             imageLink.href=link.href;imageLink.setAttribute('aria-label',tr('View')+' '+product.name);
             price.textContent=product.startingPriceMinor==null?tr('Ask for price'):tr('Starting from')+' '+new Intl.NumberFormat(document.documentElement.lang==='el'?'el-GR':'en-IE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(product.startingPriceMinor/100);

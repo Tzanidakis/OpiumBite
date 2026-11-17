@@ -24,7 +24,28 @@ test('sitemap uses production canonical routes and excludes temporary, error and
  for(const url of urls){assert.ok(url.startsWith('https://opiumbite.com/'));assert.doesNotMatch(url,/localhost|\.html|404|material=|karat=|color=|tmp\//);}
  assert.match(readFileSync(join(output,'robots.txt'),'utf8'),/Sitemap: https:\/\/opiumbite.com\/sitemap.xml/);
  assert.match(readFileSync(join(output,'404.html'),'utf8'),/name="robots" content="noindex"/);
+ assert.match(readFileSync(join(output,'iced-out.html'),'utf8'),/name="robots" content="noindex"/);
+ assert.ok(!urls.includes('https://opiumbite.com/iced-out'));
  assert.match(readFileSync(join(output,'_headers'),'utf8'),/X-Content-Type-Options: nosniff/);
+});
+
+test('every product sitemap URL resolves to unique indexable HTML with its own search metadata and description',()=>{
+ const xml=readFileSync(join(output,'sitemap.xml'),'utf8');
+ const paths=[...xml.matchAll(/<loc>https:\/\/opiumbite.com(\/products\/[^<]+)<\/loc>/g)].map(([,path])=>path);
+ assert.equal(paths.length,readdirSync(join(output,'products')).length);
+ assert.ok(paths.length>20);
+ const titles=new Set(), descriptions=new Set();
+ for(const path of paths){
+  const html=readFileSync(join(output,path,'index.html'),'utf8');
+  const title=html.match(/<title>([^<]+)<\/title>/)[1];
+  const description=html.match(/<meta name="description" content="([^"]+)"/)[1];
+  assert.ok(!titles.has(title) && !descriptions.has(description),path);
+  titles.add(title);descriptions.add(description);
+  assert.ok(html.includes('href="https://opiumbite.com'+path+'"'),path);
+  assert.ok(html.includes('>'+description+'</div>'),path);
+  assert.match(html,/<img id="product-img" src="https:\/\/media\.opiumbite\.com\//);
+  assert.doesNotMatch(html,/<meta name="robots" content="noindex"|id="product-name">Product Name/);
+ }
 });
 
 test('scroll clips use the R2 media host and are not duplicated in Pages output',()=>{
