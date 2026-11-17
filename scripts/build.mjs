@@ -69,7 +69,13 @@ for (const name of ['index','classic','capital-custom','earrings','necklaces']) 
  let html = (await readFile(file,'utf8')).replace('<html ', '<html data-static-catalog="true" ');
  if (name === 'index') {
   const organization = {'@context':'https://schema.org','@type':'Organization',name:'Opium Bite',url:origin+'/',logo:origin+'/media/logo.png',email:'opiumbite@gmail.com',sameAs:['https://www.instagram.com/opium.bite/']};
-  html = html.replace('</head>', () => `    ${jsonLd(organization)}\n</head>`);
+  const website = {
+   '@context': 'https://schema.org',
+   '@type': 'WebSite',
+   name: organization.name,
+   url: organization.url,
+  };
+  html = html.replace('</head>', () => `    ${jsonLd(organization)}\n    ${jsonLd(website)}\n</head>`);
  }
  await writeFile(file,html);
 }
