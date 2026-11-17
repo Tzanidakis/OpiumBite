@@ -48,7 +48,9 @@ On 17 November 2026, the build from `7d2735c` went live at https://opiumbite.com
 
 All 89 automated tests passed. All 31 production sitemap URLs, including 23 product pages, returned HTTP 200 over HTTPS with matching canonicals and no indexing block. The live `robots.txt`, XML sitemap and 404 response were verified. Iced Out remains excluded from the sitemap and is marked `noindex`.
 
-The domain is verified in Google Search Console, and https://opiumbite.com/sitemap.xml was submitted on launch day. Search Console initially reported that it could not fetch the sitemap, and its live homepage test reported a DNS error while the domain was already resolving and responding publicly. Sitemap processing and Google indexing remain pending.
+The domain is verified in Google Search Console. Its launch-day live test initially reported a DNS error, then passed after Cloudflare marked the custom domain active with SSL. Google accepted the homepage indexing request on 17 November 2026. The sitemap at https://opiumbite.com/sitemap.xml was resubmitted after the live test passed. Search Console still showed the previous fetch error immediately after resubmission. Check the Sitemaps and URL Inspection reports for processing and indexing status.
+
+The production build from `e9dacc2` adds `WebSite` structured data to the homepage, with the site name `Opium Bite` and the canonical homepage URL.
 
 
 ## Current staging preview
