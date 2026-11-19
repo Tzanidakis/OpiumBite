@@ -20,13 +20,13 @@ test('invalid options cannot inject a price or retain gold details for silver',(
     assert.equal(catalog.selection('gold','unknown','99').color,'yellow');
 });
 test('each material uses its corresponding R2 front photo',()=>{
-    assert.equal(catalog.image({material:'silver'}),'https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/mouthpiece_silver_front.webp');
-    assert.equal(catalog.image({material:'gold',color:'rose',karat:'14'}),'https://media.opiumbite.com/grillz/opium/TRAIBALL/rosegold/mouthpiece_rosegold_front.webp');
-    assert.equal(catalog.image({material:'gold',color:'yellow',karat:'9'}),'https://media.opiumbite.com/grillz/opium/TRAIBALL/gold/mouthpiece_gold_front.webp');
+    assert.equal(catalog.image({material:'silver'}),'https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/tribal_silver_front.webp');
+    assert.equal(catalog.image({material:'gold',color:'rose',karat:'14'}),'https://media.opiumbite.com/grillz/opium/TRAIBALL/rosegold/tribal_rosegold_front.webp');
+    assert.equal(catalog.image({material:'gold',color:'yellow',karat:'9'}),'https://media.opiumbite.com/grillz/opium/TRAIBALL/gold/tribal_gold_front.webp');
 });
 test('each material gallery returns all its photos in order without mixing or exposing mutable arrays',()=>{
     const original = catalog.classic.images.silver;
-    const front = 'https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/mouthpiece_silver_front.webp';
+    const front = 'https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/tribal_silver_front.webp';
     const side = 'https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/silver_side.webp';
     const back = 'https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/silver_back.webp';
     try {
@@ -35,7 +35,7 @@ test('each material gallery returns all its photos in order without mixing or ex
         assert.equal(gallery.join(','), [front,side,back].join(','));
         gallery.pop();
         assert.equal(catalog.gallery({material:'silver'}).length,3);
-        assert.equal(catalog.gallery({material:'gold',color:'yellow'})[0], 'https://media.opiumbite.com/grillz/opium/TRAIBALL/gold/mouthpiece_gold_front.webp');
+        assert.equal(catalog.gallery({material:'gold',color:'yellow'})[0], 'https://media.opiumbite.com/grillz/opium/TRAIBALL/gold/tribal_gold_front.webp');
         assert.equal(catalog.gallery({material:'gold',color:'rose'}).length,catalog.classic.images.rose.length);
     } finally { catalog.classic.images.silver = original; }
 });
@@ -47,7 +47,7 @@ test('Tribal has all distinct photos per material with no cross-material images'
         assert.equal(new Set(photos).size,photos.length);
         for(const url of photos) {
             assert.equal(new URL(url).origin,'https://media.opiumbite.com');
-            assert.match(new URL(url).pathname,new RegExp('/(?:mouthpiece_)?'+metal+'_[^/]+\\.webp$'));
+            assert.match(new URL(url).pathname,new RegExp('/tribal_'+metal+'_[^/]+\\.webp$'));
         }
     }
 });

@@ -733,21 +733,9 @@ const products = [
     "name": "Tribal",
     "category": "opium",
     "images": {
-      "yellow": [
-        "https://media.opiumbite.com/grillz/opium/TRAIBALL/gold/mouthpiece_gold_front.webp",
-        "https://media.opiumbite.com/grillz/opium/TRAIBALL/gold/mouthpiece_gold_left.webp",
-        "https://media.opiumbite.com/grillz/opium/TRAIBALL/gold/mouthpiece_gold_right.webp"
-      ],
-      "rose": [
-        "https://media.opiumbite.com/grillz/opium/TRAIBALL/rosegold/mouthpiece_rosegold_front.webp",
-        "https://media.opiumbite.com/grillz/opium/TRAIBALL/rosegold/mouthpiece_rosegold_left.webp",
-        "https://media.opiumbite.com/grillz/opium/TRAIBALL/rosegold/mouthpiece_rosegold_right.webp"
-      ],
-      "silver": [
-        "https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/mouthpiece_silver_front.webp",
-        "https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/mouthpiece_silver_left.webp",
-        "https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/mouthpiece_silver_right.webp"
-      ]
+      "yellow": ["https://media.opiumbite.com/grillz/opium/TRAIBALL/gold/tribal_gold_front.webp"],
+      "rose": ["https://media.opiumbite.com/grillz/opium/TRAIBALL/rosegold/tribal_rosegold_front.webp"],
+      "silver": ["https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/tribal_silver_front.webp"]
     },
     "id": "classic-six",
     "currency": "EUR",

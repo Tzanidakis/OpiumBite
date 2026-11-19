@@ -246,18 +246,9 @@ window.OpiumImageRevisions = {
   "https://media.opiumbite.com/grillz/opium/MAK%20TRAIBALL/rosegold/rosegold_front.webp": "bb17b67f73062d730afbf2cfddb9fe8c",
   "https://media.opiumbite.com/grillz/opium/MAK%20TRAIBALL/silver/mouthpiece_silver_right.webp": "2eef81e9a047a7e10b76049813491510",
   "https://media.opiumbite.com/grillz/opium/MAK%20TRAIBALL/TRAIBAL%202/silver/mouthpiece_silver_right.webp": "255919dbd51587993534cb320d6736fe",
-  "https://media.opiumbite.com/grillz/opium/TRAIBALL/gold/mouthpiece_gold_left.webp": "137b006ee35e3fa9107ada885463104d",
-  "https://media.opiumbite.com/grillz/opium/TRAIBALL/gold/mouthpiece_gold_right.webp": "9984c73fad08b336dbf8a4a0a3ebbc27",
-  "https://media.opiumbite.com/grillz/opium/TRAIBALL/gold/mouthpiece_gold_front.webp": "ebef3600dd319e28184f54fecee7c776",
   "https://media.opiumbite.com/grillz/opium/MAK%20TRAIBALL/TRAIBAL%202/silver/mouthpiece_silver_left.webp": "75270388d6caf4a381a100498dc8eb51",
-  "https://media.opiumbite.com/grillz/opium/TRAIBALL/rosegold/mouthpiece_rosegold_left.webp": "c9efab97d2ae5789ee9ceb07125e004b",
-  "https://media.opiumbite.com/grillz/opium/TRAIBALL/rosegold/mouthpiece_rosegold_front.webp": "f5c2b82c082106836bc4046276771a2c",
-  "https://media.opiumbite.com/grillz/opium/TRAIBALL/rosegold/mouthpiece_rosegold_right.webp": "91422ae854067d2ddf9df9163cb4ae1a",
-  "https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/mouthpiece_silver_left.webp": "75270388d6caf4a381a100498dc8eb51",
   "https://media.opiumbite.com/pendants/PENDAL%20OB/gold/gold_left.webp": "987b906e502eb7556435aacfcf6b6e8b",
-  "https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/mouthpiece_silver_right.webp": "255919dbd51587993534cb320d6736fe",
   "https://media.opiumbite.com/pendants/PENDAL%20OB/gold/gold_front.webp": "18b71626ebb546f3ccab90c96ea570b6",
-  "https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/mouthpiece_silver_front.webp": "9881aa3adcd38355998918bd9f18fa43",
   "https://media.opiumbite.com/pendants/PENDAL%20OB/gold/gold_right.webp": "3c91236681a67fbf44bf6a94172afd99",
   "https://media.opiumbite.com/pendants/PENDAL%20OB/rosegold/rosegold_front.webp": "917ef96c9ef31ec352a0d6fc3166b356",
   "https://media.opiumbite.com/pendants/PENDAL%20OB/rosegold/rosegold_left.webp": "f18eda843bb7d251a59f2b862afa9e14",
@@ -317,5 +308,8 @@ window.OpiumImageRevisions = {
   "https://media.opiumbite.com/earrings/PUSSY/silver/earring_pair_silver_up.webp": "r2-refresh-20261104-b162660489fb7bc60414",
   "https://media.opiumbite.com/grillz/opium/SKULL/gold/skull_gold_right.webp": "r2-refresh-20261104-5d68e8a0835323e436bc",
   "https://media.opiumbite.com/grillz/opium/SKULL/rosegold/skull_rosegold_right.webp": "r2-refresh-20261104-5ec4c587254782dee448",
-  "https://media.opiumbite.com/grillz/opium/SKULL/silver/skull_silver_right.webp": "r2-refresh-20261104-ffe82a60b75d932446ee"
+  "https://media.opiumbite.com/grillz/opium/SKULL/silver/skull_silver_right.webp": "r2-refresh-20261104-ffe82a60b75d932446ee",
+  "https://media.opiumbite.com/grillz/opium/TRAIBALL/gold/tribal_gold_front.webp": "r2-tribal-20261119-1cf100471de2b34293e4",
+  "https://media.opiumbite.com/grillz/opium/TRAIBALL/rosegold/tribal_rosegold_front.webp": "r2-tribal-20261119-4d9ad8da623a3cc6c8c0",
+  "https://media.opiumbite.com/grillz/opium/TRAIBALL/silver/tribal_silver_front.webp": "r2-tribal-20261119-78e56e2e8826992d2fe9"
 };
