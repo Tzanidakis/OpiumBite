@@ -12,7 +12,7 @@
         const panel = document.createElement('section');
         panel.className = 'cookie-consent';
         panel.setAttribute('aria-label', 'Cookie preferences');
-        panel.innerHTML = `<div><h2 data-i18n-el="Οι προτιμήσεις σου">Your preferences</h2><p data-i18n-el="Χρησιμοποιούμε τοπική αποθήκευση για τη γλώσσα, την εισαγωγή και την επιλογή σου. Δεν χρησιμοποιούμε αυτή τη στιγμή προαιρετικά cookies ανάλυσης ή διαφήμισης.">We use local storage for language, the intro and your choice. We currently use no optional analytics or advertising cookies.</p></div><div class="cookie-actions"><button type="button" data-choice="rejected" data-i18n-el="Απόρριψη προαιρετικών">Reject optional</button><button type="button" data-choice="accepted" data-i18n-el="Αποδοχή προαιρετικών">Accept optional</button></div>`;
+        panel.innerHTML = `<div><h2 data-i18n-el="Οι προτιμήσεις σου">Your preferences</h2><p data-i18n-el="Χρησιμοποιούμε τοπική αποθήκευση για τη γλώσσα, την εισαγωγή και την επιλογή σου. Δεν χρησιμοποιούμε αυτή τη στιγμή προαιρετικά cookies ανάλυσης ή διαφήμισης.">We use local storage for language, the intro and your choice. We currently use no optional analytics or advertising cookies. <a href="/privacy-policy.html">Privacy Policy</a></p></div><div class="cookie-actions"><button type="button" data-choice="rejected" data-i18n-el="Απόρριψη προαιρετικών">Reject optional</button><button type="button" data-choice="accepted" data-i18n-el="Αποδοχή προαιρετικών">Accept optional</button></div>`;
         panel.hidden = choice !== null;
         document.body.appendChild(panel);
         const settings = document.createElement('button');

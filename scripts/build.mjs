@@ -2,7 +2,7 @@ import {readFile,writeFile,mkdir,rm,stat,copyFile} from 'node:fs/promises';
 import {resolve,dirname,relative} from 'node:path';
 import vm from 'node:vm';
 const root=resolve(import.meta.dirname,'..'),out=resolve(root,'public');
-const pages=['index','about','contact','grillz','classic','iced-out','capital-custom','earrings','necklaces','product','404'];
+const pages=['index','about','contact','grillz','classic','iced-out','capital-custom','earrings','necklaces','product','privacy-policy','terms-and-conditions','404'];
 const sandbox={window:{},URL};
 for (const name of ['product-image-revisions.js', 'product-catalog.js']) {
  vm.runInNewContext(await readFile(resolve(root,name),'utf8'),sandbox);

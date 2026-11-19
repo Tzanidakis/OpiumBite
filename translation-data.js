@@ -338,7 +338,6 @@ Object.assign(window.OPIUM_TRANSLATIONS_EL, {
     'Yellow gold': 'Κίτρινος χρυσός',
     'Rose gold': 'Ροζ χρυσός',
     'White gold': 'Λευκός χρυσός',
-    'Silver photos shown as a reference for white gold.': 'Οι φωτογραφίες ασημιού εμφανίζονται ως αναφορά για τον λευκό χρυσό.',
     'Karat': 'Καράτια',
     'Number of teeth': 'Αριθμός δοντιών',
     'Starting price. Contact us for your final quote.': 'Τιμή εκκίνησης. Επικοινώνησε μαζί μας για τελική προσφορά.',

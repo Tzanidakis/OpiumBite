@@ -147,7 +147,7 @@
         const alt = tr(product.name) + ' - ' + tr(label) + ' - ' + tr('Photo') + ' ' + (photoIndex + 1);
         picture.dispatchEvent(new CustomEvent('opiumbite:photo-change', {detail:{src,alt,total:photos.length,index:photoIndex}}));
         caption.textContent = (!state.material || (state.material === 'gold' && state.color === 'yellow'))
-            ? tr('Yellow gold reference image. Exact color may vary by karat.') : state.color === 'white' ? tr('Silver photos shown as a reference for white gold.') : '';
+            ? tr('Yellow gold reference image. Exact color may vary by karat.') : '';
         if (alreadyVisible) {
             picture.alt = alt;
             return;
